@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <title>Iniciar Sesion</title>
+</head>
+<body>
+    <%- include("./partials/nav") %>
+    <main>
+        <h1>hola</h1>
+        <div>
+            <form action="/login"  method="POST">
+                <input type="text" placeholder="nombre" name="nombre" required>
+                <input type="text" placeholder="precio" name="precio" required>
+                <input type="text" placeholder="plataformas" name="plataformas" required>
+        
+                <button type="submit">agregar</button>
+                <% if (locals.info !== undefined)  { %>
+                   <p> <%= info %>
+                <% } %>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

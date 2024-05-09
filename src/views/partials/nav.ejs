@@ -1,0 +1,17 @@
+<nav class="nav">
+   <div class="nav-container">
+        <a href="/">
+            <img src="/images/logo/logo_hopetrade_xl.png"> 
+        </a>
+        <div class="container-links">
+            <% if (locals.nombre) { %>
+                <a href="/logout">Cerrar Sesion</a>
+                <a href="/profile">Mi Perfil</a>
+            <% } else  {%>
+                <a href="/login">Iniciar Sesion</a>
+                <a href="/register">Crear Cuenta</a>
+            <% } %>
+            <a href="/donar">Donar</a>
+        </div>
+   </div>
+</nav>
