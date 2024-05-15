@@ -1,0 +1,109 @@
+body {
+    /* background-color: #79b18d; */
+    background-image: url("/images/logo/nose.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    font-family: Verdana, Tahoma, sans-serif;
+}
+
+
+h1 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 30px 0;
+    text-align: center
+}
+
+main {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    width: 1200px;
+    justify-content: center;
+    height: 100%;
+}
+
+.container-form {
+    background-color: white;
+    margin: 50px 0;
+    width: 35%;
+    height: 100%;
+    padding: 30px 50px;
+    border-radius: 5px;
+}
+
+.container-campo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px
+}
+
+.container-campo>.campo {
+    width: 45%;
+}
+
+label {
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+input {
+    background-color: #e8e8e7;
+    border: none;
+    width: 100%;
+    height: 30px;
+    padding-left: 5px;
+}
+
+input:focus {
+    outline: solid 2px #61b0b2;
+    border-radius: 2px;
+    box-shadow: 1px 1px 10px rgb(167, 167, 167);
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.btn {
+    border-radius: 5px;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    width: 45%;
+}
+
+.enviar{
+    background-color: #61b0b2;
+    color: white;
+
+}
+.enviar:hover {
+    background-color: #428182;
+}
+
+.cancelar {
+    background-color: rgb(251 56 56 / 88%);
+    color: white;
+}
+.cancelar:hover {
+    background-color: rgba(245, 109, 109, 0.95);
+}
+
+.error-text {
+    color: rgb(239, 62, 62);
+    margin: 0;
+    margin-top: 10px
+}
