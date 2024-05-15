@@ -48,9 +48,9 @@ app.set("view engine", "ejs");
 // setea las vistas, lo que esta entre [] indica en que carpeta estan
 app.set("views", [path.join(__dirname, 'views')]);
 
-const frontToBackMiddleware = require("./middlewares/frontToBackMiddleware")
+const backToFrontMiddleware = require("./middlewares/backToFrontMiddleware")
 
-app.use(frontToBackMiddleware)
+app.use(backToFrontMiddleware)
 
 //importas las rutas que va a usar en la app
 const rutaMain = require("./routes/main")
