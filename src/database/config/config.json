@@ -1,0 +1,33 @@
+{
+    "development": {
+      "username": "root",
+      "password": "",
+      "database": "hopetrade",
+      "host": "localhost",
+      "dialect": "mysql",
+      "define": {
+        "timestamps": false
+      }
+    },
+  
+    "test": {
+      "username": "root",
+      "password": "",
+      "database": "hopetrade_test",
+      "host": "localhost",
+      "dialect": "mysql",
+      "define": {
+        "timestamps": false
+      }
+    },
+    "production": {
+      "username": "root",
+      "password": "",
+      "database": "hopetrade_production",
+      "host": "localhost",
+      "dialect": "mysql",
+      "define": {
+        "timestamps": false
+      }
+    }
+  }
