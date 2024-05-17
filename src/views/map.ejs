@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Map</title>
+  <style>
+    #map {
+      width: 500px; /* Nuevo ancho */
+      height: 300px; /* Nuevo alto */
+      position: absolute; /* Fija la posición en la ventana */
+      bottom: 40px; /* Distancia desde abajo */
+      right: 40px;  /* Distancia desde la derecha */
+      
+      z-index: 10;   /* Asegura que el mapa esté encima de otros elementos */
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    function initMap() {
+      const mapOptions = {
+        center: { lat: -34.9205, lng: -57.9536 }, // Centro del mapa (La Plata)
+        zoom: 13 // Nivel de zoom
+      };
+      const map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+      const marcadorCaritasEsperanza = new google.maps.Marker({
+      position: { lat: -34.91631, lng: -57.94537 },
+      map: map,
+      title: 'Caritas esperanza'
+      });
+
+      const marcadorCaritasLasQuintas = new google.maps.Marker({
+      position: { lat: -34.91449, lng: -57.96155 },
+      map: map,
+      title: 'Caritas Las Quintas',
+
+      });
+      const marcadorCaritasLP = new google.maps.Marker({
+      position: { lat: -34.9185, lng: -57.92647 },
+      map: map,
+      title: 'Caritas LP'
+      });
+
+      const marcadorCaritasTolosa = new google.maps.Marker({
+      position: { lat: -34.89268, lng: -57.9726 },
+      map: map,
+      title: 'Caritas Solidaridad',
+      });
+
+      const marcadorCaritasSolidaridad = new google.maps.Marker({
+      position: { lat: -34.92992, lng: -57.97059 },
+      map: map,
+      title: 'Caritas Solidaridad',
+      });
+  
+    }
+  </script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy30BBs6Djvu7Gmbu_hB38y1ysmlNtMeo&callback=initMap">
+  </script>
+</body>
+</html>

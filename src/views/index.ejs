@@ -5,9 +5,13 @@
     <title>HopeTrade</title>
 </head>
 <body>
-    <%- include("./partials/nav") %>
-    <h1>hola rey</h1>
 
+    
+    <%- include("./partials/nav") %>
+    
+    <%- include('map.ejs') %>
+    <h1>hola rey</h1>
+    
         <p><%= locals.nombre || "no hay nadie" %></p>
 </body>
 </html>
