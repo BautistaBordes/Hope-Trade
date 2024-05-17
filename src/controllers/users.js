@@ -1,4 +1,4 @@
-const { validationResult, matchedData } = require("express-validator")
+const { validationResult } = require("express-validator")
 const bcrypt = require('bcryptjs');
 
 const Usuario = require('../database/models/Usuario')
@@ -59,7 +59,7 @@ const controlador = {
         //aca le hace peticiones a la BD
         if(!dni_mail.includes("@") ){
             usuario = await Usuario.findOne({ where: { dni: dni_mail } });
-            rol = "normal"
+            rol = "comun";
         } else {
             usuario = await Voluntario.findOne({ where: { mail: dni_mail } });
             if (!usuario) {

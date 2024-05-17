@@ -1,4 +1,5 @@
 const Usuario = require('./models/Usuario')
+const Publicacion = require('./models/Publicacion')
 // const UsuarioComun = require('./models/UsuarioComun')
 
 //A.belongsTo(B) el a tiene la FK
@@ -9,3 +10,4 @@ const Usuario = require('./models/Usuario')
 //ej: UserId y yo lo tengo declarado en la bd como "usuario_id"
 // UsuarioComun.belongsTo(Usuario, {foreignKey: "usuario_id"});
 // Usuario.hasOne(UsuarioComun);
+Publicacion.belongsTo(Usuario, {foreignKey: "usuario_id"});

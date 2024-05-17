@@ -25,6 +25,7 @@ connectAndSync();
 
 //aca seteas en que carpeta tenes todos archivos que no van a cambiar (podes agregar o eliminar, pero no modificar un file)
 app.use(express.static("public"));
+app.use(express.static("uploads"));
 
 //util para formularios, oarsea a un formato valido el (req.body) para poder manejarlo en el codigo
 //antes era con bodyparser (deprecado ahora)
@@ -55,20 +56,24 @@ app.use(backToFrontMiddleware)
 //importas las rutas que va a usar en la app
 const rutaMain = require("./routes/main")
 const rutaUsers = require("./routes/users")
+const rutaPosts = require("./routes/posts")
 
 //aca estas diciendo que tu app va a poder entender y ejecutar lo que le pasas (puntualmente resuelve rutas)
 app.use(rutaMain);
 app.use(rutaUsers);
+app.use(rutaPosts);
 
 
 //ruta no existente
 app.use( (req, res, next) => {
-  res.status(404).send('no existe esa pagina');
+  if(res.locals.usuario && res.locals.usuario.rol === "representante") res.status(404).send('no existe esa pagina');
+  else res.redirect("/");
 });
 //problema en la pagina
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('se rompio todo');
+  if(res.locals.usuario && res.locals.usuario.rol === "representante") res.status(500).send('se rompio todo');
+  else res.redirect("/");
 });
 
 // arranca el servidor
