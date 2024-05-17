@@ -120,14 +120,14 @@ CREATE TABLE hopetrade.publicacion (
 	id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	nombre VARCHAR(50) NOT NULL,
 	descripcion TEXT NOT NULL,
-    url_foto VARCHAR(200) NOT NULL,
-    categoria_id INT(10) UNSIGNED NOT NULL,
+    url_foto TEXT NOT NULL,
+    -- categoria_id INT(10) UNSIGNED NOT NULL,
     usuario_id INT(10) UNSIGNED NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP NULL DEFAULT NULL,
 	deleted_at TIMESTAMP NULL DEFAULT NULL,
     CONSTRAINT publicacion_PK PRIMARY KEY (id),
-	CONSTRAINT publicacion_FK FOREIGN KEY (categoria_id) REFERENCES hopetrade.categoria(id),
+	-- CONSTRAINT publicacion_FK FOREIGN KEY (categoria_id) REFERENCES hopetrade.categoria(id),
     CONSTRAINT publicacion_FK_1 FOREIGN KEY (usuario_id) REFERENCES hopetrade.usuario(id)
 )
 ENGINE=InnoDB

@@ -3,23 +3,9 @@
          <a href="/">
              <img src="/images/logo/logo_hopetrade_xl.png"> 
          </a>
- 
-         <% if (locals.usuario && usuario.rol == "representante") { %>
-             <div class="container-links" style="width: 400px !important;">
-                 <a href="/admin">Panel General</a>
-                 <a href="/">Mi Perfil</a>
-                 <a href="/logout">Cerrar Sesion</a>
-             </div>
-         <% } else if (locals.usuario && usuario.rol == "voluntario")  {%>
-             <div class="container-links" style="width: 500px !important;">
-                 <a href="/">Intercambios</a>
-                 <a href="/">Mi Perfil</a>
-                 <a href="/">Donaciones</a>
-                 <a href="/logout">Cerrar Sesion</a>
-             </div>
-         <% } else if (locals.usuario && usuario.rol == "normal")  {%>
+         <%  if (locals.usuario)  {%>
              <div class="container-links" style="width: 450px !important;">
-                 <a href="/products">Publicaciones</a>
+                 <a href="/posts">Publicaciones</a>
                  <a href="/">Mi Perfil</a>
                  <a href="/logout">Cerrar Sesion</a>
                  <a href="/">Donar</a>
