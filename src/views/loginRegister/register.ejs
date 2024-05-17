@@ -2,17 +2,111 @@
 <html lang="en">
 <head>
     <%- include("./partials/head") %>
-    <title>Crear Cuenta></title>
+    <link rel="stylesheet" href="/css/forms.css">
+    <title>Crear Cuenta</title>
 </head>
 <body>
     <%- include("./partials/nav") %>
-    <h1>hola</h1>
-    <form action="/"  method="POST">
-        <input type="text" placeholder="nombre" name="nombre" required>
-        <input type="text" placeholder="precio" name="precio" required>
-        <input type="text" placeholder="plataformas" name="plataformas" required>
+    <main>
+        <div class="container">
 
-        <button type="submit">agregar</button>
-    </form>
+            <div class="container-form">
+
+                <h1>Por favor ingrese los datos para crear una cuenta</h1>
+
+                <% if (locals.msgError) { %>
+                    <p class="error-text" style="text-align: center; margin-bottom: 25px;"><%= msgError %></p>
+                <% } %>
+
+                
+                <form action="/register"  method="POST">
+                    
+                    <div class="container-campo">
+                        <div class="campo">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Martin" value="<%= locals.oldData ? oldData.nombre : null %>" >
+                            <% if (locals.errors && errors.nombre) { %>
+                                <p class="error-text"><%= errors.nombre.msg %></p>
+                            <% } %>
+
+                        </div>
+                        <div class="campo">
+                            <label for="apellido">Apellido</label>
+                            <input type="text" id="apellido" name="apellido" placeholder="Di Salvo"  value="<%= locals.oldData ? oldData.apellido : null %>">
+                            <% if (locals.errors && errors.apellido) { %>
+                                <p class="error-text"><%= errors.apellido.msg %></p>
+                            <% } %>
+                        </div>
+
+
+                    </div>
+    
+        
+                    <div class="campo">
+                        <label for="dni">DNI</label>
+                        <input type="text" id="dni" name="dni" placeholder="45988352" value="<%= locals.oldData ? oldData.dni : null %>">
+                        <% if (locals.errors && errors.dni && errors.dni.msg !== "ya existe ese dni") { %>
+                            <p class="error-text"><%= errors.dni.msg %></p>
+                        <% } %>
+                    </div>
+                    
+                    <div class="campo">
+                        <label for="mail">Correo</label>
+                        <input type="text" id="mail" name="mail" placeholder="ejemplo@gmail.com" value="<%= locals.oldData ? oldData.mail : null %>" >
+                        <% if (locals.errors && errors.mail ) { %>
+                            <p class="error-text"><%= errors.mail.msg %></p>
+                        <% } %>    
+                    </div>
+                    
+                    <div class="campo">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" name="password" placeholder="*******" value="<%= locals.oldData ? oldData.password : null %>">
+                        <% if (locals.errors && errors.password ) { %>
+                            <p class="error-text"><%= errors.password.msg %></p>
+                        <% } %>
+                    </div>
+                    
+                    <div class="container-campo">
+    
+                        <div class="campo">
+                            <label for="telefono">Telefono</label>
+                            <input type="text" id="telefono"  name="telefono" placeholder="2241438774"  value="<%= locals.oldData ? oldData.telefono : null %>">
+                            <% if (locals.errors && errors.telefono ) { %>
+                                <p class="error-text"><%= errors.telefono.msg %></p>
+                            <% } %>
+                        </div>
+                        <div class="campo">
+                            <label for="fecha">Nacimiento</label>
+                            <input type="date" min="1900-01-01" max="2030-01-01" id="fecha" name="fecha" placeholder="11/02/2002" value="<%= locals.oldData ? oldData.fecha : null %>">
+                            <% if (locals.errors && errors.fecha ) { %>
+                                <p class="error-text"><%= errors.fecha.msg %></p>
+                            <% } %>
+                        </div>
+    
+                    </div>
+    
+                    <div style="display: flex; align-items: center; justify-content: center">
+                        <p>¿Ya sos miembro? <a href="/register" style="color: black;">Inicia Sesion</a></p> 
+                    </div>
+    
+                    <div class="btn-container">
+                        <button class="btn cancelar" onclick="borrar()" type="button">Cancelar</button>
+                        <button class="btn enviar" type="submit">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
 </body>
+<script>
+    function borrar() {
+        document.getElementById("nombre").value = "";
+        document.getElementById("apellido").value = "";
+        document.getElementById("dni").value = "";
+        document.getElementById("mail").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("telefono").value = "";
+        document.getElementById("fecha").value = "";
+    }
+</script>
 </html>

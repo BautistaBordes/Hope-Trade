@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <title>Agregar Pubiblicacion</title>
+</head>
+<body>
+    <main>
+        <div class="container">
+
+            <div class="container-form">
+
+                <div style="margin-bottom: 20px;">
+                    <a href="/posts" style="text-decoration: none; color: black;">volver</a>
+                </div>
+                <h1>Formulario para subir publicacion</h1>
+
+                
+                <form action="/posts/add"  method="POST" enctype="multipart/form-data">
+                    
+                        <div class="campo">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Lavarropas Dream 20kg" value="<%= locals.oldData ? oldData.nombre : null %>" >
+                            <% if (locals.errors && errors.nombre) { %>
+                                <p class="error-text"><%= errors.nombre.msg %></p>
+                            <% } %>
+
+                        </div>
+                        <div class="campo">
+                            <label for="descripcion">Descripcion</label>
+                            <textarea  id="descripcion" name="descripcion" placeholder="Descripcion extendida..."><%= locals.oldData ? oldData.descripcion : null %></textarea>
+                            <% if (locals.errors && errors.descripcion) { %>
+                                <p class="error-text"><%= errors.descripcion.msg %></p>
+                            <% } %>
+                        </div>
+    
+        
+                    <div class="campo">
+                        <label for="foto">Foto</label>
+                        <input style="background-color: white;" type="file" id="foto" name="foto" value="<%= locals.oldData ? oldData.nombre : null %>">
+                        <% if (locals.errors && errors.foto) { %>
+                            <p class="error-text"><%= errors.foto.msg %></p>
+                        <% } %>
+                    </div>
+                    
+    
+
+    
+                    <div class="btn-container">
+                        <button class="btn cancelar" onclick="borrar()" type="button">Cancelar</button>
+                        <button class="btn enviar" type="submit">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+<script>
+    function borrar() {
+        document.getElementById("nombre").value = "";
+        document.getElementById("descripcion").value = "";
+    }
+</script>
+</html>

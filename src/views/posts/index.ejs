@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <link rel="stylesheet" href="/css/posts.css">
+    <title><%= title  %></title>
+</head>
+<body>
+    <%- include("./partials/nav") %>
+    <main>
+        <div class="container">
+                <div class="actions">
+                    <a class="btn" href="/posts/add"> Publicar</a>
+                    <div class="change-view">
+                        <a class="btn" href="/posts"> General</a>
+                        <a class="btn" href="/myPosts"> Mias</a>
+                    </div>
+                </div>
+
+            <div class="container-posts">
+
+                <% if (publicaciones.length > 0) { %>
+                    <% publicaciones.forEach(publicacion => { %>
+                        
+                        <div class="card-post">
+                            <a class="card-post-link">
+                                <div class="image">
+                                    <img src="/publicaciones/<%=publicacion.url_foto %>" alt="foto">
+                                </div>
+                                <div class="info">
+                                    <div class="top">
+                                        <p class="title"><%=publicacion.nombre %></p>
+                                    </div>
+                                    <div class="down">
+                                        <p class="autor"> autor <%= publicacion.Usuario.nombre %></p>
+                                        <p class="categoria">categoria: vehiculos</p>
+                                    </div>
+            
+                                </div>
+                            </a>
+        
+                        </div>
+
+                    <% }) %>
+                <% } else { %>
+                    <p style="color: grey;" > Todavia no hay publicaciones</p>
+                <% } %>
+
+            </div>
+        </div>
+    </main>
+    <%- include("./partials/footer") %>
+</body>
+</html>

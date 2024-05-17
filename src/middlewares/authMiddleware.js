@@ -1,5 +1,5 @@
 function authMiddleware (req, res, next) {
-    if (req.session.name !== undefined) {
+    if (req.session.usuario !== undefined) {
         next()
     } else {
         res.redirect("/")
