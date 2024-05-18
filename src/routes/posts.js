@@ -4,7 +4,7 @@ const postsController = require("../controllers/posts");
 
 const authComunMiddleware = require("../middlewares/authComunMiddleware");
 
-const validationsPost = require('../middlewares/validationsPost');
+const validationsPost = require('../middlewares/validations/validationsPost');
 
 
 

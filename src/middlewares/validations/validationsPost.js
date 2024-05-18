@@ -2,7 +2,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require('fs');
 const { body } = require("express-validator");
-const Publicacion = require("../database/models/Publicacion");
+const Publicacion = require("../../database/models/Publicacion");
 
 const multerStorage = multer.diskStorage({
     destination: (req, file, cb) => {

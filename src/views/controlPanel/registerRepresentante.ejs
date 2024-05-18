@@ -3,23 +3,23 @@
 <head>
     <%- include("./partials/head") %>
     <link rel="stylesheet" href="/css/forms.css">
-    <title>Registrar Voluntario</title>
+    <title>Registrar Representante</title>
 </head>
 <body>
+
     <main>
         <div class="container">
 
             <div class="container-form">
                 <a href="/controlPanel">Volver al panel</a>
-                
-                <h1>Por favor ingrese los datos para registrar un Voluntario</h1>
+                <h1>Por favor ingrese los datos para registrar un Representante</h1>
 
                 <% if (locals.msgError) { %>
                     <p class="error-text" style="text-align: center; margin-bottom: 25px;"><%= msgError %></p>
                 <% } %>
 
                 
-                <form action="/controlPanel/registerVoluntario"  method="POST">
+                <form action="/controlPanel/registerRepresentante"  method="POST">
                     
                     <div class="container-campo">
                         <div class="campo">
@@ -47,23 +47,7 @@
                             <p class="error-text"><%= errors.mail.msg %></p>
                         <% } %>    
                     </div>
-                    <div class="campo">
-                        <label for="filial">Filial</label>
-
-                        <select id="filial" name="filial">
-                            <option <%= !locals.oldData || oldData.filial == undefined  ? "selected" : ""; %> value="" disabled>
-                                Elegir Filial
-                            </option>
-                            <% filiales.forEach(filial => { %>
-                                <option <%= locals.oldData && oldData.filial == filial.id ? "selected" : ""; %> value="<%=filial.id%>">
-                                    <%=filial.nombre%>
-                                </option>
-                            <% }) %>  
-                        </select>   
-                        <% if (locals.errors && errors.filial ) { %>
-                            <p class="error-text"><%= errors.filial.msg %></p>
-                        <% } %>    
-                    </div>
+                    
     
                     <div class="btn-container">
                         <button class="btn cancelar" onclick="borrar()" type="button">Cancelar</button>

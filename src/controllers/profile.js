@@ -1,5 +1,7 @@
 const Publicacion = require("../database/models/Publicacion");
 const Usuario = require('../database/models/Usuario') 
+const Representante = require('../database/models/Representante') 
+const Voluntario = require('../database/models/Voluntario') 
 const { Op } = require('sequelize');
 const { validationResult } = require("express-validator")
 const bcrypt = require('bcryptjs');
@@ -21,10 +23,12 @@ const controlador ={
     },
 
     changePassword: (req,res) => {
-        res.render('profile/changePassword')
+        let isEmployee = req.session.usuario.rol == 'comun' ? false : true;            
+        res.render('profile/changePassword', { isEmployee : isEmployee })
     },
     changePasswordProcess: async (req,res)=> {
         const result = validationResult(req);
+        let rol = req.session.usuario.rol;
 
         if(result.errors.length > 0){
             return res.render("profile/changePassword", {
@@ -33,10 +37,21 @@ const controlador ={
                 oldData: req.body
             });
         }
-        
+        let redirect = "/controlPanel"
+        let aux;
+        if ( rol == 'comun'){
+            aux = Usuario
+            redirect = "/profile"
+        }else if ( rol == 'representante'){
+            aux = Representante
+        }else{
+            aux = Voluntario
+        }
+
         const encryptedPassword = bcrypt.hashSync(req.body.new_psw, 10);
+  
         try {
-            const usuario = await Usuario.update({
+            const usuario = await aux.update({
                 password: encryptedPassword
             },
             {
@@ -45,10 +60,10 @@ const controlador ={
                 }
             }
             );
-            res.redirect("/profile")
+            res.redirect(redirect)
         } catch (error) {
             console.log(error)
-        }
+        }   
     }
 
 }

@@ -6,11 +6,11 @@
         <div class="container-actions">
         <% if (locals.rol !== "representante") {%>
             <div class="actions">
-                <a href="/" class="action">Agregar Voluntario</a>
+                <a href="/controlPanel/registerVoluntario" class="action">Agregar Voluntario</a>
             </div>
 
             <div class="actions">
-                <a href="/" class="action">Agregar Representante</a>
+                <a href="/controlPanel/registerRepresentante" class="action">Agregar Representante</a>
             </div>
 
 
@@ -28,9 +28,9 @@
 
 
         <div class="config">
-            <a href="/">Cambiar contraseña</a>
+            <a href="/profile/changePassword">Cambiar contraseña</a>
             <div class="logout">
-                <a href="/">Cerrar sesion</a>
+                <a href="/logout">Cerrar sesion</a>
             </div>
         </div>
 
