@@ -26,6 +26,10 @@ let cols = {
     password: {
         type: DataTypes.TEXT,
         allowNull: false
+    },
+    filial_id: {
+        type: DataTypes.INTEGER(10).UNSIGNED,
+        allowNull: false
     }
 };
 

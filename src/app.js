@@ -58,6 +58,7 @@ const rutaMain = require("./routes/main")
 const rutaUsers = require("./routes/users")
 const rutaPosts = require("./routes/posts")
 const rutaProfile = require("./routes/profile")
+const rutaControlPanel = require("./routes/controlPanel")
 
 
 
@@ -66,6 +67,7 @@ app.use(rutaMain);
 app.use(rutaUsers);
 app.use(rutaPosts);
 app.use(rutaProfile);
+app.use(rutaControlPanel);
 
 
 //ruta no existente

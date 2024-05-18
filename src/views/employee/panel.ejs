@@ -1,0 +1,35 @@
+<div class="panel">
+    <div class="container-panel">
+        <div class="container-actions">
+        <% if (locals.rol !== "representante") {%>
+            <div class="actions">
+                <a href="/controlPanel/registerVoluntario" class="action">Agregar Voluntario</a>
+            </div>
+
+            <div class="actions">
+                <a href="/" class="action">Agregar Representante</a>
+            </div>
+
+
+            <div class="actions">
+                <a href="/" class="action">Cambiar Filial</a>
+            </div>
+        </div>
+
+        <% } else {%>
+            <div class="actions">
+                <a href="/" class="action">Ver intercambios</a>
+            </div>
+        <% } %>
+
+        <div class="config">
+            <a href="/" class="action">Cambiar contraseña</a>
+            <div class="logout">
+                <a href="/">Cerrar sesion</a>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

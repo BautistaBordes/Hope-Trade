@@ -82,12 +82,12 @@ const controlador = {
         usuario = {...usuario.dataValues, rol: rol}
         //eaca defino que ahora todas las solicitudes van a tener el objeto session que tiene  otro objeto con todos los datos del usuario
         req.session.usuario = usuario;
-        res.redirect('/posts')
+        res.redirect(redirect);
 
     },
     logout: (req,res) =>{
         req.session.destroy();
-        res.redirect(redirect);
+        res.redirect("/");
     },
 
 }
