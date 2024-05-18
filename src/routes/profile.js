@@ -6,6 +6,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
 
 //con esto podes decir que validaciones hace cada ruta
 const profileController = require('../controllers/profile');
+const validationsPassword = require('../middlewares/validationsPassword');
 
 
 // ----- rutas -----
@@ -13,8 +14,9 @@ router.get('/profile',  authMiddleware, profileController.profile);
 
 router.get('/profile/myPosts', authMiddleware, profileController.myPost);
 
+router.get('/profile/changePassword', authMiddleware, profileController.changePassword);
 
-
+router.post('/profile/changePassword', authMiddleware, validationsPassword, profileController.changePasswordProcess);
 
 
 module.exports = router;
