@@ -17,16 +17,6 @@ const controlador = {
             publicaciones: publicaciones, title: "Publicaciones"
         });
     },
-    myPosts: async (req, res) => {
-        const publicaciones = await Publicacion.findAll( { include: Usuario, where: {
-            usuario_id: {
-                [Op.eq]: req.session.usuario.id
-            }
-        }});
-        res.render("posts/index", {
-            publicaciones: publicaciones, title: "Mis publicaciones"
-        });
-    },
     add: (req, res) => {
         res.render("posts/add");
     },

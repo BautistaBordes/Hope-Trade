@@ -57,23 +57,29 @@ app.use(backToFrontMiddleware)
 const rutaMain = require("./routes/main")
 const rutaUsers = require("./routes/users")
 const rutaPosts = require("./routes/posts")
+const rutaProfile = require("./routes/profile")
+
+
 
 //aca estas diciendo que tu app va a poder entender y ejecutar lo que le pasas (puntualmente resuelve rutas)
 app.use(rutaMain);
 app.use(rutaUsers);
 app.use(rutaPosts);
+app.use(rutaProfile);
 
 
 //ruta no existente
 app.use( (req, res, next) => {
-  if(res.locals.usuario && res.locals.usuario.rol === "representante") res.status(404).send('no existe esa pagina');
-  else res.redirect("/");
+  //if(res.locals.usuario && res.locals.usuario.rol === "representante") 
+  res.status(404).send('no existe esa pagina');
+  //else res.redirect("/");
 });
 //problema en la pagina
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  if(res.locals.usuario && res.locals.usuario.rol === "representante") res.status(500).send('se rompio todo');
-  else res.redirect("/");
+  //if(res.locals.usuario && res.locals.usuario.rol === "representante") 
+    res.status(500).send('se rompio todo');
+  //else res.redirect("/");
 });
 
 // arranca el servidor

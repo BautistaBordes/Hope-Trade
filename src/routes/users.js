@@ -9,6 +9,7 @@ const guestMiddleware = require("../middlewares/guestMiddleware");
 //con esto podes decir que validaciones hace cada ruta
 const validationsRegister = require('../middlewares/validationsRegister');
 const validationsLogin = require('../middlewares/validationsLogin');
+const profileController = require('../controllers/profile');
 
 
 // ----- rutas -----
@@ -18,9 +19,10 @@ router.post('/login', guestMiddleware, validationsLogin, usersController.loginPr
 router.get('/register', guestMiddleware, usersController.register);
 router.post('/register', guestMiddleware, validationsRegister, usersController.registerProcess);
 
+
+
 router.get('/logout', authMiddleware, usersController.logout);
 
-router.get('/profile',  authMiddleware);
 
 
 

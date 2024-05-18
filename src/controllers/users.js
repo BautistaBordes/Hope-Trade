@@ -5,6 +5,8 @@ const Usuario = require('../database/models/Usuario')
 const Voluntario = require("../database/models/Voluntario");
 const Representante = require("../database/models/Representante");
 
+const Publicacion = require("../database/models/Publicacion");
+
 const controlador = {
     register: (req, res) => {
         res.render("loginRegister/register");
@@ -78,13 +80,14 @@ const controlador = {
         usuario = {...usuario.dataValues, rol: rol}
         //eaca defino que ahora todas las solicitudes van a tener el objeto session que tiene  otro objeto con todos los datos del usuario
         req.session.usuario = usuario;
-        res.redirect("/")
+        res.redirect('/')
 
-     },
-     logout: (req,res) =>{
+    },
+    logout: (req,res) =>{
         req.session.destroy();
         res.redirect('/')
-      },
+    },
+
 }
 
 module.exports = controlador;
