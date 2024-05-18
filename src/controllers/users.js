@@ -48,7 +48,7 @@ const controlador = {
     loginProcess: async (req, res) => {
         const result = validationResult(req);
         const {dni_mail, password} = req.body;
-        let usuario,rol;
+        let usuario,rol,redirect;
 
         if(result.errors.length > 0){
             return res.render("loginRegister/login", {
@@ -62,12 +62,14 @@ const controlador = {
         if(!dni_mail.includes("@") ){
             usuario = await Usuario.findOne({ where: { dni: dni_mail } });
             rol = "comun";
+            redirect = "/posts";
         } else {
             usuario = await Voluntario.findOne({ where: { mail: dni_mail } });
             if (!usuario) {
                 usuario = await Representante.findOne({ where: { mail: dni_mail } });
                 rol = "representante";
             } else rol = "voluntario";
+            redirect = "/controlPanel";
         }
 
         if (!usuario || !bcrypt.compareSync(password, usuario.password)) {
@@ -85,7 +87,7 @@ const controlador = {
     },
     logout: (req,res) =>{
         req.session.destroy();
-        res.redirect('/')
+        res.redirect(redirect);
     },
 
 }
