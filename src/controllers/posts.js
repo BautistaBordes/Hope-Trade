@@ -41,7 +41,7 @@ const controlador = {
             usuario_id: req.session.usuario.id
         })
 
-        res.redirect("/myPosts")
+        res.redirect("/profile/myPosts")
     }
 
 }

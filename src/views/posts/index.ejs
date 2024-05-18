@@ -11,7 +11,9 @@
         <div class="container">
                 <div class="actions">
                     <a class="btn" href="/posts/add"> Publicar</a>
+                    <% if (title != "Mis publicaciones") { %>
                     <a class="btn" href="/posts"> General</a>
+                    <% } %>
                 </div>
 
             <div class="container-posts">
