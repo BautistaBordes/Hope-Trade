@@ -11,18 +11,18 @@
     <main>
         <h1>hola rey</h1>
         <% if (locals.usuario) { %>
-                <p><%= usuario.nombre  %></p>
-                <p><%= usuario.apellido  %></p>
-                <p><%= usuario.dni  %></p>
-                <p><%= console.log(usuario)  %></p>
-                <p><%= usuario.mail  %></p>
-                <p><%= usuario.telefono  %></p>
-                <p><%= usuario.rol  %></p>
-            <% } else { %>
-                <p>no hay nadie</p>
+            <p><%= usuario.nombre  %></p>
+            <p><%= usuario.apellido  %></p>
+            <p><%= usuario.dni  %></p>
+            <p><%= console.log(usuario)  %></p>
+            <p><%= usuario.mail  %></p>
+            <p><%= usuario.telefono  %></p>
+            <p><%= usuario.rol  %></p>
+        <% } else { %>
+            <p>no hay nadie</p>
             <% } %>
+            <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1skjn5O4IWcCFh6X9CIo8CPe5DXuhWx0&ehbc=2E312F&noprof=1" width="640" height="480";> </iframe>
     </main>
-    <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1skjn5O4IWcCFh6X9CIo8CPe5DXuhWx0&ehbc=2E312F&noprof=1" width="640" height="480" style="position: absolute; bottom: 20px; right: 20px;"> </iframe>
     <%- include("./partials/footer") %>
 
 </body>
