@@ -73,7 +73,7 @@ const controlador = {
             
             sendMail(mail, password);
             
-            res.redirect("/controlPanel")
+            res.render("controlPanel/registerVoluntario", {filiales : filiales, operacion:true})
 
         } catch (error) {
             console.log(error)
@@ -109,7 +109,7 @@ const controlador = {
 
             sendMail(mail, password);
 
-            res.redirect("/controlPanel")
+            res.render("controlPanel/registerRepresentante", {operacion:true})
 
         } catch (error) {
             console.log(error)
@@ -144,7 +144,7 @@ const controlador = {
                 }
             }
             );
-            res.redirect('/controlPanel');
+            res.render("controlPanel/changeFilial", {filiales:filiales, operacion:true})
         } catch (error) {
             console.log(error)
         }   

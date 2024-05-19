@@ -14,6 +14,10 @@
                 
                 <h1>Por favor ingrese la nueva filial</h1>
 
+                <% if (locals.operacion) { %>
+                    <p class="correct-text" style="text-align: center; margin-bottom: 25px;">Filial modificada correctamente</p>
+                <% } %>
+
                 <% if (locals.msgError) { %>
                     <p class="error-text" style="text-align: center; margin-bottom: 25px;"><%= msgError %></p>
                 <% } %>

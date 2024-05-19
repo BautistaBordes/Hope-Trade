@@ -114,3 +114,8 @@ input:focus,textarea:focus {
     margin: 0;
     margin-top: 10px
 }
+.correct-text {
+    color: rgb(4 159 63);
+    margin: 0;
+    margin-top: 10px;
+}
