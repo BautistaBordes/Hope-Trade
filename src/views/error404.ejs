@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Pagina no encontrada</title>
+    <style>
+        main {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 70px 0 100px 0;
+            font-family: montserrat;
+        }
+
+        .error404 {
+            margin: 0;
+            color: #abb444;
+            font-size: 188px;
+        }
+        
+        .error-msg {
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .volver {
+            text-decoration: none;
+            padding: 10px 15px;
+            background: #61b0b2;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .volver:hover {
+            background: #4a8687;
+        }
+
+    </style>
+
+</head>
+<body>
+    <% if (locals.usuario == undefined  || locals.usuario.rol == "comun") {%>
+        <%- include("./partials/nav") %>
+    <% } %>
+
+    <main>
+        <h1 class="error404">404</h1>
+        <p class="error-msg">Pagina no encontrada</p>
+        <a class="volver" href="/">Volver al inicio</a>
+    </main>
+
+    <% if (locals.usuario == undefined  || locals.usuario.rol == "comun") {%>
+        <%- include("./partials/footer") %>
+    <% } %>
+
+</body>
+</html>

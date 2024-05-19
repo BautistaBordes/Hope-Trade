@@ -73,7 +73,7 @@ app.use(rutaControlPanel);
 //ruta no existente
 app.use( (req, res, next) => {
   //if(res.locals.usuario && res.locals.usuario.rol === "representante") 
-  res.status(404).send('no existe esa pagina');
+  res.status(404).render('error404');
   //else res.redirect("/");
 });
 //problema en la pagina
