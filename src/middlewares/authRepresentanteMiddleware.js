@@ -2,7 +2,8 @@ function authRepresentanteMiddleware (req, res, next) {
     if (req.session.usuario !== undefined && req.session.usuario.rol == "representante") {
         next()
     } else {
-        res.redirect("/")
+        let redirect = req.session.usuario.rol == "comun" ? "/posts" : "/controlPanel";
+        res.redirect(redirect)
     }
 }
 module.exports = authRepresentanteMiddleware

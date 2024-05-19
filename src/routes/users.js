@@ -9,7 +9,6 @@ const guestMiddleware = require("../middlewares/guestMiddleware");
 //con esto podes decir que validaciones hace cada ruta
 const validationsRegister = require('../middlewares/validations/validationsRegister');
 const validationsLogin = require('../middlewares/validations/validationsLogin');
-const profileController = require('../controllers/profile');
 
 
 // ----- rutas -----

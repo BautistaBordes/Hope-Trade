@@ -2,7 +2,8 @@ function guestMiddleware (req, res, next) {
     if (req.session.usuario === undefined) {
         next()
     } else {
-        res.redirect("/")
+        let redirect = req.session.usuario.rol == "comun" ? "/posts" : "/controlPanel";
+        res.redirect(redirect)
         //podria redirigirte al perfil
     }
 }
