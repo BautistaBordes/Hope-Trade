@@ -45,7 +45,7 @@
                     <div class="campo">
                         <label for="dni">DNI</label>
                         <input type="text" id="dni" name="dni" placeholder="45988352" value="<%= locals.oldData ? oldData.dni : null %>">
-                        <% if (locals.errors && errors.dni && errors.dni.msg !== "ya existe ese dni") { %>
+                        <% if (locals.errors && errors.dni) { %>
                             <p class="error-text"><%= errors.dni.msg %></p>
                         <% } %>
                     </div>

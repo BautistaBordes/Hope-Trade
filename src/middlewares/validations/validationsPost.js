@@ -6,7 +6,7 @@ const Publicacion = require("../../database/models/Publicacion");
 
 const multerStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, path.join(__dirname, '../../uploads/publicaciones'));
+      cb(null, path.join(__dirname, '../../../uploads/publicaciones'));
     },
     filename: (req, file, cb) => {
       const newFilename = "product" + '-' + Date.now() + path.extname(file.originalname);
@@ -35,19 +35,19 @@ const validationsPost = [
     
 
     body("descripcion").trim()
-    .notEmpty().withMessage("No puede estar vacio").bail()
-    .matches(/^[a-zA-Z0-9\s]*$/).withMessage("Sin caracteres especiales"),
+    .notEmpty().withMessage("No puede estar vacio").bail(),
 
     body("foto")
     .custom((value, {req}) => {
       
         if(!req.file) throw new Error("Selecciona una imagen");
 
-        if(req.file.mimetype !== 'image/png' && req.file.mimetype !== 'image/jpg' && req.file.mimetype !== 'image/jpeg'){
-            fs.unlinkSync(req.file.path);
+        const ext = path.extname(req.file.originalname);
+        
+
+        if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
             throw new Error("Solo se aceptan imagenes");
         } else if (req.file.size > (Math.pow(2048,2) ) ) {
-            fs.unlinkSync(req.file.path);
             throw new Error("Archivo muy grande");
         }
         return true;
