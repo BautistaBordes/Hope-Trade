@@ -6,7 +6,12 @@ const Publicacion = require("../../database/models/Publicacion");
 
 const multerStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, path.join(__dirname, '../../../uploads/publicaciones'));
+    //si no existe la carpeta de /uploads/publicaciones en el directorio raiz la creo
+    let pathDestination = path.join(__dirname, '../../../uploads/publicaciones');
+
+    if(!fs.existsSync(pathDestination)) fs.mkdirSync(pathDestination, {recursive: true});
+
+    cb(null, pathDestination);
     },
     filename: (req, file, cb) => {
       const newFilename = "product" + '-' + Date.now() + path.extname(file.originalname);

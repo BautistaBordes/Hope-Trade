@@ -1,16 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const controlPanelController = require("../controllers/controlPanel.js");
+const controlPanelController = require("../controllers/controlPanel");
 
-const authEmployeeMiddleware = require('../middlewares/authEmployeeMiddleware.js');
-const authRepresentanteMiddleware = require('../middlewares/authRepresentanteMiddleware.js');
-const validationsRegisterEmployee = require('../middlewares/validations/validationsRegisterEmployee.js');
-const validationsFilial = require('../middlewares/validations/validationsFilial.js');
-const validationsChangeFilial = require('../middlewares/validations/validationsChangeFilial.js');
+const authEmployeeMiddleware = require('../middlewares/authEmployeeMiddleware');
+const authRepresentanteMiddleware = require('../middlewares/authRepresentanteMiddleware');
 
-// define the home page route
+const validationsRegisterEmployee = require('../middlewares/validations/validationsRegisterEmployee');
+const validationsFilial = require('../middlewares/validations/validationsFilial');
+const validationsChangeFilial = require('../middlewares/validations/validationsChangeFilial');
+
+
 router.get('/controlPanel', authEmployeeMiddleware, controlPanelController.index);
-// router.post('/',(req,res) => {res.send("que")});
+
 
 router.get('/controlPanel/registerVoluntario', authRepresentanteMiddleware, controlPanelController.registerVoluntario);
 router.post('/controlPanel/registerVoluntario', authRepresentanteMiddleware, validationsRegisterEmployee, validationsFilial, controlPanelController.registerVoluntarioProcess);

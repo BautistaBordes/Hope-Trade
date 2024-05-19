@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const profileController = require('../controllers/profile');
 
 //con esto controlas si alguien es usuario sin registrar o registrado
 const authMiddleware = require("../middlewares/authMiddleware");
 const authComunMiddleware = require("../middlewares/authComunMiddleware");
 
 //con esto podes decir que validaciones hace cada ruta
-const profileController = require('../controllers/profile');
+
 const validationsPassword = require('../middlewares/validations/validationsPassword');
 
 
