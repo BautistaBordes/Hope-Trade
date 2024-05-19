@@ -6,6 +6,7 @@ const authEmployeeMiddleware = require('../middlewares/authEmployeeMiddleware.js
 const authRepresentanteMiddleware = require('../middlewares/authRepresentanteMiddleware.js');
 const validationsRegisterEmployee = require('../middlewares/validations/validationsRegisterEmployee.js');
 const validationsFilial = require('../middlewares/validations/validationsFilial.js');
+const validationsChangeFilial = require('../middlewares/validations/validationsChangeFilial.js');
 
 // define the home page route
 router.get('/controlPanel', authEmployeeMiddleware, controlPanelController.index);
@@ -17,5 +18,7 @@ router.post('/controlPanel/registerVoluntario', authRepresentanteMiddleware, val
 router.get('/controlPanel/registerRepresentante', authRepresentanteMiddleware, controlPanelController.registerRepresentante);
 router.post('/controlPanel/registerRepresentante', authRepresentanteMiddleware, validationsRegisterEmployee, controlPanelController.registerRepresentanteProcess);
 
+router.get('/controlPanel/changeFilial', authRepresentanteMiddleware, controlPanelController.changeFilial);
+router.post('/controlPanel/changeFilial', authRepresentanteMiddleware, validationsFilial, validationsChangeFilial, controlPanelController.changeFilialProcess);
 
 module.exports = router;

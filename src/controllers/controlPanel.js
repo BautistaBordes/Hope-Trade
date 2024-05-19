@@ -4,6 +4,7 @@ const Voluntario = require('../database/models/Voluntario')
 const Representante = require('../database/models/Representante') 
 const Filial = require('../database/models/Filial')
 const nodemailer = require('nodemailer');
+const { Op } = require('sequelize');
 
 // Configuración del transporte
 const transporter = nodemailer.createTransport({
@@ -113,6 +114,41 @@ const controlador = {
         } catch (error) {
             console.log(error)
         }
+    },
+
+    changeFilial: async (req,res)=>{
+        const filiales = await Filial.findAll();
+        res.render("controlPanel/changeFilial", {filiales:filiales})
+    },
+    changeFilialProcess: async(req,res)=>{
+        const result = validationResult(req);
+        const {mail, filial} = req.body;
+        const filiales = await Filial.findAll();
+
+        if(result.errors.length > 0){
+            return res.render("controlPanel/changeFilial", {
+                errors: result.mapped(),
+                msgError: "Hubo un error al cambiar la filial",
+                oldData: req.body,
+                filiales:filiales
+            });
+        }
+
+        try {
+            const usuario = await Voluntario.update({
+                filial_id: filial
+            },
+            {
+                where: {
+                    mail: mail
+                }
+            }
+            );
+            res.redirect('/controlPanel');
+        } catch (error) {
+            console.log(error)
+        }   
+        
     },
 
 }

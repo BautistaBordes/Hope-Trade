@@ -4,7 +4,7 @@
     </div>
     <div class="container-panel">
         <div class="container-actions">
-        <% if (locals.rol !== "representante") {%>
+        <% if (locals.usuario.rol == "representante") {%>
             <div class="actions">
                 <a href="/controlPanel/registerVoluntario" class="action">Agregar Voluntario</a>
             </div>
@@ -15,7 +15,7 @@
 
 
             <div class="actions">
-                <a href="/" class="action">Cambiar Filial</a>
+                <a href="/controlPanel/changeFilial" class="action">Cambiar Filial</a>
             </div>
         <% } else {%>
             <div class="actions">
