@@ -3,7 +3,37 @@ const { validationResult } = require("express-validator")
 const Voluntario = require('../database/models/Voluntario') 
 const Representante = require('../database/models/Representante') 
 const Filial = require('../database/models/Filial')
+const nodemailer = require('nodemailer');
 
+// Configuración del transporte
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, 
+    auth: {
+      user: "hopetrade.lp@gmail.com",
+      pass: "awdb agis pgcv ghtu",
+    },
+  });
+  
+function sendMail(mail, password){
+    // Detalles del correo electrónico
+    let mailOptions = {
+        from: 'hopetrade.lp@gmail.com', // Dirección del remitente
+        to: mail, // Dirección del destinatario
+        subject: 'Bienvenido a Hope Trade',
+        text: `Tu contraseña es ${password}` 
+    };
+
+    // Enviar el correo electrónico
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log('Error al enviar el correo: ' + error);
+        } else {
+            console.log('Correo enviado: ' + info.response);
+        }
+    });
+}
 
 const controlador = {
     index: (req,res) =>{
@@ -18,8 +48,7 @@ const controlador = {
         const result = validationResult(req);
         const filiales = await Filial.findAll();
         const {nombre, apellido, mail, filial} = req.body;
-        console.log(filial);
-        const password = Math.random() * (999999 + 100000) + 100000;
+        const password = parseInt(Math.random() * (999999 + 100000) + 100000);
 
 
         if(result.errors.length > 0){
@@ -40,7 +69,11 @@ const controlador = {
                 password: encryptedPassword,
                 filial_id: filial
             });
+            
+            sendMail(mail, password);
+            
             res.redirect("/controlPanel")
+
         } catch (error) {
             console.log(error)
         }
@@ -53,7 +86,7 @@ const controlador = {
         const result = validationResult(req);
 
         const {nombre, apellido, mail} = req.body;
-        const password = Math.random() * (999999 + 100000) + 100000;
+        const password = parseInt(Math.random() * (999999 + 100000) + 100000);
 
 
         if(result.errors.length > 0){
@@ -72,7 +105,11 @@ const controlador = {
                 mail: mail,
                 password: encryptedPassword
             });
+
+            sendMail(mail, password);
+
             res.redirect("/controlPanel")
+
         } catch (error) {
             console.log(error)
         }
