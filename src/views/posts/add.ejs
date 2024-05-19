@@ -19,21 +19,29 @@
                 
                 <form action="/posts/add"  method="POST" enctype="multipart/form-data">
                     
-                        <div class="campo">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" id="nombre" name="nombre" placeholder="Lavarropas Dream 20kg" value="<%= locals.oldData ? oldData.nombre : null %>" >
-                            <% if (locals.errors && errors.nombre) { %>
-                                <p class="error-text"><%= errors.nombre.msg %></p>
-                            <% } %>
+                    <div class="campo">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Lavarropas Dream 20kg" value="<%= locals.oldData ? oldData.nombre : null %>" >
+                        <% if (locals.errors && errors.nombre) { %>
+                            <p class="error-text"><%= errors.nombre.msg %></p>
+                        <% } %>
 
-                        </div>
-                        <div class="campo">
-                            <label for="descripcion">Descripcion</label>
-                            <textarea  id="descripcion" name="descripcion" placeholder="Descripcion extendida..."><%= locals.oldData ? oldData.descripcion : null %></textarea>
-                            <% if (locals.errors && errors.descripcion) { %>
-                                <p class="error-text"><%= errors.descripcion.msg %></p>
-                            <% } %>
-                        </div>
+                    </div>
+                    <div class="campo">
+                        <label for="descripcion">Descripcion</label>
+                        <textarea  id="descripcion" name="descripcion" placeholder="Descripcion extendida..."><%= locals.oldData ? oldData.descripcion : null %></textarea>
+                        <% if (locals.errors && errors.descripcion) { %>
+                            <p class="error-text"><%= errors.descripcion.msg %></p>
+                        <% } %>
+                    </div>
+                    
+                    <div class="campo">
+                        <label for="categoria">Categoria</label>
+                        <textarea  id="categoria" name="categoria" placeholder="Instrumentos"><%= locals.oldData ? oldData.categoria : null %></textarea>
+                        <% if (locals.errors && errors.categoria) { %>
+                            <p class="error-text"><%= errors.categoria.msg %></p>
+                        <% } %>
+                    </div>
     
         
                     <div class="campo">

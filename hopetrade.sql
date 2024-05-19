@@ -62,7 +62,7 @@ COLLATE=utf8mb4_general_ci;
 
 
 INSERT INTO hopetrade.usuario VALUES 
-(default, "2013", "walter", "white", "breaking@bad.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2006-05-15", DEFAULT, NULL);
+(default, "20134567", "walter", "white", "breaking@bad.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2006-05-15", DEFAULT, NULL);
 
 
 
@@ -87,7 +87,7 @@ COLLATE=utf8mb4_general_ci;
 
 
 INSERT INTO hopetrade.voluntario VALUES 
-(default, "jorge", "curioso", "george@curious.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", 1, DEFAULT, NULL);
+(default, "jorge", "perez", "george@perez.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", 1, DEFAULT, NULL);
 
 
 
@@ -110,7 +110,7 @@ COLLATE=utf8mb4_general_ci;
 
 
 INSERT INTO hopetrade.representante VALUES 
-(default, "macri", "miau", "macri@gato.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", DEFAULT, NULL);
+(default, "Mario", "Caritas", "mario@caritas.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", DEFAULT, NULL);
 
 
 
@@ -120,6 +120,7 @@ CREATE TABLE hopetrade.publicacion (
 	id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	nombre VARCHAR(50) NOT NULL,
 	descripcion TEXT NOT NULL,
+	categoria TEXT NOT NULL, -- BORRAR CUANDO SE AGREGUEN BIEN LAS CATEGORIAS, SI ES QUE EN ALGUN MOMENTO SE HACEN
     url_foto TEXT NOT NULL,
     -- categoria_id INT(10) UNSIGNED NOT NULL,
     usuario_id INT(10) UNSIGNED NOT NULL,

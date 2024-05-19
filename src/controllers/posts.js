@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const { Op } = require('sequelize');
 const Publicacion = require("../database/models/Publicacion");
 const Usuario = require("../database/models/Usuario");
+const { canTreatArrayAsAnd } = require("sequelize/lib/utils");
 
 
 
@@ -22,7 +23,7 @@ const controlador = {
     },
     addProccess: async (req, res) => {
         const result = validationResult(req);
-        const {nombre, descripcion} = req.body;
+        const {nombre, descripcion, categoria} = req.body;
         const fs = require('fs')
 
         if(result.errors.length > 0){
@@ -38,7 +39,8 @@ const controlador = {
             nombre: nombre,
             descripcion: descripcion,
             url_foto: req.file.filename,
-            usuario_id: req.session.usuario.id
+            usuario_id: req.session.usuario.id,
+            categoria: categoria
         })
 
         res.redirect("/profile/myPosts")

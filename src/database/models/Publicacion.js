@@ -19,6 +19,10 @@ let cols = {
         type: DataTypes.TEXT,
         allowNull: false,
     },
+    categoria: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
     url_foto: {
         type: DataTypes.TEXT,
         allowNull: false
