@@ -3,25 +3,43 @@
 <head>
     <%- include("./partials/head") %>
     <link rel="stylesheet" href="/css/home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>HopeTrade</title>
 </head>
-<body style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+<body>
     <%- include("./partials/nav") %>
 
     <main>
-        <h1>hola rey</h1>
-        <% if (locals.usuario) { %>
-            <p><%= usuario.nombre  %></p>
-            <p><%= usuario.apellido  %></p>
-            <p><%= usuario.dni  %></p>
-            <p><%= console.log(usuario)  %></p>
-            <p><%= usuario.mail  %></p>
-            <p><%= usuario.telefono  %></p>
-            <p><%= usuario.rol  %></p>
-        <% } else { %>
-            <p>no hay nadie</p>
-            <% } %>
-            <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1skjn5O4IWcCFh6X9CIo8CPe5DXuhWx0&ehbc=2E312F&noprof=1" width="640" height="480";> </iframe>
+        <div class="img-container">
+            <img src="/images/logo/bg-index.png">
+
+            <div class="img-txt-container">
+                <h1>¿Quienes somos?</h1>
+                <p>Caritas Hope Trade es una organización dedicada a fomentar la solidaridad y el comercio justo a través de una plataforma accesible y amigable. Nuestra web permite a personas de todas partes donar y recibir artículos esenciales, especialmente electrodomésticos, ayudando a quienes más lo necesitan</p>
+            </div>
+        </div>
+
+        <div class="map">
+            <div class="txt-container">
+                <div class="title-container">
+                    <h2>¿Donde encontrarnos?</h1>
+                    <p>¡En el mapa puedes ver las ubicaciones de nuestras filiales!</p>
+                </div>
+                
+
+                <div class="filiales">
+                    <p class="filial">- Caritas Esperanza en  <strong>6 y 55</strong></p>
+                    <p class="filial">- Caritas Las Quintas en  <strong>12 y 43</strong></p>
+                    <p class="filial">- Caritas LP en  <strong>116 y 66</strong></p>
+                    <p class="filial">- Caritas Solidaridad en  <strong>26 y 47</strong></p>
+                    <p class="filial">- Caritas Tolosa en  <strong>4 y 526</strong></p>
+                </div>
+            </div>
+    
+            <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1skjn5O4IWcCFh6X9CIo8CPe5DXuhWx0&ehbc=2E312F&noprof=1"> </iframe>    
+        </div>
     </main>
     <%- include("./partials/footer") %>
 

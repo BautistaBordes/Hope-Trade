@@ -10,10 +10,10 @@ footer {
 .footer {
     display: flex;
     width: 100%;
-    height: 150px;
+    height: 180px;
     justify-content: center;
     align-items: center;
-    background-color: #abb444;
+    background-color: #92b268;
     font-family: "Montserrat", Sans-serif;
     color: rgb(249, 249, 249);
 }
@@ -23,4 +23,23 @@ footer {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    width: 80%;
+}
+.footer-links { 
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
+    justify-content: space-around;
+}
+
+
+.footer-links a {
+    color: white;
+}
+footer .info {
+    margin-bottom: 0;
+}
+
+.dev {
+    font-size: 13px;
 }
