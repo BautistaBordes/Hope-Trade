@@ -1,17 +1,25 @@
 <nav class="nav">
-   <div class="nav-container">
-        <a href="/">
-            <img src="/images/logo/logo_hopetrade_xl.png"> 
-        </a>
-        <div class="container-links">
-            <% if (locals.nombre) { %>
-                <a href="/logout">Cerrar Sesion</a>
-                <a href="/profile">Mi Perfil</a>
-            <% } else  {%>
-                <a href="/login">Iniciar Sesion</a>
-                <a href="/register">Crear Cuenta</a>
-            <% } %>
-            <a href="/donar">Donar</a>
-        </div>
-   </div>
-</nav>
+    <div class="nav-container">
+         <a href="/">
+             <img src="/images/logo/logo_hopetrade_xl.png"> 
+         </a>
+         <%  if (locals.usuario)  {%>
+             <div class="container-links" style="width: 450px !important;">
+                 <a href="/posts">Publicaciones</a>
+                 <a href="/profile">Mi Perfil</a>
+                 <a href="/logout">Cerrar Sesion</a>
+                 <a href="/">Donar</a>
+             </div>
+         <% } else { %>
+             <div class="container-links">
+                 <a href="/login">Iniciar Sesion</a>
+                 <a href="/register">Crear Cuenta</a>
+                 <a href="/login">Donar</a>
+             </div>
+         <% }  %>
+ 
+ 
+    </div>
+ 
+ 
+ </nav>

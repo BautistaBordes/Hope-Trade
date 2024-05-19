@@ -2,23 +2,60 @@
 <html lang="en">
 <head>
     <%- include("./partials/head") %>
+    <link rel="stylesheet" href="/css/forms.css">
     <title>Iniciar Sesion</title>
 </head>
 <body>
     <%- include("./partials/nav") %>
     <main>
-        <h1>hola</h1>
-        <div>
-            <form action="/login"  method="POST">
-                <input type="text" placeholder="nombre" name="nombre" required>
-                <input type="text" placeholder="precio" name="precio" required>
-                <input type="text" placeholder="plataformas" name="plataformas" required>
-                <button type="submit">agregar</button>
-                <% if (locals.info !== undefined)  { %>
-                   <p> <%= info %>
+        <div class="container">
+
+            <div class="container-form">
+
+                <h1>¡Bienvenido de nuevo!</h1>
+
+                <% if (locals.msgError) { %>
+                    <p class="error-text" style="text-align: center; margin-bottom: 25px;"><%= msgError %></p>
+
                 <% } %>
-            </form>
+
+                <form action="/login"  method="POST">
+    
+                    <div class="campo">
+                        <label for="dni_mail">DNI / Correo</label>
+                        <input type="text" id="dni_mail" name="dni_mail" placeholder="45988352 / ejemplo@gmal.com" value="<%= locals.oldData ? oldData.dni_mail : null %>">
+                        <% if (locals.errors && errors.dni_mail ) { %>
+                            <p class="error-text"><%= errors.dni_mail.msg %></p>
+                        <% } %>
+                    </div>
+    
+                    <div class="campo">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" name="password" placeholder="*******" value="<%= locals.oldData ? oldData.password : null %>">
+                        <% if (locals.errors && errors.password ) { %>
+                            <p class="error-text"><%= errors.password.msg %></p>
+                        <% } %>
+                    </div>
+    
+
+                    <div style="display: flex; align-items: center; justify-content: center">
+                        <p>¿Sos nuevo? Crea una cuenta <a href="/register" style="color: black;">Aquí</a></p> 
+                    </div>
+                     <div class="btn-container">
+                        <button class="btn cancelar" onclick="borrar()" type="button" id="reiniciar" >Cancelar</button>
+                        <button class="btn enviar" type="submit">Aceptar</button>
+                     </div>
+                </form>
+            </div>
         </div>
+
+
     </main>
 </body>
+<script>
+    function borrar() {
+        document.getElementById("dni_mail").value = "";
+        document.getElementById("password").value = "";
+    }
+</script>
 </html>

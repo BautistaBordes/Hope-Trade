@@ -1,0 +1,40 @@
+<div class="panel">
+    <div class="container-img">
+        <img src="/images/logo/logo_hopetrade_notext.png" alt="logo">
+    </div>
+    <div class="container-panel">
+        <div class="container-actions">
+        <% if (locals.usuario.rol == "representante") {%>
+            <div class="actions">
+                <a href="/controlPanel/registerVoluntario" class="action">Agregar Voluntario</a>
+            </div>
+
+            <div class="actions">
+                <a href="/controlPanel/registerRepresentante" class="action">Agregar Representante</a>
+            </div>
+
+
+            <div class="actions">
+                <a href="/controlPanel/changeFilial" class="action">Cambiar Filial</a>
+            </div>
+        <% } else {%>
+            <div class="actions">
+                <a href="/" class="action">Ver intercambios</a>
+            </div>
+        <% } %>
+
+        </div>
+
+
+
+        <div class="config">
+            <a href="/profile/changePassword">Cambiar contraseña</a>
+            <div class="logout">
+                <a href="/logout">Cerrar sesion</a>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

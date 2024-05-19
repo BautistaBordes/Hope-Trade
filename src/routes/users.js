@@ -2,15 +2,27 @@ const express = require('express');
 const router = express.Router();
 const usersController = require("../controllers/users");
 
+//con esto controlas si alguien es usuario sin registrar o registrado
 const authMiddleware = require("../middlewares/authMiddleware");
 const guestMiddleware = require("../middlewares/guestMiddleware");
 
-router.get('/login',  guestMiddleware, usersController.login);
-router.get('/register', guestMiddleware, usersController.register);
-router.post('/login', guestMiddleware, usersController.loginProcess)
-router.get('/logout', authMiddleware, usersController.logout)
+//con esto podes decir que validaciones hace cada ruta
+const validationsRegister = require('../middlewares/validations/validationsRegister');
+const validationsLogin = require('../middlewares/validations/validationsLogin');
+const profileController = require('../controllers/profile');
 
-router.get('/profile',  authMiddleware);
+
+// ----- rutas -----
+router.get('/login',  guestMiddleware, usersController.login);
+router.post('/login', guestMiddleware, validationsLogin, usersController.loginProcess);
+
+router.get('/register', guestMiddleware, usersController.register);
+router.post('/register', guestMiddleware, validationsRegister, usersController.registerProcess);
+
+
+
+router.get('/logout', authMiddleware, usersController.logout);
+
 
 
 

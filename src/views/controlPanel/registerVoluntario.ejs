@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <title>Registrar Voluntario</title>
+</head>
+<body>
+    <main>
+        <div class="container">
+
+            <div class="container-form">
+                <a href="/controlPanel">Volver al panel</a>
+                
+                <h1>Por favor ingrese los datos para registrar un Voluntario</h1>
+
+                <% if (locals.operacion) { %>
+                    <p class="correct-text" style="text-align: center; margin-bottom: 25px;">Voluntario agregado correctamente</p>
+                <% } %>
+
+                <% if (locals.msgError) { %>
+                    <p class="error-text" style="text-align: center; margin-bottom: 25px;"><%= msgError %></p>
+                <% } %>
+
+                
+                <form action="/controlPanel/registerVoluntario"  method="POST">
+                    
+                    <div class="container-campo">
+                        <div class="campo">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Martin" value="<%= locals.oldData ? oldData.nombre : null %>" >
+                            <% if (locals.errors && errors.nombre) { %>
+                                <p class="error-text"><%= errors.nombre.msg %></p>
+                            <% } %>
+
+                        </div>
+                        <div class="campo">
+                            <label for="apellido">Apellido</label>
+                            <input type="text" id="apellido" name="apellido" placeholder="Di Salvo"  value="<%= locals.oldData ? oldData.apellido : null %>">
+                            <% if (locals.errors && errors.apellido) { %>
+                                <p class="error-text"><%= errors.apellido.msg %></p>
+                            <% } %>
+                        </div>
+
+
+                    </div>                    
+                    <div class="campo">
+                        <label for="mail">Correo</label>
+                        <input type="text" id="mail" name="mail" placeholder="ejemplo@gmail.com" value="<%= locals.oldData ? oldData.mail : null %>" >
+                        <% if (locals.errors && errors.mail ) { %>
+                            <p class="error-text"><%= errors.mail.msg %></p>
+                        <% } %>    
+                    </div>
+                    <div class="campo">
+                        <label for="filial">Filial</label>
+
+                        <select id="filial" name="filial">
+                            <option <%= !locals.oldData || oldData.filial == undefined  ? "selected" : ""; %> value="" disabled>
+                                Elegir Filial
+                            </option>
+                            <% filiales.forEach(filial => { %>
+                                <option <%= locals.oldData && oldData.filial == filial.id ? "selected" : ""; %> value="<%=filial.id%>">
+                                    <%=filial.nombre%>
+                                </option>
+                            <% }) %>  
+                        </select>   
+                        <% if (locals.errors && errors.filial ) { %>
+                            <p class="error-text"><%= errors.filial.msg %></p>
+                        <% } %>    
+                    </div>
+    
+                    <div class="btn-container">
+                        <button class="btn cancelar" onclick="borrar()" type="button">Cancelar</button>
+                        <button class="btn enviar" type="submit">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+<script>
+    function borrar() {
+        document.getElementById("nombre").value = "";
+        document.getElementById("apellido").value = "";
+        document.getElementById("mail").value = "";
+
+    }
+</script>
+</html>
