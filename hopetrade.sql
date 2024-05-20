@@ -10,12 +10,26 @@ CREATE TABLE hopetrade.categoria (
 	id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	nombre VARCHAR(50) NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	deleted_at TIMESTAMP NULL DEFAULT NULL,
     CONSTRAINT categoria_PK PRIMARY KEY (id)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
+
+
+INSERT INTO hopetrade.categoria (nombre) VALUES
+("Electrónica y Tecnología"),
+("Electrodomésticos"),
+("Muebles y Decoración"),
+("Ropa y Accesorios"),
+("Juguetes y Juegos"),
+("Libros, Música y Películas"),
+("Deportes"),
+("Automóviles y Accesorios"),
+("Hogar y Jardín"),
+("Salud y Belleza"),
+("Infantil y Bebé"),
+("Arte y Artesanías");
 
 
 
@@ -33,10 +47,12 @@ DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
 
 
-INSERT INTO hopetrade.filial VALUES 
-(DEFAULT, "Caritas Esperanza", "6 y 55", DEFAULT), (DEFAULT, "Caritas Las Quintas", "12 y 43", DEFAULT),
-(DEFAULT, "Caritas LP", "116 y 66", DEFAULT), (DEFAULT, "Caritas Solidaridad", "26 y 47", DEFAULT),
-(DEFAULT, "Caritas Tolosa", "4 y 526", DEFAULT);
+INSERT INTO hopetrade.filial (nombre, direccion) VALUES 
+("Caritas Esperanza", "6 y 55"),
+("Caritas Las Quintas", "12 y 43"),
+("Caritas LP", "116 y 66"),
+("Caritas Solidaridad", "26 y 47"),
+("Caritas Tolosa", "4 y 526");
 
 
 
@@ -61,8 +77,8 @@ DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
 
 
-INSERT INTO hopetrade.usuario VALUES 
-(default, "20134567", "walter", "white", "breaking@bad.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2006-05-15", DEFAULT, NULL);
+INSERT INTO hopetrade.usuario (dni, nombre, apellido, mail, password, telefono, fecha_nacimiento) VALUES 
+("20134567", "walter", "white", "breaking@bad.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2006-05-15");
 
 
 
@@ -86,8 +102,8 @@ DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
 
 
-INSERT INTO hopetrade.voluntario VALUES 
-(default, "jorge", "perez", "george@perez.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", 1, DEFAULT, NULL);
+INSERT INTO hopetrade.voluntario (nombre, apellido, mail, password, filial_id)  VALUES 
+("jorge", "perez", "george@perez.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", 1);
 
 
 
@@ -109,8 +125,8 @@ DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
 
 
-INSERT INTO hopetrade.representante VALUES 
-(default, "Mario", "Caritas", "mario@caritas.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", DEFAULT, NULL);
+INSERT INTO hopetrade.representante (nombre, apellido, mail, password)  VALUES 
+("Mario", "Caritas", "mario@caritas.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK");
 
 
 
@@ -120,15 +136,14 @@ CREATE TABLE hopetrade.publicacion (
 	id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	nombre VARCHAR(50) NOT NULL,
 	descripcion TEXT NOT NULL,
-	categoria TEXT NOT NULL, -- BORRAR CUANDO SE AGREGUEN BIEN LAS CATEGORIAS, SI ES QUE EN ALGUN MOMENTO SE HACEN
     url_foto TEXT NOT NULL,
-    -- categoria_id INT(10) UNSIGNED NOT NULL,
+    categoria_id INT(10) UNSIGNED NOT NULL,
     usuario_id INT(10) UNSIGNED NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP NULL DEFAULT NULL,
 	deleted_at TIMESTAMP NULL DEFAULT NULL,
     CONSTRAINT publicacion_PK PRIMARY KEY (id),
-	-- CONSTRAINT publicacion_FK FOREIGN KEY (categoria_id) REFERENCES hopetrade.categoria(id),
+	CONSTRAINT publicacion_FK FOREIGN KEY (categoria_id) REFERENCES hopetrade.categoria(id),
     CONSTRAINT publicacion_FK_1 FOREIGN KEY (usuario_id) REFERENCES hopetrade.usuario(id)
 )
 ENGINE=InnoDB
