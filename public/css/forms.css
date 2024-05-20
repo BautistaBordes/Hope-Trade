@@ -104,6 +104,9 @@ input:focus,textarea:focus {
 .cancelar {
     background-color: rgb(251 56 56 / 88%);
     color: white;
+    width: 38%;
+    text-align: center;
+    text-decoration: none;
 }
 .cancelar:hover {
     background-color: rgba(245, 109, 109, 0.95);
