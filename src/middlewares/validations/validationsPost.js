@@ -40,10 +40,10 @@ const validationsPost = [
     
 
     body("descripcion").trim()
-    .notEmpty().withMessage("No puede estar vacio").bail(),
+    .notEmpty().withMessage("No puede estar vacio"),
 
-    body("categoria").trim()
-    .notEmpty().withMessage("No puede estar vacio").bail(),
+    body("categoria")
+    .notEmpty().withMessage("Debe seleccionar una categoria"),
 
     body("foto")
     .custom((value, {req}) => {

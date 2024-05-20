@@ -2,14 +2,14 @@ const { validationResult } = require("express-validator");
 const { Op } = require('sequelize');
 const Publicacion = require("../database/models/Publicacion");
 const Usuario = require("../database/models/Usuario");
-const { canTreatArrayAsAnd } = require("sequelize/lib/utils");
+const Categoria = require("../database/models/Categoria");
 
 
 
 
 const controlador = {
     index: async (req, res) => {
-        const publicaciones = await Publicacion.findAll({ include: Usuario, where: {
+        const publicaciones = await Publicacion.findAll({ include: [Usuario,Categoria], where: {
             usuario_id: {
                 [Op.ne]: req.session.usuario.id
             }
@@ -18,11 +18,13 @@ const controlador = {
             publicaciones: publicaciones, title: "Publicaciones"
         });
     },
-    add: (req, res) => {
-        res.render("posts/add");
+    add: async (req, res) => {
+        const categories = await Categoria.findAll();
+        res.render("posts/add", {categorias: categories});
     },
     addProccess: async (req, res) => {
         const result = validationResult(req);
+        const categories = await Categoria.findAll();
         const {nombre, descripcion, categoria} = req.body;
         const fs = require('fs')
 
@@ -31,7 +33,8 @@ const controlador = {
             if(req.file) fs.unlinkSync(req.file.path);
             return res.render("posts/add", {
                 errors: result.mapped(),
-                oldData: req.body
+                oldData: req.body,
+                categorias: categories
             });
         }
         
