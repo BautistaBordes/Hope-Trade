@@ -32,14 +32,28 @@
                         <% } %>
                     </div>
                     
-                    <div class="campo">
-                        <label for="categoria">Categoria</label>
-                        <input type="text" id="categoria" name="categoria" placeholder="Instrumentos" value="<%= locals.oldData ? oldData.categoria : null %>" >
-                        <% if (locals.errors && errors.categoria) { %>
-                            <p class="error-text"><%= errors.categoria.msg %></p>
-                        <% } %>
-                    </div>
     
+                    <div class="campo" >
+                        <label for="categoria">Categoria</label>
+                        <div id="select_container" >
+                            <i id="flechita" class="fa-solid fa-caret-down"></i>
+                            <select id="categoria" name="categoria">
+                                <option <%= !locals.oldData || oldData.categoria == undefined  ? "selected" : ""; %> value="" disabled>
+                                    Elegir Categoria
+                                </option>
+                                <% categorias.forEach(categoria => { %>
+                                    <option <%= locals.oldData && oldData.categoria == categoria.id ? "selected" : ""; %> value="<%=categoria.id%>">
+                                        <%=categoria.nombre%>
+                                    </option>
+                                <% }) %>  
+                            </select>   
+                        </div>
+
+                        <% if (locals.errors && errors.categoria ) { %>
+                            <p class="error-text"><%= errors.categoria.msg %></p>
+                        <% } %>    
+                    </div>
+
         
                     <div class="campo">
                         <label for="foto">Foto</label>

@@ -31,21 +31,22 @@
                             <p class="error-text"><%= errors.mail.msg %></p>
                         <% } %>    
                     </div>
-                    <div class="campo" id="select_filiales">
+                    <div class="campo" >
                         <label for="filial">Filial</label>
-
-                        <i id="flechita" class="fa-solid fa-caret-down"></i>
-
-                        <select id="filial" name="filial">
-                            <option <%= !locals.oldData || oldData.filial == undefined  ? "selected" : ""; %> value="" disabled>
-                                Elegir Filial
-                            </option>
-                            <% filiales.forEach(filial => { %>
-                                <option <%= locals.oldData && oldData.filial == filial.id ? "selected" : ""; %> value="<%=filial.id%>">
-                                    <%=filial.nombre%>
+                        <div id="select_container">
+                            <i id="flechita" class="fa-solid fa-caret-down"></i>
+                            <select id="filial" name="filial">
+                                <option <%= !locals.oldData || oldData.filial == undefined  ? "selected" : ""; %> value="" disabled>
+                                    Elegir Filial
                                 </option>
-                            <% }) %>  
-                        </select>   
+                                <% filiales.forEach(filial => { %>
+                                    <option <%= locals.oldData && oldData.filial == filial.id ? "selected" : ""; %> value="<%=filial.id%>">
+                                        <%=filial.id%> - <%=filial.nombre%>
+                                    </option>
+                                <% }) %>  
+                            </select>   
+                        </div>
+
                         <% if (locals.errors && errors.filial ) { %>
                             <p class="error-text"><%= errors.filial.msg %></p>
                         <% } %>    
