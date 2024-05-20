@@ -60,7 +60,12 @@ const controlador ={
                 }
             }
             );
-            res.redirect(redirect)
+            //literalmente arriba tenes el objeto sesion del usuario (q viaja en todas las reqs cuanda inicias sesion)
+            //viaja tambien la contraseña (hasheada) asi q queda la vieja, podria ser actualizar el objeto o directamente salir de la sesion
+            // redirigis al login (cuestiones de seguridad (?)
+            //res.redirect(redirect)
+            req.session.destroy();
+            res.redirect("/login");
         } catch (error) {
             console.log(error)
         }   

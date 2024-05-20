@@ -5,6 +5,7 @@ const Representante = require('../database/models/Representante')
 const Filial = require('../database/models/Filial')
 const nodemailer = require('nodemailer');
 const { Op } = require('sequelize');
+const passGoogle = require('../../authGoogle')
 
 // Configuración del transporte
 const transporter = nodemailer.createTransport({
@@ -13,7 +14,7 @@ const transporter = nodemailer.createTransport({
     secure: false, 
     auth: {
       user: "hopetrade.lp@gmail.com",
-      pass: "awdb agis pgcv ghtu",
+      pass: passGoogle,
     },
   });
   
