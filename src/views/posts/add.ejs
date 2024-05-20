@@ -11,9 +11,6 @@
 
             <div class="container-form">
 
-                <div style="margin-bottom: 20px;">
-                    <a href="/posts" style="text-decoration: none; color: black;">volver</a>
-                </div>
                 <h1>Formulario para subir publicacion</h1>
 
                 
@@ -37,7 +34,7 @@
                     
                     <div class="campo">
                         <label for="categoria">Categoria</label>
-                        <textarea  id="categoria" name="categoria" placeholder="Instrumentos"><%= locals.oldData ? oldData.categoria : null %></textarea>
+                        <input type="text" id="categoria" name="categoria" placeholder="Instrumentos" value="<%= locals.oldData ? oldData.categoria : null %>" >
                         <% if (locals.errors && errors.categoria) { %>
                             <p class="error-text"><%= errors.categoria.msg %></p>
                         <% } %>
@@ -56,7 +53,7 @@
 
     
                     <div class="btn-container">
-                        <button class="btn cancelar" onclick="borrar()" type="button">Cancelar</button>
+                        <a class="btn cancelar" href="/posts">Cancelar</a>
                         <button class="btn enviar" type="submit">Aceptar</button>
                     </div>
                 </form>
@@ -64,10 +61,5 @@
         </div>
     </main>
 </body>
-<script>
-    function borrar() {
-        document.getElementById("nombre").value = "";
-        document.getElementById("descripcion").value = "";
-    }
 </script>
 </html>

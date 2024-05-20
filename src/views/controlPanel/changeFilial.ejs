@@ -31,8 +31,10 @@
                             <p class="error-text"><%= errors.mail.msg %></p>
                         <% } %>    
                     </div>
-                    <div class="campo">
+                    <div class="campo" id="select_filiales">
                         <label for="filial">Filial</label>
+
+                        <i id="flechita" class="fa-solid fa-caret-down"></i>
 
                         <select id="filial" name="filial">
                             <option <%= !locals.oldData || oldData.filial == undefined  ? "selected" : ""; %> value="" disabled>

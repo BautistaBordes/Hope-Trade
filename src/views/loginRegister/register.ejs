@@ -60,9 +60,12 @@
                         <% } %>    
                     </div>
                     
-                    <div class="campo">
+                    <div class="campo" id="toggle-psw">
                         <label for="password">Contraseña</label>
-                        <input type="password" id="password" name="password" placeholder="*******" value="<%= locals.oldData ? oldData.password : null %>">
+                        <div id="toggle-psw">
+                            <i  onclick="togglePsw('eye-psw','password')" style="cursor: pointer;"  id="eye-psw"  class="fa-regular fa-eye"></i>
+                            <input  type="password" id="password" name="password" placeholder="*******" value="<%= locals.oldData ? oldData.password : null %>">
+                        </div>
                         <% if (locals.errors && errors.password ) { %>
                             <p class="error-text"><%= errors.password.msg %></p>
                         <% } %>
@@ -101,4 +104,20 @@
     </main>
 
 </body>
+<script>
+    const togglePsw = (iconid, inputid) => {
+        let eye = document.getElementById(iconid);
+        let psw = document.getElementById(inputid);
+
+        if( eye.classList[1] === 'fa-eye') {
+            eye.classList.remove('fa-eye')
+            eye.classList.add('fa-eye-slash')
+            psw.type = "text"
+        } else {
+            eye.classList.remove('fa-eye-slash')
+            eye.classList.add('fa-eye')
+            psw.type = "password"
+        }
+    }
+</script>
 </html>
