@@ -9,7 +9,7 @@ const Categoria = require("../database/models/Categoria");
 
 const controlador = {
     index: async (req, res) => {
-        const publicaciones = await Publicacion.findAll({ include: [Usuario,Categoria], where: {
+        const publicaciones = await Publicacion.findAll({ include: [Usuario, Categoria] , where: {
             usuario_id: {
                 [Op.ne]: req.session.usuario.id
             }
@@ -43,7 +43,7 @@ const controlador = {
             descripcion: descripcion,
             url_foto: req.file.filename,
             usuario_id: req.session.usuario.id,
-            categoria: categoria
+            categoria_id: categoria
         })
 
         res.redirect("/profile/myPosts")

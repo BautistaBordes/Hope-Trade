@@ -5,6 +5,7 @@ const Voluntario = require('../database/models/Voluntario')
 const { Op } = require('sequelize');
 const { validationResult } = require("express-validator")
 const bcrypt = require('bcryptjs');
+const Categoria = require("../database/models/Categoria");
 
 const controlador ={
     profile: (req, res) => {
@@ -12,7 +13,7 @@ const controlador ={
     },
 
     myPost: async (req, res) => {
-        const publicaciones = await Publicacion.findAll( { include: Usuario, where: {
+        const publicaciones = await Publicacion.findAll( { include: [Usuario, Categoria], where: {
             usuario_id: {
                 [Op.eq]: req.session.usuario.id
             }

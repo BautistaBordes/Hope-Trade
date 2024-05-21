@@ -69,9 +69,10 @@ main {
     height: 50%;
 }
 
-img {
+.image img {
     width: 100%;
     height: 100%;
+    outline: 1px solid black;
 }
 
 .info {
