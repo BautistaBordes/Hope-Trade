@@ -40,7 +40,7 @@ let cols = {
 let config = {
     createdAt: 'created_at',
     updatedAt: false,
-    tableName: "filial"
+    tableName: "oferta"
 }
 
 const Oferta = sequelize.define(alias, cols, config);

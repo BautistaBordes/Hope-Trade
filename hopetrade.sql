@@ -18,6 +18,7 @@ COLLATE=utf8mb4_general_ci;
 
 
 INSERT INTO hopetrade.categoria (nombre) VALUES
+("Instrumentos musicales"),
 ("Electrónica y Tecnología"),
 ("Electrodomésticos"),
 ("Muebles y Decoración"),
@@ -82,6 +83,8 @@ COLLATE=utf8mb4_general_ci;
 INSERT INTO hopetrade.usuario (dni, nombre, apellido, mail, password, telefono, fecha_nacimiento) VALUES 
 ("20134567", "walter", "white", "breaking@bad.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2006-05-15");
 
+INSERT INTO hopetrade.usuario (dni, nombre, apellido, mail, password, telefono, fecha_nacimiento) VALUES 
+("23423424", "Maximo", "Cosseti", "tortuga@maritima.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2006-05-15");
 
 
 DROP TABLE IF EXISTS hopetrade.voluntario;
@@ -151,6 +154,9 @@ CREATE TABLE hopetrade.publicacion (
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO hopetrade.publicacion (nombre, descripcion, url_foto, categoria_id, usuario_id)  VALUES 
+("sticker", "sticker de vinilo", "product-1716700162786.png", 2, 2);
 
 
 

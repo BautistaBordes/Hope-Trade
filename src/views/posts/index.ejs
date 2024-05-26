@@ -11,9 +11,8 @@
         <div class="container">
                 <div class="actions">
                     <a class="btn" href="/posts/add"> Publicar</a>
-                    <% if (title != "Mis publicaciones") { %>
-                    <a class="btn" href="/posts"> General</a>
-                    <% } %>
+                    <p style="margin: 0;"> <%= title  %></p>
+        
                 </div>
 
             <div class="container-posts">
@@ -21,7 +20,7 @@
                 <% if (publicaciones.length > 0) { %>
                     <% publicaciones.forEach(publicacion => { %>
                         <div class="card-post">
-                            <a class="card-post-link">
+                            <a href="/posts/<%=publicacion.id %>" class="card-post-link">
                                 <div class="image">
                                     <img src="/publicaciones/<%=publicacion.url_foto %>" alt="foto">
                                 </div>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <link rel="stylesheet" href="/css/posts.css">
+    <title><%= publicacion.nombre  %></title>
+</head>
+<body>
+    <%- include("./partials/nav") %>
+    <main>
+        <div class="product-card">
+            <img src="/publicaciones/<%=publicacion.url_foto %>" alt="Imagen del producto" class="product-image">
+            <h2 class="nombre"><%=publicacion.nombre %></h2>
+            
+            <%if (publicacion.usuario_id != locals.usuario.id) { %>
+                <a href="/offers/<%=publicacion.id %>" class="offer-button">Realizar Oferta</a>
+            <%}%>
+            
+        </div>
+          
+    </main>
+    <%- include("./partials/footer") %>
+</body>
+</html>

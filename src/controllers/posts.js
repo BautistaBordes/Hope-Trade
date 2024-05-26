@@ -47,6 +47,17 @@ const controlador = {
         })
 
         res.redirect("/profile/myPosts")
+    },
+    detailPost: async(req, res) =>{
+        const id = req.params.id;
+        
+        const publicacion = await Publicacion.findOne({ include: [Usuario, Categoria] , where: {
+            id: id
+        }});
+
+        res.render("posts/detail", {
+            publicacion: publicacion
+        })
     }
 
 }

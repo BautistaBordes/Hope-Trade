@@ -149,3 +149,9 @@ input:focus,textarea:focus,select:focus {
     bottom: 8px;
     right: 8px;
 }
+
+.title-offer{
+    text-align: center;
+    line-height: 7px;
+    margin-bottom: 40px;
+}

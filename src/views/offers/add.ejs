@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <title>Hacer oferta a <%=publicacion.nombre%></title>
+</head>
+<body>
+    <main>
+        <div class="container">
+
+            <div class="container-form">
+                <div class="title-offer">
+                    <p>Vas a realizar una oferta a <strong><%=publicacion.Usuario.nombre%></strong></p>
+                    <p>por la publicacion <strong><%=publicacion.nombre%></strong></p>
+                </div>               
+
+                
+                <form action="/offers/<%=publicacion.id %>"  method="POST" enctype="multipart/form-data">
+                    
+                    <div class="campo">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Lavarropas Dream 20kg" value="<%= locals.oldData ? oldData.nombre : null %>" >
+                        <% if (locals.errors && errors.nombre) { %>
+                            <p class="error-text"><%= errors.nombre.msg %></p>
+                        <% } %>
+
+                    </div>
+                    <div class="campo">
+                        <label for="descripcion">Descripcion</label>
+                        <textarea  id="descripcion" name="descripcion" placeholder="Descripcion extendida..."><%= locals.oldData ? oldData.descripcion : null %></textarea>
+                        <% if (locals.errors && errors.descripcion) { %>
+                            <p class="error-text"><%= errors.descripcion.msg %></p>
+                        <% } %>
+                    </div>
+                    
+    
+                    <div class="campo" >
+                        <label for="categoria">Categoria</label>
+                        <div id="select_container" >
+                            <i id="flechita" class="fa-solid fa-caret-down"></i>
+                            <select id="categoria" name="categoria">
+                                <option <%= !locals.oldData || oldData.categoria == undefined  ? "selected" : ""; %> value="" disabled>
+                                    Elegir Categoria
+                                </option>
+                                <% categorias.forEach(categoria => { %>
+                                    <option <%= locals.oldData && oldData.categoria == categoria.id ? "selected" : ""; %> value="<%=categoria.id%>">
+                                        <%=categoria.nombre%>
+                                    </option>
+                                <% }) %>  
+                            </select>   
+                        </div>
+
+                        <% if (locals.errors && errors.categoria ) { %>
+                            <p class="error-text"><%= errors.categoria.msg %></p>
+                        <% } %>    
+                    </div>
+                    
+                    <div class="campo" >
+                        <label for="filial">Filial</label>
+                        <div id="select_container">
+                            <i id="flechita" class="fa-solid fa-caret-down"></i>
+                            <select id="filial" name="filial">
+                                <option <%= !locals.oldData || oldData.filial == undefined  ? "selected" : ""; %> value="" disabled>
+                                    Elegir Filial
+                                </option>
+                                <% filiales.forEach(filial => { %>
+                                    <option <%= locals.oldData && oldData.filial == filial.id ? "selected" : ""; %> value="<%=filial.id%>">
+                                        <%=filial.nombre%> (<%=filial.direccion%>)
+                                    </option>
+                                <% }) %>  
+                            </select>   
+                        </div>
+
+                        <% if (locals.errors && errors.filial ) { %>
+                            <p class="error-text"><%= errors.filial.msg %></p>
+                        <% } %>    
+                    </div>
+
+                    <div class="container-campo">
+                        <div class="campo">
+                            <label for="fecha">Fecha</label>
+                            <input type="date" min="<%=hoy%>" max="2030-01-01" id="fecha" name="fecha" value="<%= locals.oldData ? oldData.fecha : null %>">
+                            <% if (locals.errors && errors.fecha ) { %>
+                                <p class="error-text"><%= errors.fecha.msg %></p>
+                            <% } %>
+                        </div>
+
+                        <div class="campo">
+                            <label for="hora">Hora</label>
+                            <input type="time" id="hora" name="hora" value="<%= locals.oldData ? oldData.hora : null %>">
+                            <% if (locals.errors && errors.hora ) { %>
+                                <p class="error-text"><%= errors.hora.msg %></p>
+                            <% } %>
+                        </div>
+                    </div>
+                    
+                    <div class="campo">
+                        <label for="foto">Foto de tu articulo</label>
+                        <input style="background-color: white;" type="file" id="foto" name="foto" value="<%= locals.oldData ? oldData.nombre : null %>">
+                        <% if (locals.errors && errors.foto) { %>
+                            <p class="error-text"><%= errors.foto.msg %></p>
+                        <% } %>
+                    </div>
+
+                    <div class="btn-container">
+                        <a class="btn cancelar" href="/posts/<%=publicacion.id %>">Cancelar</a>
+                        <button class="btn enviar" type="submit">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</script>
+</html>
