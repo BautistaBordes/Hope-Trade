@@ -11,6 +11,9 @@
         <div class="product-card">
             <img src="/publicaciones/<%=publicacion.url_foto %>" alt="Imagen del producto" class="product-image">
             <h2 class="nombre"><%=publicacion.nombre %></h2>
+            <h3 class="descripcion"><%=publicacion.descripcion %></h3>
+            <p class="categoria">Categoria: <%=publicacion.Categoria.nombre %></p>
+            <p class="usuario">Autor: <%=publicacion.Usuario.nombre %> <%=publicacion.Usuario.apellido %></p>
             
             <%if (publicacion.usuario_id != locals.usuario.id) { %>
                 <a href="/offers/<%=publicacion.id %>" class="offer-button">Realizar Oferta</a>
