@@ -39,6 +39,8 @@ CREATE TABLE hopetrade.filial (
     id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	nombre VARCHAR(50) NOT NULL,
     direccion VARCHAR(20) NOT NULL,
+	hora_apertura TIME NOT NULL,
+	hora_cierre TIME NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT filial_PK PRIMARY KEY (id)
 )
@@ -47,12 +49,12 @@ DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
 
 
-INSERT INTO hopetrade.filial (nombre, direccion) VALUES 
-("Caritas Esperanza", "6 y 55"),
-("Caritas Las Quintas", "12 y 43"),
-("Caritas LP", "116 y 66"),
-("Caritas Solidaridad", "26 y 47"),
-("Caritas Tolosa", "4 y 526");
+INSERT INTO hopetrade.filial (nombre, direccion, hora_apertura, hora_cierre) VALUES 
+("Caritas Esperanza", "6 y 55", "08:00:00", "20:00:00"),
+("Caritas Las Quintas", "12 y 43", "10:00:00", "19:30:00"),
+("Caritas LP", "116 y 66", "09:00:00", "19:00:00"),
+("Caritas Solidaridad", "26 y 47", "12:00:00", "18:30:00"),
+("Caritas Tolosa", "4 y 526", "08:30:00", "20:00:00");
 
 
 
@@ -145,6 +147,40 @@ CREATE TABLE hopetrade.publicacion (
     CONSTRAINT publicacion_PK PRIMARY KEY (id),
 	CONSTRAINT publicacion_FK FOREIGN KEY (categoria_id) REFERENCES hopetrade.categoria(id),
     CONSTRAINT publicacion_FK_1 FOREIGN KEY (usuario_id) REFERENCES hopetrade.usuario(id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
+
+
+DROP TABLE IF EXISTS hopetrade.oferta;
+
+CREATE TABLE hopetrade.oferta (
+	id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+
+	publicacion_id INT(10) UNSIGNED NOT NULL,
+
+	nombre VARCHAR(50) NOT NULL,
+	descripcion TEXT NOT NULL,
+    url_foto TEXT NOT NULL,
+	categoria_id INT(10) UNSIGNED NOT NULL,
+    usuario_id INT(10) UNSIGNED NOT NULL,
+
+	filial_id INT(10) UNSIGNED NOT NULL,
+	fecha DATE NOT NULL,	
+	hora TIME NOT NULL,
+
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP NULL DEFAULT NULL,
+	deleted_at TIMESTAMP NULL DEFAULT NULL,
+	
+	CONSTRAINT oferta_PK PRIMARY KEY (id),
+	CONSTRAINT oferta_FK FOREIGN KEY (publicacion_id) REFERENCES hopetrade.publicacion(id),
+	CONSTRAINT oferta_FK_1 FOREIGN KEY (categoria_id) REFERENCES hopetrade.categoria(id),
+    CONSTRAINT oferta_FK_2 FOREIGN KEY (usuario_id) REFERENCES hopetrade.usuario(id),
+	CONSTRAINT oferta_FK_3 FOREIGN KEY (filial_id) REFERENCES hopetrade.filial(id)
+
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4

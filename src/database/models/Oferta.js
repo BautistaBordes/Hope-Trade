@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../index');
 
 
-let alias = 'Filial'; // esto debería estar en singular
+let alias = 'Oferta'; // esto debería estar en singular
 
 let cols = {
     id: {
@@ -15,17 +15,25 @@ let cols = {
         type: DataTypes.STRING(50),
         allowNull: false
     },
-    direccion: {
+    descripcion: {
         type: DataTypes.TEXT,
         allowNull: false,
     },
-    hora_apertura: {
-        type: DataTypes.TIME,
-        allowNull: false,
+    url_foto: {
+        type: DataTypes.TEXT,
+        allowNull: false
     },
-    hora_cierre: {
+    fecha: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    hora: {
         type: DataTypes.TIME,
-        allowNull: false,
+        allowNull: false
+    },
+    deleted_at: {
+        type: DataTypes.DATE,
+        allowNull: true
     }
 };
 
@@ -35,6 +43,6 @@ let config = {
     tableName: "filial"
 }
 
-const Filial = sequelize.define(alias, cols, config);
+const Oferta = sequelize.define(alias, cols, config);
 
-module.exports = Filial;
+module.exports = Oferta;
