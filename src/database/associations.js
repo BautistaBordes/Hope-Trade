@@ -4,6 +4,7 @@ const Filial = require('./models/Filial')
 const Voluntario = require('./models/Voluntario')
 const Categoria = require('./models/Categoria')
 const Oferta = require('./models/Oferta')
+const Intercambio = require('./models/Intercambio')
 
 //A.belongsTo(B) el a tiene la FK
 //A.hasOne(B) el b tiene la FK
@@ -21,3 +22,6 @@ Oferta.belongsTo(Publicacion, {foreignKey: "publicacion_id"});
 Oferta.belongsTo(Categoria, {foreignKey: "categoria_id"});
 Oferta.belongsTo(Usuario, {foreignKey: "usuario_id"});
 Oferta.belongsTo(Filial, {foreignKey: "filial_id"});
+
+Intercambio.belongsTo(Publicacion, {foreignKey: "publicacion_id"}),
+Intercambio.belongsTo(Oferta, {foreignKey: "oferta_id"})

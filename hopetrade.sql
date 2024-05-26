@@ -185,3 +185,26 @@ CREATE TABLE hopetrade.oferta (
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
+
+
+
+DROP TABLE IF EXISTS hopetrade.intercambio;
+
+CREATE TABLE hopetrade.intercambio (
+	id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+
+	publicacion_id INT(10) UNSIGNED NOT NULL,
+	oferta_id INT(10) UNSIGNED NOT NULL,
+	
+	estado TEXT NOT NULL,
+
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP NULL DEFAULT NULL,
+	
+	CONSTRAINT intercambio_PK PRIMARY KEY (id),
+	CONSTRAINT intercambio_FK FOREIGN KEY (publicacion_id) REFERENCES hopetrade.publicacion(id),
+	CONSTRAINT intercambio_FK_1 FOREIGN KEY (oferta_id) REFERENCES hopetrade.oferta(id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
