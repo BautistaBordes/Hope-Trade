@@ -1,0 +1,121 @@
+.main {
+    font-family: Verdana, Tahoma, sans-serif;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 50px 0;
+}
+
+.container {
+    display: flex;
+    width: 1200px;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 20px;
+}
+
+.title-on-page {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.change-view {
+    width: 15%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn {
+    background-color: #abb444; /* Paleta de colores */
+    padding: 10px 15px;
+    border-radius: 2px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn:hover {
+    filter: opacity(0.8);
+}
+
+.container-offers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0px;
+    padding: 20px;
+}
+
+.card-offer {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 550px; /* Ancho aumentado */
+    display: flex;
+    flex-direction: column;
+    margin: 10px; /* Añade un margen para separarlas */
+}
+
+.card-offer-link {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+}
+
+.image-titles {
+    display: flex;
+    align-items: center;
+}
+
+.image {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.offer-image, .post-image {
+    width: 150px; /* Tamaño aumentado */
+    height: 150px; /* Tamaño aumentado */
+    object-fit: cover;
+}
+
+.titles {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 15px; /* Margen aumentado */
+}
+
+.offer-title, .post-title {
+    margin: 5px 0;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    line-height: 0;
+    text-align: right;    
+}
+
+.filial {
+    text-align: right;
+}
+
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}

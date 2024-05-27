@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <link rel="stylesheet" href="/css/offers.css">
+    <title><%= title  %></title>
+</head>
+<body>
+    <%- include("./partials/nav") %>
+    <main>
+        <div class="container">
+                <div class="title-on-page">
+                    <p style="margin: 0;"> <%= title  %></p>
+                </div>
+
+                <div class="container-offers">
+                    <% if (ofertas.length > 0) { %>
+                        <% ofertas.forEach(oferta => { %>
+                            <div class="card-offer">
+                                <a class="card-offer-link">
+                                    <div class="content">
+                                        <div class="image-titles">
+                                            <div class="image">
+                                                <img src="/ofertas/<%=oferta.url_foto %>" alt="foto" class="offer-image">
+                                                <img src="/publicaciones/<%=oferta.Publicacion.url_foto %>" alt="foto" class="post-image">
+                                            </div>
+                                            <div class="titles">
+                                                <p class="offer-title"><%=oferta.nombre %></p>
+                                                <p class="post-title"><%=oferta.Publicacion.nombre %></p>
+                                            </div>
+                                        </div>
+                                        <div class="details">
+                                            <p class="ofertante">Ofertante: <%=oferta.Usuario.nombre %> <%=oferta.Usuario.apellido %></p>
+                                            <p class="filial">Filial: <%=oferta.Filial.nombre %> (<%=oferta.Filial.direccion %>)</p>
+                                            <p class="fecha">Fecha: <%=oferta.fecha.split("-").reverse().join("-") %></p>
+                                            <p class="hora">Horario: <%=oferta.hora.slice(0,-3) %></p>
+                                            <% if (title == "Ofertas recibidas" && oferta.estado == "pendiente") { %>
+                                                <div class="buttons">
+                                                    <a href="/offerAcept/<%=oferta.id %>">
+                                                        <button class="btn">Aceptar</button>
+                                                    </a>
+                                                    <a href="/offerReject/<%=oferta.id %>">
+                                                        <button class="btn">Rechazar</button>
+                                                    </a>
+                                                    <a href="">
+                                                        <button class="btn">Contraofertar</button>
+                                                    </a>
+                                                </div>
+                                            <% } else {%>
+                                                <p class="estado"><%=oferta.estado == 'pendiente' ? "La oferta está" : "La oferta fue"%> <%=oferta.estado %></p>
+                                            <% } %>
+                                        </div>
+                                        
+                                    </div>
+                                </a>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p style="color: grey;">Todavia no tenes ofertas</p>
+                    <% } %>
+                </div>
+                
+        </div>
+    </main>
+    <%- include("./partials/footer") %>
+</body>
+</html>

@@ -2,10 +2,12 @@ const Publicacion = require("../database/models/Publicacion");
 const Usuario = require('../database/models/Usuario') 
 const Representante = require('../database/models/Representante') 
 const Voluntario = require('../database/models/Voluntario') 
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 const { validationResult } = require("express-validator")
 const bcrypt = require('bcryptjs');
 const Categoria = require("../database/models/Categoria");
+const Oferta = require("../database/models/Oferta");
+const Filial = require("../database/models/Filial");
 
 const controlador ={
     profile: (req, res) => {
@@ -70,6 +72,38 @@ const controlador ={
         } catch (error) {
             console.log(error)
         }   
+    },
+
+    offers: async (req, res) => {
+
+        const ofertas = await Oferta.findAll({
+            include: [
+                {
+                    model: Publicacion,
+                    where: {
+                        usuario_id: req.session.usuario.id
+                    }
+                },
+                Usuario,
+                Filial
+            ]
+        });
+        
+        res.render("offers/index", {
+            ofertas: ofertas, title: "Ofertas recibidas"
+        });
+
+    },
+    myOffers: async (req, res) => {
+
+        const ofertas = await Oferta.findAll( { include: [Usuario, Publicacion, Filial], where: {
+            usuario_id: req.session.usuario.id
+        }
+        });
+        res.render("offers/index", {
+            ofertas: ofertas, title: "Ofertas realizadas"
+        });
+
     }
 
 }

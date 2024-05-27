@@ -5,6 +5,7 @@ const Usuario = require("../database/models/Usuario");
 const Categoria = require("../database/models/Categoria");
 const Filial = require("../database/models/Filial");
 const Oferta = require("../database/models/Oferta");
+const Intercambio = require("../database/models/Intercambio");
 
 
 
@@ -73,7 +74,50 @@ const controlador = {
         })
 
         res.redirect("/profile/myOffers")
-    }
+    },
+    aceptOffer: async (req, res) => {
+
+        const oferta = await Oferta.findOne ({include: [Usuario, Filial, Publicacion], where: {
+            id: req.params.id
+        } } )
+
+        //cambiar estado de la oferta a aceptada
+        const intercambio = await Intercambio.create({
+            publicacion_id: oferta.publicacion_id,
+            oferta_id: oferta.id,
+            estado: "pendiente",
+        })
+
+        await Oferta.update({
+                estado: "aceptada" // Marca el registro como eliminado
+            },
+            {
+                where:{
+                id: oferta.id
+                }
+            }
+        )
+
+        res.redirect("/profile/myExchanges")
+    },
+    rejectOffer: async (req, res) => {
+
+        const oferta = await Oferta.findOne ({include: [Usuario, Filial, Publicacion], where: {
+            id: req.params.id
+        } } )
+
+        await Oferta.update({
+                estado: "rechazada" // Marca el registro como eliminado
+            },
+            {
+                where:{
+                id: oferta.id
+                }
+            }
+        )
+
+        res.redirect("/profile/offers")
+    }      
 }
 
 module.exports = controlador;
