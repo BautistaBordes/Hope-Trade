@@ -9,6 +9,29 @@ const Categoria = require("../database/models/Categoria");
 const Oferta = require("../database/models/Oferta");
 const Filial = require("../database/models/Filial");
 
+
+
+function rejectOldOffers(ofertas) {
+    const hoy = new Date().toISOString().split('T')[0];
+
+    ofertas.forEach(async (oferta) => {
+        if (oferta.fecha < hoy){
+            await Oferta.update({
+                estado: "rechazada automaticamente" 
+            },
+            {
+                where:{
+                id: oferta.id
+                }
+            })
+
+            oferta.estado = "rechazada automaticamente" 
+        }
+    }); 
+
+    return ofertas
+}
+
 const controlador ={
     profile: (req, res) => {
         res.render('profile/index')
@@ -76,7 +99,7 @@ const controlador ={
 
     offers: async (req, res) => {
 
-        const ofertas = await Oferta.findAll({
+        var ofertas = await Oferta.findAll({
             include: [
                 {
                     model: Publicacion,
@@ -88,6 +111,11 @@ const controlador ={
                 Filial
             ]
         });
+
+        ofertas = rejectOldOffers(ofertas);
+
+        await new Promise(r => setTimeout(r, 5));
+        //YO NO QUERIA PONER UN WAIT EXPLICITO ASI, PERO NO FUNCIONABA SINO LOCO, PERDON :(
         
         res.render("offers/index", {
             ofertas: ofertas, title: "Ofertas recibidas"
@@ -96,10 +124,17 @@ const controlador ={
     },
     myOffers: async (req, res) => {
 
-        const ofertas = await Oferta.findAll( { include: [Usuario, Publicacion, Filial], where: {
+        var ofertas = await Oferta.findAll( { include: [Usuario, Publicacion, Filial], where: {
             usuario_id: req.session.usuario.id
         }
         });
+
+
+        ofertas = rejectOldOffers(ofertas);
+
+        await new Promise(r => setTimeout(r, 5));
+        //YO NO QUERIA PONER UN WAIT EXPLICITO ASI, PERO NO FUNCIONABA SINO LOCO, PERDON :(
+
         res.render("offers/index", {
             ofertas: ofertas, title: "Ofertas realizadas"
         });
