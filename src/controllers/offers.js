@@ -6,6 +6,7 @@ const Categoria = require("../database/models/Categoria");
 const Filial = require("../database/models/Filial");
 const Oferta = require("../database/models/Oferta");
 const Intercambio = require("../database/models/Intercambio");
+const Notificacion = require("../database/models/Notificacion");
 
 
 
@@ -71,7 +72,15 @@ const controlador = {
             hora: hora,
             publicacion_id: req.params.id,
             filial_id: filial
-        })
+        });
+
+        const notificacion_contenido = `${req.session.usuario.nombre} hizo una oferta por tu publicacion ${publicacion.nombre}`;
+
+        const notificacion = await Notificacion.create({
+            usuario_id: publicacion.Usuario.id,
+            contenido: notificacion_contenido,
+            tipo: "offers"
+        });
 
         res.redirect("/profile/myOffers")
     },
@@ -81,7 +90,6 @@ const controlador = {
             id: req.params.id
         } } )
 
-        //cambiar estado de la oferta a aceptada
         const intercambio = await Intercambio.create({
             publicacion_id: oferta.publicacion_id,
             oferta_id: oferta.id,
@@ -89,7 +97,7 @@ const controlador = {
         })
 
         await Oferta.update({
-                estado: "aceptada" // Marca el registro como eliminado
+                estado: "aceptada" 
             },
             {
                 where:{
@@ -97,6 +105,14 @@ const controlador = {
                 }
             }
         )
+
+        const notificacion_contenido = `${req.session.usuario.nombre} aceptó tu oferta por la publicacion ${oferta.Publicacion.nombre}`;
+
+        const notificacion = await Notificacion.create({
+            usuario_id: oferta.Usuario.id,
+            contenido: notificacion_contenido,
+            tipo: "myOffers"
+        });
 
         res.redirect("/profile/myExchanges")
     },
@@ -115,6 +131,14 @@ const controlador = {
                 }
             }
         )
+
+        const notificacion_contenido = `${req.session.usuario.nombre} rechazó tu oferta por la publicacion ${oferta.Publicacion.nombre}`;
+
+        const notificacion = await Notificacion.create({
+            usuario_id: oferta.Usuario.id,
+            contenido: notificacion_contenido,
+            tipo: "myOffers"
+        });
 
         res.redirect("/profile/offers")
     }      

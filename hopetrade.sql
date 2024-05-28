@@ -216,3 +216,24 @@ CREATE TABLE hopetrade.intercambio (
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
+
+
+
+DROP TABLE IF EXISTS hopetrade.notificacion;
+
+CREATE TABLE hopetrade.notificacion (
+	id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+
+	usuario_id INT(10) UNSIGNED NOT NULL,
+	contenido TEXT NOT NULL,
+	tipo TEXT NOT NULL,
+	estado TEXT NOT NULL,
+
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+	CONSTRAINT notificaciones_PK PRIMARY KEY (id),
+	CONSTRAINT notificaciones_FK_1 FOREIGN KEY (usuario_id) REFERENCES hopetrade.usuario(id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;

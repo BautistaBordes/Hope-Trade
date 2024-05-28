@@ -8,6 +8,7 @@ const bcrypt = require('bcryptjs');
 const Categoria = require("../database/models/Categoria");
 const Oferta = require("../database/models/Oferta");
 const Filial = require("../database/models/Filial");
+const Notificacion = require("../database/models/Notificacion");
 
 
 
@@ -26,6 +27,15 @@ function rejectOldOffers(ofertas) {
             })
 
             oferta.estado = "rechazada automaticamente" 
+
+            const notificacion_contenido = `Se rechazó automaticamente tu oferta por la publicacion ${oferta.Publicacion.nombre}`;
+
+            const notificacion = await Notificacion.create({
+                usuario_id: oferta.Usuario.id,
+                contenido: notificacion_contenido,
+                tipo: "myOffers"
+            });
+
         }
     }); 
 

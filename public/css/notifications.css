@@ -1,0 +1,54 @@
+.container-notification {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.card-notification {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-notification-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.details {
+    flex: 1;
+}
+
+.contenido {
+    margin: 0;
+    font-size: 16px;
+}
+
+.fa-circle {
+    color: #61b0b2;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+p {
+    margin: 0;
+}
+
+p.contenido {
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
