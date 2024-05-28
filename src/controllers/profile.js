@@ -33,10 +33,6 @@ function rejectOldOffers(ofertas) {
 }
 
 const controlador ={
-    profile: (req, res) => {
-        res.render('profile/index')
-    },
-
     myPost: async (req, res) => {
         const publicaciones = await Publicacion.findAll( { include: [Usuario, Categoria], where: {
             usuario_id: {
@@ -50,14 +46,14 @@ const controlador ={
 
     changePassword: (req,res) => {
         let isEmployee = req.session.usuario.rol == 'comun' ? false : true;            
-        res.render('profile/changePassword', { isEmployee : isEmployee })
+        res.render('sessions/changePassword', { isEmployee : isEmployee })
     },
     changePasswordProcess: async (req,res)=> {
         const result = validationResult(req);
         let rol = req.session.usuario.rol;
 
         if(result.errors.length > 0){
-            return res.render("profile/changePassword", {
+            return res.render("sessions/changePassword", {
                 errors: result.mapped(),
                 msgError: "Hubo un problema los datos para cambiar la contraseña",
                 oldData: req.body
@@ -67,7 +63,7 @@ const controlador ={
         let aux;
         if ( rol == 'comun'){
             aux = Usuario
-            redirect = "/profile"
+            redirect = "/posts"
         }else if ( rol == 'representante'){
             aux = Representante
         }else{

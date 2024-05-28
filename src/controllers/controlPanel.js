@@ -39,7 +39,7 @@ function sendMail(mail, password){
 
 const controlador = {
     index: (req,res) =>{
-        res.render("employee/index")
+        res.render("controlPanel/index")
     },
 
     registerVoluntario: async (req,res)=>{

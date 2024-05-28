@@ -12,7 +12,6 @@ const validationsPassword = require('../middlewares/validations/validationsPassw
 
 
 // ----- rutas -----
-router.get('/profile',  authComunMiddleware, profileController.profile);
 
 router.get('/profile/myPosts', authComunMiddleware, profileController.myPost);
 

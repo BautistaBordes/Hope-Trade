@@ -5,6 +5,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <%-  (locals.usuario == undefined  || locals.usuario.rol == "comun") ? null : '<link rel="stylesheet" href="/css/panel.css">' %>
     <title>Pagina no encontrada</title>
     <style>
         main {
@@ -45,6 +46,8 @@
 <body>
     <% if (locals.usuario == undefined  || locals.usuario.rol == "comun") {%>
         <%- include("./partials/nav") %>
+    <% } else { %>
+        <%- include("./controlPanel/panel") %>
     <% } %>
 
     <main>

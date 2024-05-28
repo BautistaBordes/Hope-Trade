@@ -9,7 +9,7 @@ const Publicacion = require("../database/models/Publicacion");
 
 const controlador = {
     register: (req, res) => {
-        res.render("loginRegister/register");
+        res.render("sessions/register");
     },
     registerProcess: async (req, res) => {
         //antes de ejecutarse esta funcion se verifican los campos (vease en las rutas).
@@ -18,7 +18,7 @@ const controlador = {
         const {nombre, apellido, dni, mail, password, telefono, fecha} = req.body;
 
         if (result.errors.length > 0) {
-            return res.render("loginRegister/register", {
+            return res.render("sessions/register", {
                 errors: result.mapped(),
                 msgError: "Hubo un problema al registrarse. intentelo de nuevo",
                 oldData: req.body
@@ -43,7 +43,7 @@ const controlador = {
         
     },
     login: (req, res) => {
-        res.render("loginRegister/login");
+        res.render("sessions/login");
     },
     loginProcess: async (req, res) => {
         const result = validationResult(req);
@@ -51,7 +51,7 @@ const controlador = {
         let usuario,rol,redirect;
 
         if(result.errors.length > 0){
-            return res.render("loginRegister/login", {
+            return res.render("sessions/login", {
                 errors: result.mapped(),
                 msgError: "Hubo un problema con su inicio de sesión",
                 oldData: req.body
@@ -73,7 +73,7 @@ const controlador = {
         }
 
         if (!usuario || !bcrypt.compareSync(password, usuario.password)) {
-            return res.render("loginRegister/login", {
+            return res.render("sessions/login", {
                 msgError: "Hubo un problema con su inicio de sesión",
                 oldData: req.body
             });
