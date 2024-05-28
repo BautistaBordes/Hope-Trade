@@ -14,8 +14,6 @@ const controlador = {
     create: async (req, res) => {
         const id = req.params.id;
 
-        
-
         const publicacion = await Publicacion.findOne({ include: [Usuario] , where: {
             id: id
         }});
@@ -105,6 +103,33 @@ const controlador = {
                 }
             }
         )
+
+        const ofertasARechazar = await Oferta.findAll ({include: [Usuario, Filial, Publicacion], where: {
+            publicacion_id: oferta.publicacion_id,
+            estado: "pendiente"
+        } } )
+
+        ofertasARechazar.forEach(async oferta => {
+
+            await Oferta.update({
+                estado: "rechazada automaticamente" 
+            },
+            {
+                where:{
+                id: oferta.id
+                }
+            })
+
+            const notificacion_contenido = `La publicacion ${oferta.Publicacion.nombre} no esta disponible por el momento!`;
+
+            const notificacion = await Notificacion.create({
+                usuario_id: oferta.Usuario.id,
+                contenido: notificacion_contenido,
+                tipo: "myOffers"
+            });
+
+            
+        });
 
         const notificacion_contenido = `${req.session.usuario.nombre} aceptó tu oferta por la publicacion ${oferta.Publicacion.nombre}`;
 
