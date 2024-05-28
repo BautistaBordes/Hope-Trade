@@ -5,9 +5,9 @@
          </a>
          <%  if (locals.usuario)  {%>
              <div class="container-links" style="width: 370px !important;">
-                 <a href="/posts">Publicaciones</a>
+                 <a id="seccion1" href="/posts">Publicaciones</a>
                  <div class="dropdown">
-                    <a class="opciones" style="cursor: pointer;">Mi Perfil</a>
+                    <a id="seccion2" class="opciones" style="cursor: pointer;">Mi Perfil</a>
                     <div class="dropdown-content">
                       <a href="/profile/myPosts">Mis Publicaciones</a>
                       <a href="/profile/myOffers">Ofertas hechas</a>
@@ -26,8 +26,8 @@
              </div>
          <% } else { %>
              <div class="container-links">
-                 <a href="/login">Iniciar Sesion</a>
-                 <a href="/register">Crear Cuenta</a>
+                 <a id="seccion3" href="/login">Iniciar Sesion</a>
+                 <a id="seccion4" href="/register">Crear Cuenta</a>
                  <a href="/donate">Donar</a>
              </div>
          <% }  %>

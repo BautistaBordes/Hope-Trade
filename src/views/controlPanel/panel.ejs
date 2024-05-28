@@ -7,20 +7,20 @@
     <div class="container-panel">
         <div class="container-actions">
         <% if (locals.usuario.rol == "representante") {%>
-            <div class="actions">
+            <div id="seccion1" class="actions">
                 <a href="/controlPanel/registerVoluntario" class="action">Agregar Voluntario</a>
             </div>
 
-            <div class="actions">
+            <div id="seccion2" class="actions">
                 <a href="/controlPanel/registerRepresentante" class="action">Agregar Representante</a>
             </div>
 
 
-            <div class="actions">
+            <div id="seccion3" class="actions">
                 <a href="/controlPanel/changeFilial" class="action">Cambiar Filial</a>
             </div>
         <% } else {%>
-            <div class="actions">
+            <div id="seccion4" class="actions">
                 <a href="/controlPanel" class="action">Ver intercambios</a>
             </div>
         <% } %>

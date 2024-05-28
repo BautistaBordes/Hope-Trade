@@ -37,6 +37,11 @@ nav {
     text-underline-offset: 0.7em;
 }
 
+.seleccionado {
+    text-decoration: underline 0.15em !important;
+    text-underline-offset: 0.7em;
+}
+
 .container-links > a:last-child{
     color: white;
     padding: 5px 15px;

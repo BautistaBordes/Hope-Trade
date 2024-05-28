@@ -1,0 +1,11 @@
+const urlActual = window.location.pathname;
+const posts = document.getElementById("seccion1");
+const profile = document.getElementById("seccion2");
+const login = document.getElementById("seccion3");
+const register = document.getElementById("seccion4");
+let change;
+if (urlActual == "/posts") change = posts;
+else if (urlActual == "/login") change = login;
+else if (urlActual == "/register") change = register;
+else if (urlActual.includes("profile")) change = profile;
+change.classList.add("seleccionado");

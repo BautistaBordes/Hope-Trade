@@ -44,11 +44,18 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 0 20px;
 }
 
 .actions {
-    padding: 10px 0;
+    padding: 10px 20px;
+}
+
+.actions:hover {
+    background-color: #282828;
+}
+
+.action-seleccionado {
+    background-color: #282828;
 }
 
 .config {

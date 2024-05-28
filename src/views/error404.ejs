@@ -9,12 +9,18 @@
     <title>Pagina no encontrada</title>
     <style>
         main {
-            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             margin: 70px 0 100px 0;
             font-family: montserrat;
+        }
+
+        .normal {
+            width: 100%;
+        }
+        .exist-panel {
+            width: 82%;
         }
 
         .error404 {
@@ -50,7 +56,7 @@
         <%- include("./controlPanel/panel") %>
     <% } %>
 
-    <main>
+    <main class="<%=  (locals.usuario == undefined  || locals.usuario.rol == 'comun') ? 'normal' : 'exist-panel' %>">
         <h1 class="error404">404</h1>
         <p class="error-msg">Pagina no encontrada</p>
         <a class="volver" href="/">Volver al inicio</a>

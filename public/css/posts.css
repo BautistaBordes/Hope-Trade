@@ -10,7 +10,7 @@ main {
     width: 1200px;
     flex-direction: column;
     align-items: flex-start;
-    row-gap: 20px;
+    row-gap: 35px;
 }
 
 .actions {
@@ -88,6 +88,10 @@ main {
 .info  p {
     margin: 0;
     overflow-wrap: break-word;
+}
+
+.info p.autor, .info p.categoria {
+    margin-bottom: 15px;
 }
 .title {
     font-size: 30px;

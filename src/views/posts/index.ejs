@@ -29,8 +29,8 @@
                                         <p class="title"><%=publicacion.nombre %></p>
                                     </div>
                                     <div class="down">
-                                        <p class="autor"> autor <%= publicacion.Usuario.nombre %></p>
-                                        <p class="categoria">categoria: <%= publicacion.Categoria.nombre %></p>
+                                        <p class="autor"> autor: <strong> <%= publicacion.Usuario.nombre %> </strong></p>
+                                        <p class="categoria">categoria:<strong> <%= publicacion.Categoria.nombre %> </strong></p>
                                     </div>
             
                                 </div>
@@ -48,4 +48,6 @@
     </main>
     <%- include("./partials/footer") %>
 </body>
+
+<script src="/js/checkroute.js"></script>
 </html>
