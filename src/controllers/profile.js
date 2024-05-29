@@ -124,7 +124,7 @@ const controlador ={
         //YO NO QUERIA PONER UN WAIT EXPLICITO ASI, PERO NO FUNCIONABA SINO LOCO, PERDON :(
         
         res.render("offers/index", {
-            ofertas: ofertas, title: "Ofertas recibidas"
+            ofertas: ofertas, title: "Ofertas Recibidas"
         });
 
     },
@@ -142,7 +142,7 @@ const controlador ={
         //YO NO QUERIA PONER UN WAIT EXPLICITO ASI, PERO NO FUNCIONABA SINO LOCO, PERDON :(
 
         res.render("offers/index", {
-            ofertas: ofertas, title: "Ofertas realizadas"
+            ofertas: ofertas, title: "Ofertas Enviadas"
         });
 
     }

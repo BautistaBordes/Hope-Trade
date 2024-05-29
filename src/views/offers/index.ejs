@@ -7,61 +7,118 @@
 </head>
 <body>
     <%- include("./partials/nav") %>
-    <main>
-        <div class="container">
-                <div class="title-on-page">
-                    <p style="margin: 0;"> <%= title  %></p>
-                </div>
+    <% const sontuyas =  title == "Ofertas Enviadas" ? true : false %>
+    <div class="container-offers">
+        <h1 class="title-page">Estas viendo <%= sontuyas ? `tus ${title}` : `las ${title}` %> </h1>
+        <% if (ofertas.length > 0) { %>
 
-                <div class="container-offers">
-                    <% if (ofertas.length > 0) { %>
-                        <% ofertas.forEach(oferta => { %>
-                            <div class="card-offer">
-                                <a class="card-offer-link">
-                                    <div class="content">
-                                        <div class="image-titles">
-                                            <div class="image">
-                                                <img src="/ofertas/<%=oferta.url_foto %>" alt="foto" class="offer-image">
-                                                <img src="/publicaciones/<%=oferta.Publicacion.url_foto %>" alt="foto" class="post-image">
-                                            </div>
-                                            <div class="titles">
-                                                <p class="offer-title"><%=oferta.nombre %></p>
-                                                <p class="post-title"><%=oferta.Publicacion.nombre %></p>
-                                            </div>
-                                        </div>
-                                        <div class="details">
-                                            <p class="ofertante">Ofertante: <%=oferta.Usuario.nombre %> <%=oferta.Usuario.apellido %></p>
-                                            <p class="filial">Filial: <%=oferta.Filial.nombre %> (<%=oferta.Filial.direccion %>)</p>
-                                            <p class="fecha">Fecha: <%=oferta.fecha.split("-").reverse().join("-") %></p>
-                                            <p class="hora">Horario: <%=oferta.hora.slice(0,-3) %></p>
-                                            <% if (title == "Ofertas recibidas" && oferta.estado == "pendiente") { %>
-                                                <div class="buttons">
-                                                    <a href="/offerAcept/<%=oferta.id %>">
-                                                        <button class="btn">Aceptar</button>
-                                                    </a>
-                                                    <a href="/offerReject/<%=oferta.id %>">
-                                                        <button class="btn">Rechazar</button>
-                                                    </a>
-                                                    <a href="">
-                                                        <button class="btn">Contraofertar</button>
-                                                    </a>
-                                                </div>
-                                            <% } else {%>
-                                                <p class="estado">Oferta <%=oferta.estado %></p>
-                                            <% } %>
-                                        </div>
-                                        
-                                    </div>
-                                </a>
+            <% if (sontuyas) { %>
+                <main class="offers">
+                    
+                    <% ofertas.forEach(oferta => { %>
+                        <div class="card-offer">
+                        
+                            <div class="offer-images">
+        
+                                <div class="images-names">
+                                    <a class="container-post" href="/posts/<%= oferta.publicacion_id  %>">
+                                        <img class="images" src="/publicaciones/<%=oferta.Publicacion.url_foto %>" alt="">
+                                        <p class="name-post"><%=oferta.Publicacion.nombre %></p>
+                                    </a>
+                                </div>
+
+                                <div class="flecha-intercambio">
+                                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                </div>
+
+                                <div class="images-names">
+                                    <img class="images" src="/ofertas/<%=oferta.url_foto %>" alt="">
+                                    <p class="name-offer"><%=oferta.nombre %></p>
+                                </div>
+
                             </div>
+        
+                            <div class="offers-info">
+                                <p class="filial"><strong>Filial:</strong> <%=oferta.Filial.nombre %> (<%=oferta.Filial.direccion %>)</p>
+                                <p class="fecha"><strong>Fecha:</strong> <%=oferta.fecha.split("-").reverse().join("-") %></p>
+                                <p class="hora"><strong>Horario:</strong> <%=oferta.hora.slice(0,-3) %></p>
+                            </div>
+
+                            <div class="offers-states">
+                                <div class="state">
+                                    <p class="estado">Oferta <%=oferta.estado %></p>
+                                </div>
+                            </div>
+        
+                        </div>
                         <% }) %>
-                    <% } else { %>
-                        <p style="color: grey;">Todavia no tenes ofertas</p>
-                    <% } %>
-                </div>
-                
-        </div>
-    </main>
+            
+                </main>
+            <% } else { %>
+                <main class="offers">
+                    <% ofertas.forEach(oferta => { %>
+
+                        <div class="card-offer">
+                            
+                            <div class="offer-images">
+        
+                                <div class="images-names">
+                                    <a class="container-post" href="/posts/<%= oferta.publicacion_id  %>">
+                                        <img class="images" src="/publicaciones/<%=oferta.Publicacion.url_foto %>" alt="">
+                                        <p class="name-post"><%=oferta.Publicacion.nombre %></p>
+                                    </a>
+                                </div>
+                                
+                                <div class="flecha-intercambio">
+                                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                </div>
+
+                                <div class="images-names">
+                                    <img class="images" src="/ofertas/<%=oferta.url_foto %>" alt="">
+                                    <p class="name-offer"><%=oferta.nombre %></p>
+                                </div>
+
+                            </div>
+        
+                            <div class="offers-info">
+                                <p class="ofertante"><strong>Ofertante:</strong> <%=oferta.Usuario.nombre %></p>
+                                <p class="filial"><strong>Filial:</strong> <%=oferta.Filial.nombre %> (<%=oferta.Filial.direccion %>)</p>
+                                <p class="fecha"><strong>Fecha:</strong> <%=oferta.fecha.split("-").reverse().join("-") %></p>
+                                <p class="hora"><strong>Horario:</strong> <%=oferta.hora.slice(0,-3) %></p>
+                            </div>
+
+                            <div class="offers-states">
+                                <% if (oferta.estado == "pendiente") { %>
+                                    <div class="buttons">
+                                        <a class="btn aceptar" href="/offerAcept/<%=oferta.id %>">Aceptar</a>
+                                        <a class="btn rechazar" href="/offerReject/<%=oferta.id %>">Rechazar</a>
+                                        <a class="btn contraOferta" href="">Contraofertar</a>
+                                    </div>
+        
+                                <% } else {%>
+                                    <div class="state">
+                                        <p class="estado">Oferta <%=oferta.estado %></p>
+                                    </div>
+                                <% } %>
+
+                            </div>
+            
+                            
+                        </div>
+            
+                    <% }) %>
+                </main>
+            <% } %>
+
+
+        <% } else { %>
+            <p class="vacio">Todavia no tenes ofertas</p>
+        <% } %>
+        
+
+    </div>
+
+
     <%- include("./partials/footer") %>
 </body>
 <script src="/js/checkroute.js"></script>

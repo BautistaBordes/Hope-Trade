@@ -71,6 +71,9 @@
     border-radius: 5px;
 }
 
+.offer-button:hover {
+    filter: opacity(0.9);
+}
 
 .descripcion {
     font-size: 20px;

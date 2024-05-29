@@ -152,6 +152,6 @@ input:focus,textarea:focus,select:focus {
 
 .title-offer{
     text-align: center;
-    line-height: 7px;
+    word-wrap: break-word;
     margin-bottom: 40px;
 }
