@@ -59,6 +59,10 @@ nav {
     padding: 0 0 18px 0;
 }
 
+hr {
+    margin: 0;
+}
+
 .dropdown {
     position: relative;
     display: inline-block;
@@ -70,7 +74,7 @@ nav {
     top: 30px;
     right: 0px;
     background-color: #e8e8e7;
-    min-width: 160px;
+    min-width: 170px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     font-size: 14px;
@@ -81,6 +85,7 @@ nav {
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    text-align: center;
 }
 
 .dropdown-content a:hover {background-color: #ddd;}

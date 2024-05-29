@@ -44,13 +44,13 @@ main {
     width: 100%;
     justify-content: flex-start;
     row-gap: 40px;
-    column-gap: 75px;
+    column-gap: 40px;
 }
 
 .card-post {
     background: #cac8c875;
-    width: 350px;
-    height: 500px;
+    width: 270px;
+    height: 400px;
 }
 
 .card-post:hover {
@@ -75,6 +75,7 @@ main {
     width: 100%;
     height: 100%;
     outline: 1px solid black;
+    object-fit: cover;
 }
 
 .info {
@@ -82,20 +83,32 @@ main {
     flex-direction: column;
     justify-content: space-between;
     height: 50%;
-    padding: 10px;
     text-align: center;
 }
-.info  p {
+.info p {
     margin: 0;
-    overflow-wrap: break-word;
 }
 
-.info p.autor, .info p.categoria {
-    margin-bottom: 15px;
+.info .top {
+    padding: 20px;
 }
-.title {
+.info .top .title {
     font-size: 30px;
-    margin: 15px 0 0 0;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.info .down {
+    padding: 15px;
+    background: #abb444;
+}
+
+.info .down .categoria {
+    color: white;
     font-weight: 600;
 }
-
