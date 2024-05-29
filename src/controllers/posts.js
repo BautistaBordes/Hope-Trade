@@ -55,6 +55,8 @@ const controlador = {
             id: id
         }});
 
+        if(!publicacion) return res.render("error404");
+
         res.render("posts/detail", {
             publicacion: publicacion
         })

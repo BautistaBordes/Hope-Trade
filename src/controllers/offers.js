@@ -18,7 +18,8 @@ const controlador = {
             id: id
         }});
 
-        if (id == publicacion.usuario_id){
+        //si la publicacion no existe o si yo soy el autor de la publicacion no me dejes ofertar
+        if (!publicacion || req.session.usuario.id == publicacion.usuario_id){
             return res.render("error404");
         }
 
@@ -88,6 +89,8 @@ const controlador = {
             id: req.params.id
         } } )
 
+        if(!oferta) return res.render("error404");
+
         const intercambio = await Intercambio.create({
             publicacion_id: oferta.publicacion_id,
             oferta_id: oferta.id,
@@ -146,6 +149,8 @@ const controlador = {
         const oferta = await Oferta.findOne ({include: [Usuario, Filial, Publicacion], where: {
             id: req.params.id
         } } )
+
+        if(!oferta) return res.render("error404");
 
         await Oferta.update({
                 estado: "rechazada" // Marca el registro como eliminado
