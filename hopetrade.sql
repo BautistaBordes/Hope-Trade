@@ -142,6 +142,7 @@ CREATE TABLE hopetrade.publicacion (
 	nombre VARCHAR(50) NOT NULL,
 	descripcion TEXT NOT NULL,
     url_foto TEXT NOT NULL,
+	estado TEXT NOT NULL,
     categoria_id INT(10) UNSIGNED NOT NULL,
     usuario_id INT(10) UNSIGNED NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -155,8 +156,8 @@ ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO hopetrade.publicacion (nombre, descripcion, url_foto, categoria_id, usuario_id)  VALUES 
-("sticker", "sticker de vinilo", "product-1716700162786.png", 2, 2);
+INSERT INTO hopetrade.publicacion (nombre, descripcion, url_foto, estado, categoria_id, usuario_id)  VALUES 
+("sticker", "sticker de vinilo", "product-1716700162786.png", "disponible", 5, 2);
 
 
 
@@ -177,7 +178,7 @@ CREATE TABLE hopetrade.oferta (
 	fecha DATE NOT NULL,	
 	hora TIME NOT NULL,
 
-	estado TEXT NOT NULL DEFAULT "pendiente",
+	estado TEXT NOT NULL,
 
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP NULL DEFAULT NULL,

@@ -12,7 +12,7 @@ let cols = {
         autoIncrement: true
     },
     estado: {
-        type: DataTypes.TEXT(),
+        type: DataTypes.STRING,
         allowNull: false
     }
 };

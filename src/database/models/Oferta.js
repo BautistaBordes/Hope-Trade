@@ -33,8 +33,7 @@ let cols = {
     },
     estado:{
         type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: 'pendiente'
+        allowNull: false
     },
     deleted_at: {
         type: DataTypes.DATE,

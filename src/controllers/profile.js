@@ -47,7 +47,8 @@ const controlador ={
         const publicaciones = await Publicacion.findAll( { include: [Usuario, Categoria], where: {
             usuario_id: {
                 [Op.eq]: req.session.usuario.id
-            }
+            },
+            estado:"disponible"
         }});
         res.render("posts/index", {
             publicaciones: publicaciones, title: "Mis publicaciones"

@@ -12,7 +12,8 @@ const controlador = {
         const publicaciones = await Publicacion.findAll({ include: [Usuario, Categoria] , where: {
             usuario_id: {
                 [Op.ne]: req.session.usuario.id
-            }
+            },
+            estado: "disponible"
         }});
         res.render("posts/index", {
             publicaciones: publicaciones, title: "Publicaciones"
@@ -38,21 +39,23 @@ const controlador = {
             });
         }
         
-        const publicacion = await Publicacion.create({
+        await Publicacion.create({
             nombre: nombre,
             descripcion: descripcion,
             url_foto: req.file.filename,
             usuario_id: req.session.usuario.id,
-            categoria_id: categoria
+            categoria_id: categoria,
+            estado: "disponible"
         })
 
         res.redirect("/profile/myPosts")
     },
     detailPost: async(req, res) =>{
-        const id = req.params.id;
+        const idURL = req.params.id;
         
         const publicacion = await Publicacion.findOne({ include: [Usuario, Categoria] , where: {
-            id: id
+            id: idURL,
+            estado: "disponible"
         }});
 
         if(!publicacion) return res.render("error404");

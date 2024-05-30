@@ -1,5 +1,4 @@
 const { validationResult } = require("express-validator");
-const { Op } = require('sequelize');
 const Publicacion = require("../database/models/Publicacion");
 const Usuario = require("../database/models/Usuario");
 const Categoria = require("../database/models/Categoria");
@@ -12,10 +11,11 @@ const Notificacion = require("../database/models/Notificacion");
 
 const controlador = {
     create: async (req, res) => {
-        const id = req.params.id;
+        const idURL = req.params.id;
 
         const publicacion = await Publicacion.findOne({ include: [Usuario] , where: {
-            id: id
+            id: idURL,
+            estado: "disponible"
         }});
 
         //si la publicacion no existe o si yo soy el autor de la publicacion no me dejes ofertar
@@ -37,9 +37,11 @@ const controlador = {
     createProccess: async (req, res) => {
         const result = validationResult(req);
 
-        const id = req.params.id;
+        const idURL = req.params.id;
         const publicacion = await Publicacion.findOne({ include: [Usuario] , where: {
-            id: id
+            id: idURL
+            //estado: "disponible"?? en si a este controller vienen de una solicitud post o sea del formulario o q usen postman o una app asi,
+            //si vienen del formulario es que solo vieron una publicacion que esta disponible sino renderiza el error 404.
         }});
         const categories = await Categoria.findAll();
         const filiales = await Filial.findAll();
@@ -61,7 +63,7 @@ const controlador = {
             });
         }
         
-        const oferta = await Oferta.create({
+        await Oferta.create({
             nombre: nombre,
             descripcion: descripcion,
             url_foto: req.file.filename,
@@ -69,13 +71,14 @@ const controlador = {
             categoria_id: categoria,
             fecha: fecha,
             hora: hora,
-            publicacion_id: req.params.id,
-            filial_id: filial
+            publicacion_id: idURL,
+            filial_id: filial,
+            estado: "pendiente"
         });
 
         const notificacion_contenido = `${req.session.usuario.nombre} hizo una oferta por tu publicacion ${publicacion.nombre}`;
 
-        const notificacion = await Notificacion.create({
+        await Notificacion.create({
             usuario_id: publicacion.Usuario.id,
             contenido: notificacion_contenido,
             tipo: "receivedOffers"
@@ -84,18 +87,18 @@ const controlador = {
         res.redirect("/profile/sentOffers")
     },
     aceptOffer: async (req, res) => {
+        const idURL = req.params.id;
 
         const oferta = await Oferta.findOne ({
             include: [ 
                 {
                     model: Publicacion,
-                    where: {usuario_id: req.session.usuario.id}
+                    where: {usuario_id: req.session.usuario.id} //devolveme las publicaciones de mi autoria
                 },
                 Filial, Publicacion, Usuario
             ], 
             where: {
-                id: req.params.id,
-            
+                id: idURL //hace un innerjoin entre el id de oferta de la url con mis publicaciones
             } 
         } );
 
@@ -103,6 +106,26 @@ const controlador = {
         //ahora solo va a poder aceptar la oferta el autor de la publicacion, busca la oferta pero el innerjoin es con publicaciones del usuario loggeado, si la oferta no es para alguna de esas publicaciones, el usuario no podra aceptar la oferta
 
         if(!oferta) return res.render("error404");
+
+
+        const rechazarOferta = async (oferta) => {
+            await Oferta.update({
+                estado: "rechazada automaticamente" 
+            },
+            {
+                where:{
+                id: oferta.id
+                }
+            })
+        
+            const notificacion_contenido = `La publicacion ${oferta.Publicacion.nombre} no esta disponible por el momento!`;
+        
+            const notificacion = await Notificacion.create({
+                usuario_id: oferta.Usuario.id,
+                contenido: notificacion_contenido,
+                tipo: "sentOffers"
+            });
+        }
 
         const intercambio = await Intercambio.create({
             publicacion_id: oferta.publicacion_id,
@@ -119,33 +142,24 @@ const controlador = {
                 }
             }
         )
+        //ahora no deberian ver la publicacion ni hacerle ofertas
+        await Publicacion.update({
+            estado: "pendiente" 
+        },
+        {
+            where:{
+            id: oferta.publicacion_id
+            }
+        }
+    )
 
         const ofertasARechazar = await Oferta.findAll ({include: [Usuario, Filial, Publicacion], where: {
             publicacion_id: oferta.publicacion_id,
             estado: "pendiente"
         } } )
 
-        ofertasARechazar.forEach(async oferta => {
+        ofertasARechazar.forEach(oferta => rechazarOferta(oferta))
 
-            await Oferta.update({
-                estado: "rechazada automaticamente" 
-            },
-            {
-                where:{
-                id: oferta.id
-                }
-            })
-
-            const notificacion_contenido = `La publicacion ${oferta.Publicacion.nombre} no esta disponible por el momento!`;
-
-            const notificacion = await Notificacion.create({
-                usuario_id: oferta.Usuario.id,
-                contenido: notificacion_contenido,
-                tipo: "sentOffers"
-            });
-
-            
-        });
 
         const notificacion_contenido = `${req.session.usuario.nombre} aceptó tu oferta por la publicacion ${oferta.Publicacion.nombre}`;
 
@@ -158,6 +172,7 @@ const controlador = {
         res.redirect("/profile/myExchanges")
     },
     rejectOffer: async (req, res) => {
+        const idURL = req.params.id;
 
         const oferta = await Oferta.findOne ({
             include: [ 
@@ -168,8 +183,7 @@ const controlador = {
                 Filial, Publicacion, Usuario
             ], 
             where: {
-                id: req.params.id,
-            
+                id: idURL
             } 
         } );
 
@@ -193,7 +207,7 @@ const controlador = {
             tipo: "sentOffers"
         });
 
-        res.redirect("/profile/offers")
+        res.redirect("/profile/receivedOffers")
     }      
 }
 
