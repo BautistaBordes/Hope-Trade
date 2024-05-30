@@ -33,7 +33,7 @@ function rejectOldOffers(ofertas) {
             const notificacion = await Notificacion.create({
                 usuario_id: oferta.Usuario.id,
                 contenido: notificacion_contenido,
-                tipo: "myOffers"
+                tipo: "sentOffers"
             });
 
         }
@@ -103,9 +103,9 @@ const controlador ={
         }   
     },
 
-    offers: async (req, res) => {
+    receivedOffers: async (req, res) => {
 
-        var ofertas = await Oferta.findAll({
+        let ofertas = await Oferta.findAll({
             include: [
                 {
                     model: Publicacion,
@@ -128,9 +128,9 @@ const controlador ={
         });
 
     },
-    myOffers: async (req, res) => {
+    sentOffers: async (req, res) => {
 
-        var ofertas = await Oferta.findAll( { include: [Usuario, Publicacion, Filial], where: {
+        let ofertas = await Oferta.findAll( { include: [Usuario, Publicacion, Filial], where: {
             usuario_id: req.session.usuario.id
         }
         });

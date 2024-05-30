@@ -19,9 +19,9 @@ router.get('/profile/changePassword', authMiddleware, profileController.changePa
 
 router.post('/profile/changePassword', authMiddleware, validationsPassword, profileController.changePasswordProcess);
 
-router.get('/profile/myOffers', authComunMiddleware, profileController.myOffers);
+router.get('/profile/sentOffers', authComunMiddleware, profileController.sentOffers);
 
-router.get('/profile/offers', authComunMiddleware, profileController.offers);
+router.get('/profile/receivedOffers', authComunMiddleware, profileController.receivedOffers);
 
 
 module.exports = router;

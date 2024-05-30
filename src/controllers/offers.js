@@ -78,16 +78,29 @@ const controlador = {
         const notificacion = await Notificacion.create({
             usuario_id: publicacion.Usuario.id,
             contenido: notificacion_contenido,
-            tipo: "offers"
+            tipo: "receivedOffers"
         });
 
-        res.redirect("/profile/myOffers")
+        res.redirect("/profile/sentOffers")
     },
     aceptOffer: async (req, res) => {
 
-        const oferta = await Oferta.findOne ({include: [Usuario, Filial, Publicacion], where: {
-            id: req.params.id
-        } } )
+        const oferta = await Oferta.findOne ({
+            include: [ 
+                {
+                    model: Publicacion,
+                    where: {usuario_id: req.session.usuario.id}
+                },
+                Filial, Publicacion, Usuario
+            ], 
+            where: {
+                id: req.params.id,
+            
+            } 
+        } );
+
+        //antes solo buscaba la oferta, permitiendo que cualquiera acepte la oferta
+        //ahora solo va a poder aceptar la oferta el autor de la publicacion, busca la oferta pero el innerjoin es con publicaciones del usuario loggeado, si la oferta no es para alguna de esas publicaciones, el usuario no podra aceptar la oferta
 
         if(!oferta) return res.render("error404");
 
@@ -128,7 +141,7 @@ const controlador = {
             const notificacion = await Notificacion.create({
                 usuario_id: oferta.Usuario.id,
                 contenido: notificacion_contenido,
-                tipo: "myOffers"
+                tipo: "sentOffers"
             });
 
             
@@ -139,16 +152,26 @@ const controlador = {
         const notificacion = await Notificacion.create({
             usuario_id: oferta.Usuario.id,
             contenido: notificacion_contenido,
-            tipo: "myOffers"
+            tipo: "sentOffers"
         });
 
         res.redirect("/profile/myExchanges")
     },
     rejectOffer: async (req, res) => {
 
-        const oferta = await Oferta.findOne ({include: [Usuario, Filial, Publicacion], where: {
-            id: req.params.id
-        } } )
+        const oferta = await Oferta.findOne ({
+            include: [ 
+                {
+                    model: Publicacion,
+                    where: {usuario_id: req.session.usuario.id}
+                },
+                Filial, Publicacion, Usuario
+            ], 
+            where: {
+                id: req.params.id,
+            
+            } 
+        } );
 
         if(!oferta) return res.render("error404");
 
@@ -167,7 +190,7 @@ const controlador = {
         const notificacion = await Notificacion.create({
             usuario_id: oferta.Usuario.id,
             contenido: notificacion_contenido,
-            tipo: "myOffers"
+            tipo: "sentOffers"
         });
 
         res.redirect("/profile/offers")
