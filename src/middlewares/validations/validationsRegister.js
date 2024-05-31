@@ -1,7 +1,12 @@
 const { body } = require("express-validator")
 const Usuario = require("../../database/models/Usuario");
 
-
+const changeDateFormat = f => {
+    let fecha = f.toLocaleDateString().split("/");
+    if(fecha[0].length == 1) fecha[0] = `0${fecha[0]}`
+    if(fecha[1].length == 1) fecha[1] = `0${fecha[1]}`
+    return fecha.reverse().join("-");
+}
 
 
 const validationsRegister = [
@@ -42,12 +47,13 @@ const validationsRegister = [
     body("fecha").trim()
     .notEmpty().withMessage("No puede estar vacio").bail()
     .custom(value => {
-        const hoy = new Date(); const fechaIngresada = new Date(value);
-        let age = hoy.getFullYear() - fechaIngresada.getFullYear();
+        const hoy = changeDateFormat(new Date()).split("-"); 
+        const fechaIngresada = value.split("-");
+        let age = hoy[0] - fechaIngresada[0];
 
-        if(fechaIngresada.getMonth() > hoy.getMonth()) age--;
-        else if(fechaIngresada.getMonth() == hoy.getMonth()){
-            if(fechaIngresada.getUTCDate() > hoy.getDate() ) age--; 
+        if(fechaIngresada[1] > hoy[1]) age--;
+        else if(fechaIngresada[1] == hoy[1]){
+            if(fechaIngresada[2] > hoy[2] ) age--; 
         }
         
         if (age < 18) throw new Error("Solo mayores de edad");

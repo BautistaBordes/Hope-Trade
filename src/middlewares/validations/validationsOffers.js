@@ -14,7 +14,7 @@ const multerStorage = multer.diskStorage({
     cb(null, pathDestination);
     },
     filename: (req, file, cb) => {
-      const newFilename = "product" + '-' + Date.now() + path.extname(file.originalname);
+      const newFilename = "offer" + '-' + Date.now() + path.extname(file.originalname);
       cb(null, newFilename);
     }
 });
@@ -41,7 +41,6 @@ const validationsOffer = [
     .notEmpty().withMessage("No puede estar vacio").bail()
     .custom(value => {
         const dia = new Date(value).getDay();
-
         if ((dia === 6) || (dia  === 5)){
             throw new Error("Solo dias de semana")
         } 

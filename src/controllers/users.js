@@ -5,23 +5,33 @@ const Usuario = require('../database/models/Usuario')
 const Voluntario = require("../database/models/Voluntario");
 const Representante = require("../database/models/Representante");
 
-const Publicacion = require("../database/models/Publicacion");
+
+const changeDateFormat = f => {
+    let fecha = f.toLocaleDateString().split("/");
+    if(fecha[0].length == 1) fecha[0] = `0${fecha[0]}`
+    if(fecha[1].length == 1) fecha[1] = `0${fecha[1]}`
+    return fecha.reverse().join("-");
+}
+
 
 const controlador = {
     register: (req, res) => {
-        res.render("sessions/register");
+        const hoy = changeDateFormat(new Date());
+        res.render("sessions/register", {hoy: hoy});
     },
     registerProcess: async (req, res) => {
         //antes de ejecutarse esta funcion se verifican los campos (vease en las rutas).
         const result = validationResult(req);
         //req.body, el cuerpo de la solicitud viene del formulario, los inputs se vinculan mediante el atributo "name"
         const {nombre, apellido, dni, mail, password, telefono, fecha} = req.body;
+        const hoy = changeDateFormat(new Date());
 
         if (result.errors.length > 0) {
             return res.render("sessions/register", {
                 errors: result.mapped(),
                 msgError: "Hubo un problema al registrarse. intentelo de nuevo",
-                oldData: req.body
+                oldData: req.body,
+                hoy:hoy
             });
         }
 

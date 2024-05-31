@@ -8,6 +8,24 @@ const Intercambio = require("../database/models/Intercambio");
 const Notificacion = require("../database/models/Notificacion");
 
 
+const getTodayOrTomorrow = () => {
+
+    //el formato de fechas es YYYY-MM-DD, .toLocaleDateString() retorna DD/MM/YYYY, incluso puede q el mes (o dia) sea de un solo digito asi q hay q ponerle el 0 delante
+
+    const changeDateFormat = f => {
+        let fecha = f.toLocaleDateString().split("/");
+        if(fecha[0].length == 1) fecha[0] = `0${fecha[0]}`
+        if(fecha[1].length == 1) fecha[1] = `0${fecha[1]}`
+        return fecha.reverse().join("-");
+    }
+
+    let fecha = new Date();
+    let horario = fecha.toLocaleTimeString().slice(0,-3); //guardo horario local y le saco los segundos 19:30:23 -> 19:30
+    if(horario >= "20:00") fecha.setDate(fecha.getDate() + 1); //si llega al caso limite le suma un dia, si es el ultimo dia del mes pasa al 1ero del siguiente
+    return changeDateFormat(fecha); //me devuelve la fecha en un string con formato valido
+
+}
+
 
 const controlador = {
     create: async (req, res) => {
@@ -25,13 +43,15 @@ const controlador = {
 
         const filiales = await Filial.findAll();
         const categorias = await Categoria.findAll();
-        const hoy = new Date().toISOString().split('T')[0];
+
+        //logica para horario local si hoy son las 20hs no podes hacer oferta en ninguna filial, arrancas el otro dia 
+        const diaMinimo = getTodayOrTomorrow()
 
         res.render("offers/add", {
             publicacion: publicacion,
             filiales: filiales,
             categorias: categorias,
-            hoy: hoy
+            hoy: diaMinimo
         });
     },
     createProccess: async (req, res) => {
@@ -45,7 +65,7 @@ const controlador = {
         }});
         const categories = await Categoria.findAll();
         const filiales = await Filial.findAll();
-        const hoy = new Date().toISOString().split('T')[0];
+        const diaMinimo = getTodayOrTomorrow();
 
         const {nombre, descripcion, categoria, filial, fecha, hora} = req.body;
         const fs = require('fs')
@@ -59,7 +79,7 @@ const controlador = {
                 publicacion: publicacion,
                 categorias: categories,
                 filiales: filiales,
-                hoy: hoy
+                hoy: diaMinimo
             });
         }
         
