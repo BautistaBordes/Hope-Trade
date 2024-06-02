@@ -114,6 +114,15 @@
     justify-content: space-around;
 }
 
+.btn-form {
+    color: white;
+    padding: 10px 15px;
+    border-radius: 2px;
+    width: 149.44px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
 
 .btn {
     color: white;
@@ -125,7 +134,7 @@
     font-weight: 600;
 }
 
-.btn:hover {
+.btn:hover, .btn-form:hover {
     filter: brightness(0.9);
 }
 

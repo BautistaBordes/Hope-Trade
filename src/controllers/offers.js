@@ -106,9 +106,10 @@ const controlador = {
 
         res.redirect("/profile/sentOffers/orderByASC");
     },
-    aceptOffer: async (req, res) => {
+    acceptOffer: async (req, res) => {
         const idURL = req.params.id;
-
+        //ahora que no pueden acceder por url (a menos q usen postman o una app asi) sino solo por el boton, me parece que no es necesario tanta logica, 
+        //van a aparecer los botones solo si tenes ofertas pendientes en publicaciones de tu autoridad (solo haria falta el id)
         const oferta = await Oferta.findOne ({
             include: [ 
                 {
@@ -173,7 +174,7 @@ const controlador = {
         }
     )
 
-        const ofertasARechazar = await Oferta.findAll ({include: [Usuario, Filial, Publicacion], where: {
+        const ofertasARechazar = await Oferta.findAll ({where: {
             publicacion_id: oferta.publicacion_id,
             estado: "pendiente"
         } } )

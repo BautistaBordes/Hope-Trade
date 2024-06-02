@@ -11,8 +11,8 @@ router.get('/offers/:id', authComunMiddleware, offersController.create);
 router.post('/offers/:id', authComunMiddleware, validationsOffer, offersController.createProccess);
 
 
-router.get('/offerAcept/:id', authComunMiddleware, offersController.aceptOffer);
+router.post('/offerAccept/:id', authComunMiddleware, offersController.acceptOffer);
 
-router.get('/offerReject/:id', authComunMiddleware, offersController.rejectOffer);
+router.post('/offerReject/:id', authComunMiddleware, offersController.rejectOffer);
 
 module.exports = router;
