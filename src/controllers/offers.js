@@ -104,7 +104,7 @@ const controlador = {
             tipo: "receivedOffers"
         });
 
-        res.redirect("/profile/sentOffers")
+        res.redirect("/profile/sentOffers/orderByASC");
     },
     aceptOffer: async (req, res) => {
         const idURL = req.params.id;
@@ -226,8 +226,9 @@ const controlador = {
             contenido: notificacion_contenido,
             tipo: "sentOffers"
         });
-
-        res.redirect("/profile/receivedOffers")
+        //al agregar filtros para ver las ofertas, no hay solo una url para navegar, asi que ya no debo redirigir explicitamente a "/profile/receiveOffers" xq puede ser tambien "/profile/receiveOffers/filterByPendientes", en cualquiera de los casos al rechazar una oferta voy la url "/rejectOffer/idRandom", con el valor back le indico de la url actual, volve de donde llegaste
+        //funciona bien si el usuario hace todo por botone si ingresa url manual y va a volver a paginas anteriores(solo del sistema)
+        res.redirect("back")
     }      
 }
 

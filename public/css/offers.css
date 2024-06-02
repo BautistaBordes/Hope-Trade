@@ -4,9 +4,29 @@
     font-family: Verdana, Tahoma, sans-serif;
 }
 
+.title-filter-order {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
 .title-page {
-    margin: 0 0 20px 0;
+    margin:0;
     font-size: 20px;
+}
+
+.filter-order {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 25%;
+}
+
+#select-order, #select-filter {
+    cursor: pointer;
+    height: 30px;
 }
 
 .offers {

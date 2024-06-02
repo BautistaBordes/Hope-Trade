@@ -1,46 +1,122 @@
+const { validationResult } = require("express-validator")
+const bcrypt = require('bcryptjs');
+const { Op } = require('sequelize');
 const Publicacion = require("../database/models/Publicacion");
 const Usuario = require('../database/models/Usuario') 
 const Representante = require('../database/models/Representante') 
 const Voluntario = require('../database/models/Voluntario') 
-const { Op, where } = require('sequelize');
-const { validationResult } = require("express-validator")
-const bcrypt = require('bcryptjs');
 const Categoria = require("../database/models/Categoria");
 const Oferta = require("../database/models/Oferta");
 const Filial = require("../database/models/Filial");
 const Notificacion = require("../database/models/Notificacion");
 
 
+const changeDateFormat = f => {
+    let fecha = f.toLocaleDateString().split("/");
+    // toLocaleDateString() devuelve fecha con / en vez de - y los meses o dias de un digito no les pone el 0 adelante, hay q acomodarlo manual
+    if(fecha[0].length == 1) fecha[0] = `0${fecha[0]}`
+    if(fecha[1].length == 1) fecha[1] = `0${fecha[1]}`
+    return fecha.reverse().join("-");
+}
 
-function rejectOldOffers(ofertas) {
-    const hoy = new Date().toISOString().split('T')[0];
 
-    ofertas.forEach(async (oferta) => {
-        if (oferta.fecha < hoy){
-            await Oferta.update({
-                estado: "rechazada automaticamente" 
-            },
-            {
-                where:{
-                id: oferta.id
-                }
-            })
+//offers puede que contenga ofertas solo de tipo pendiente o de todos los estados (pero no solo de rechazadas o de aceptadas)
+const rejectOldOffers = async (offers) => {
 
-            oferta.estado = "rechazada automaticamente" 
+    const fecha = new Date();
+    const hoy = changeDateFormat(fecha);
+    const horario = fecha.toLocaleTimeString().slice(0,-3); // al horario le saco los segundos y queda el string HH:MM (hora y minuto)
 
+    //en caso de que no haya ofertas pendientes antiguas, devuelvo las ofertas normalmente, caso contrario las actualizo
+    let ofertas = offers.filter(offer => offer.estado == "pendiente" && (offer.fecha < hoy || (offer.fecha == hoy  && offer.horario < horario ) ));
+    if (ofertas.length != 0){
+        //x lo q entendi: filter crea un arreglo nuevo con los elementos que cumplen la condicion, pero esos elementos apuntan al mismo lugar (si no son primitivos)
+        const ofertasAActualizar = ofertas.map(async (oferta) => {
+            await Oferta.update( { estado: "rechazada automaticamente" }, { where: { id: oferta.id }  } );
+    
+            //si bien actualizas en la bd el valor, no se hace un findall de nuevo de la oferta, hay que actualizar el valor manualmente en el objeto
+            oferta.estado = "rechazada automaticamente";
+    
             const notificacion_contenido = `Se rechazó automaticamente tu oferta por la publicacion ${oferta.Publicacion.nombre}`;
-
-            const notificacion = await Notificacion.create({
-                usuario_id: oferta.Usuario.id,
+    
+            await Notificacion.create({
+                usuario_id: oferta.usuario_id,
                 contenido: notificacion_contenido,
                 tipo: "sentOffers"
             });
-
-        }
-    }); 
-
-    return ofertas
+    
+            return oferta;
+        }); 
+        await Promise.all(ofertasAActualizar)
+    }
+    return offers;
 }
+
+
+//antes al ver las ofertas no habia orden ni filtro, siempre se TODAS las ofertas en un mismo orden, al agregarle filtros las queries devuelven diferentes objetos
+const getOffers = async (req, res, title, url) => {
+
+    // valores: undefined es xq no tiene filtro se ven todas, sino se filtra x pendientes, aceptadas y rechazadas
+    //x defecto es orden ascendente, el otro valor es descendente que se ven todas las nuevas primero
+    try {
+        const { filterBy: filterParam, orderBy: orderParam } = req.params;
+
+        let objetoFiltro = undefined;
+        if (filterParam) {
+            if (filterParam === "filterByPendientes") objetoFiltro = { estado: "pendiente" };
+            else if (filterParam === "filterByRechazadas") objetoFiltro = { estado: { [Op.or]: ["rechazada", "rechazada automaticamente"] } };
+            else if (filterParam === "filterByAceptadas") objetoFiltro = { estado: "aceptada" };
+            //si escribe algo que no sea algun filtro se redirige al caso default
+            else return res.redirect(`/profile/${url}/orderByASC`);
+        }
+        
+        let objetoOrden = [['id', 'ASC']];
+        if (orderParam === "orderByDESC") objetoOrden = [['id', 'DESC']];
+        else if (orderParam !== "orderByASC") return res.redirect(`/profile/${url}/orderByASC`);
+
+        let objIncludeWhereOrder;
+        if (url === "receivedOffers") {
+            objIncludeWhereOrder = {
+                include: [
+                    {
+                        model: Publicacion,
+                        where: {
+                            usuario_id: req.session.usuario.id
+                            //que deberia hacer con las ofertas a publicaciones que ya aceptaron otra oferta o que incluso ya fueron intercambiadas
+                        }
+                    },
+                    Usuario,
+                    Filial
+                ],
+                where: objetoFiltro,
+                order: objetoOrden
+            };
+        } else {
+            objIncludeWhereOrder = {
+                include: [Publicacion, Usuario, Filial],
+                where: { usuario_id: req.session.usuario.id, ...objetoFiltro },
+                order: objetoOrden
+            };
+        }
+
+        let ofertas = await Oferta.findAll(objIncludeWhereOrder);
+
+        if(filterParam !== "filterByRechazadas" && filterParam !== "filterByAceptadas")ofertas = await rejectOldOffers(ofertas);
+
+        res.render("offers/index", {
+            ofertas: ofertas,
+            title: title,
+            filter: filterParam,
+            order: orderParam
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("error al obtener las ofertas") // despues hacer una vista para renderizar
+    }
+}
+
+
 
 const controlador ={
     myPost: async (req, res) => {
@@ -54,7 +130,6 @@ const controlador ={
             publicaciones: publicaciones, title: "Mis publicaciones"
         });
     },
-
     changePassword: (req,res) => {
         let isEmployee = req.session.usuario.rol == 'comun' ? false : true;            
         res.render('sessions/changePassword', { isEmployee : isEmployee })
@@ -66,20 +141,15 @@ const controlador ={
         if(result.errors.length > 0){
             return res.render("sessions/changePassword", {
                 errors: result.mapped(),
-                msgError: "Hubo un problema los datos para cambiar la contraseña",
+                msgError: "Hubo un problema con los datos para cambiar la contraseña",
                 oldData: req.body
             });
         }
-        let redirect = "/controlPanel"
-        let aux;
-        if ( rol == 'comun'){
-            aux = Usuario
-            redirect = "/posts"
-        }else if ( rol == 'representante'){
-            aux = Representante
-        }else{
-            aux = Voluntario
-        }
+        let userModel;
+        if ( rol == 'comun' )userModel = Usuario;
+        else if ( rol == 'representante') userModel = Representante;
+        else userModel = Voluntario;
+        
 
         const encryptedPassword = bcrypt.hashSync(req.body.new_psw, 10);
   
@@ -103,51 +173,12 @@ const controlador ={
             console.log(error)
         }   
     },
-
     receivedOffers: async (req, res) => {
-
-        let ofertas = await Oferta.findAll({
-            include: [
-                {
-                    model: Publicacion,
-                    where: {
-                        usuario_id: req.session.usuario.id
-                    }
-                },
-                Usuario,
-                Filial
-            ]
-        });
-
-        ofertas = rejectOldOffers(ofertas);
-
-        await new Promise(r => setTimeout(r, 5));
-        //YO NO QUERIA PONER UN WAIT EXPLICITO ASI, PERO NO FUNCIONABA SINO LOCO, PERDON :(
-        
-        res.render("offers/index", {
-            ofertas: ofertas, title: "Ofertas Recibidas"
-        });
-
+        getOffers(req, res, "Ofertas Recibidas", "receivedOffers");
     },
     sentOffers: async (req, res) => {
-
-        let ofertas = await Oferta.findAll( { include: [Usuario, Publicacion, Filial], where: {
-            usuario_id: req.session.usuario.id
-        }
-        });
-
-
-        ofertas = rejectOldOffers(ofertas);
-
-        await new Promise(r => setTimeout(r, 5));
-        //YO NO QUERIA PONER UN WAIT EXPLICITO ASI, PERO NO FUNCIONABA SINO LOCO, PERDON :(
-
-        res.render("offers/index", {
-            ofertas: ofertas, title: "Ofertas Enviadas"
-        });
-
+        getOffers(req, res, "Ofertas Enviadas", "sentOffers");
     }
-
 }
 
 module.exports = controlador;
