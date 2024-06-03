@@ -86,14 +86,15 @@ const getOffers = async (req, res, title, url) => {
                         }
                     },
                     Usuario,
-                    Filial
+                    Filial,
+                    Categoria
                 ],
                 where: objetoFiltro,
                 order: objetoOrden
             };
         } else {
             objIncludeWhereOrder = {
-                include: [Publicacion, Usuario, Filial],
+                include: [Publicacion, Usuario, Filial,Categoria],
                 where: { usuario_id: req.session.usuario.id, ...objetoFiltro },
                 order: objetoOrden
             };

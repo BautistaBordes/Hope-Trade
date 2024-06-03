@@ -10,14 +10,14 @@
     <main>
         <div class="container">
                 <div class="title-on-page">
-                    <p style="margin: 0;"> Notificaciones</p>
+                    <h1> Notificaciones</p>
                 </div>
 
                 <div class="container-notification">
                     <% if (notificaciones.length > 0) { %>
                         <% notificaciones.reverse().forEach(notificacion => { %>
                             <div class="card-notification">
-                                <a class="card-notification-link" href="/profile/<%=notificacion.tipo%>">
+                                <a class="card-notification-link"  href="/profile/<%=notificacion.tipo%>/orderByASC">
                                     <div class="content">
                                         <div class="details">
                                             <p class="contenido"><%=notificacion.contenido%></p>           
@@ -38,5 +38,4 @@
     </main>
     <%- include("./partials/footer") %>
 </body>
-<script src="/js/checkroute.js"></script>
 </html>
