@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <title>Hacer contraOferta</title>
+</head>
+<body>
+    <main>
+        <div class="container">
+
+            <div class="container-form">
+                <div class="title-offer">
+                    <p>Vas a realizar una oferta a <strong><%=oferta.Usuario.nombre%></strong></p>
+                    <p>por la publicacion <strong><%=oferta.nombre%></strong></p>
+                </div>               
+
+                
+                <form action="/contraOffers/<%=oferta.id %>"  method="POST" >
+                    
+                    <div class="container-campo">
+                        <div class="campo">
+                            <label for="fechaPropuesta">Fecha Propuesta</label>
+                            <input id="fechaPropuesta" name="fechaPropuesta" type="text" value="<%= oferta.fecha %>" readonly >
+                        </div>
+    
+    
+                        <div class="campo">
+                            <label for="horaPropuesta">Hora Propuesta</label>
+                            <input id="horaPropuesta" name="horaPropuesta" type="text" value="<%= oferta.hora.slice(0,-3) %>" readonly >
+                        </div>
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="filialPropuesta">Filial Propuesta</label>
+                        <input id="filialPropuesta" name="filialPropuesta" type="text" value="<%= oferta.Filial.nombre %>" readonly>
+                    </div>
+
+
+                    <div class="campo" >
+                        <label for="filial">Filial Nueva</label>
+                        <div id="select_container">
+                            <i id="flechita" class="fa-solid fa-caret-down"></i>
+                            <select id="filial" name="filialNueva">
+                                <option <%= !locals.oldData || oldData.filialNueva == undefined  ? "selected" : ""; %> value="" disabled>
+                                    Elegir Filial
+                                </option>
+                                <% filiales.forEach(filial => { %>
+                                    <option <%= locals.oldData && oldData.filialNueva == filial.id ? "selected" : ""; %> value="<%=filial.id%>">
+                                        <%=filial.nombre%> (<%=filial.direccion%>)
+                                    </option>
+                                <% }) %>  
+                            </select>   
+                        </div>
+
+                        <% if (locals.errors && errors.filialNueva ) { %>
+                            <p class="error-text"><%= errors.filialNueva.msg %></p>
+                        <% } %>    
+                    </div>
+
+                    <div class="container-campo">
+                        <div class="campo">
+                            <label for="fechaNueva">Fecha Nueva</label>
+                            <input type="date" min="<%=hoy%>" max="2030-01-01" id="fechaNueva" name="fechaNueva" value="<%= locals.oldData ? oldData.fechaNueva : null %>">
+                            <% if (locals.errors && errors.fechaNueva ) { %>
+                                <p class="error-text"><%= errors.fechaNueva.msg %></p>
+                            <% } %>
+                        </div>
+
+                        <div class="campo">
+                            <label for="horaNueva">hora Nueva</label>
+                            <input type="time" id="horaNueva" name="horaNueva" value="<%= locals.oldData ? oldData.horaNueva : null %>">
+                            <% if (locals.errors && errors.horaNueva ) { %>
+                                <p class="error-text"><%= errors.horaNueva.msg %></p>
+                            <% } %>
+                        </div>
+                    </div>
+                    
+
+                    <div class="btn-container">
+                        <a id="cancel" class="btn cancelar" >Cancelar</a>
+                        <button class="btn enviar" type="submit">Aceptar</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </main>
+</body>
+<script>
+    const cancelar = document.getElementById("cancel")
+    const urlAnterior = document.referrer;
+    if (urlAnterior == "" ||  urlAnterior.includes("contraOffers")) cancelar.href = "/profile/receivedOffers/orderByASC"
+    else cancelar.href = urlAnterior
+</script>
+</html>

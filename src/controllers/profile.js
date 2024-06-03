@@ -76,20 +76,10 @@ const getOffers = async (req, res, title, url) => {
 
         let objIncludeWhereOrder;
         if (url === "receivedOffers") {
+            //lo cambie xq antes veias las ofertas que eran de tu publicacion, pero si hacias una contra oferta al ser de tu publicacion aparecia igual, asi que la logica ahora es devolveme todas las ofertas que no hice yo
             objIncludeWhereOrder = {
-                include: [
-                    {
-                        model: Publicacion,
-                        where: {
-                            usuario_id: req.session.usuario.id
-                            //que deberia hacer con las ofertas a publicaciones que ya aceptaron otra oferta o que incluso ya fueron intercambiadas
-                        }
-                    },
-                    Usuario,
-                    Filial,
-                    Categoria
-                ],
-                where: objetoFiltro,
+                include: [Publicacion,Usuario,Filial,Categoria],
+                where: { [Op.not]: {usuario_id: req.session.usuario.id}, ...objetoFiltro},  
                 order: objetoOrden
             };
         } else {

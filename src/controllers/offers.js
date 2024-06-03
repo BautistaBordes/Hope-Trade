@@ -230,7 +230,83 @@ const controlador = {
         //al agregar filtros para ver las ofertas, no hay solo una url para navegar, asi que ya no debo redirigir explicitamente a "/profile/receiveOffers" xq puede ser tambien "/profile/receiveOffers/filterByPendientes", en cualquiera de los casos al rechazar una oferta voy la url "/rejectOffer/idRandom", con el valor back le indico de la url actual, volve de donde llegaste
         //funciona bien si el usuario hace todo por botone si ingresa url manual y va a volver a paginas anteriores(solo del sistema)
         res.redirect("back")
-    }      
+    },
+    createContraOffer: async(req, res) => {
+        try {   
+            const idURL = req.params.id;
+
+            const oferta = await Oferta.findOne({ include: [Usuario, Filial] , where: {
+                id: idURL,
+                estado: "pendiente"
+            }});
+    
+            //si la oferta no existe o si yo soy el autor de la oferta no me dejes ofertar
+            if (!oferta || req.session.usuario.id == oferta.usuario_id){
+                return res.render("error404");
+            }
+    
+            const filiales = await Filial.findAll();
+    
+            //logica para horario local si hoy son las 20hs no podes hacer oferta en ninguna filial, arrancas el otro dia 
+            const diaMinimo = getTodayOrTomorrow()
+    
+            res.render("offers/addContraOffer", {
+                oferta: oferta,
+                filiales: filiales,
+                hoy: diaMinimo
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    createContraOfferProccess: async (req, res) => {
+        try {
+            const result = validationResult(req);
+            const idURL = req.params.id;
+            const {filialNueva, fechaNueva, horaNueva} = req.body;
+            const ofertaVieja = await Oferta.findOne({ include: [Usuario, Filial] , where: {
+                id: idURL,
+                estado: "pendiente"
+            }});
+    
+            const filiales = await Filial.findAll();
+    
+            const diaMinimo = getTodayOrTomorrow();
+
+            if (result.errors.length > 0) {
+                return res.render("offers/addContraOffer", {
+                    errors: result.mapped(),
+                    oldData: req.body,
+                    oferta: ofertaVieja,
+                    filiales: filiales,
+                    hoy: diaMinimo
+                });
+            }
+
+            //la otra oferta no debe seguir vigente sino le puedo seguir haciendo contraofertas infinitamente
+            await Oferta.update({ estado: "rechazada automaticamente" }, {where: {id: idURL} } );
+
+            //creo la nueva oferta con datos anteriores
+            await Oferta.create({
+                nombre: ofertaVieja.nombre,
+                descripcion: ofertaVieja.descripcion,
+                url_foto: ofertaVieja.url_foto,
+                usuario_id: req.session.usuario.id,
+                categoria_id: ofertaVieja.categoria_id,
+                publicacion_id: ofertaVieja.publicacion_id,
+                fecha: fechaNueva,
+                hora: horaNueva,
+                filial_id: filialNueva,
+                estado: "pendiente"
+            });
+
+  
+
+            res.redirect("/profile/sentOffers/orderByDESC");
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }
 
 module.exports = controlador;

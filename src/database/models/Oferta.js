@@ -44,6 +44,10 @@ let cols = {
 let config = {
     createdAt: 'created_at',
     updatedAt: false,
+    name: {
+        singular: 'Oferta',
+        plural: 'Oferta',
+    },
     tableName: "oferta"
 }
 

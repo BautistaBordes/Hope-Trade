@@ -131,7 +131,8 @@ input:focus,textarea:focus,select:focus {
 .error-text {
     color: rgb(239, 62, 62);
     margin: 0;
-    margin-top: 10px
+    margin-top: 10px;
+    text-align: justify;
 }
 .correct-text {
     color: rgb(4 159 63);

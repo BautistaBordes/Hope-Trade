@@ -72,7 +72,7 @@
                                 <div class="buttons">
                                     <form class="" action="/offerAccept/<%=oferta.id %>" method="post"> <button class="btn-form aceptar" type="submit">Aceptar</button></form>
                                     <form  action="/offerReject/<%=oferta.id %>" method="post"> <button class="btn-form rechazar" type="submit">Rechazar</button></form>
-                                    <a class="btn contraOferta" href="">Contraofertar</a>
+                                    <a class="btn contraOferta" href="/contraOffers/<%= oferta.id %>">Contraofertar</a>
                                 </div>
     
                             <% } else {%>

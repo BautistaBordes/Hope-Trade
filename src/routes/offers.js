@@ -3,12 +3,16 @@ const router = express.Router();
 const offersController = require("../controllers/offers");
 
 const authComunMiddleware = require("../middlewares/authComunMiddleware");
-const validationsOffer = require("../middlewares/validations/validationsOffers");
+const validationsOffers = require("../middlewares/validations/validationsOffers");
+const validationsContraOffers = require("../middlewares/validations/validationsContraOffers");
 
 
 
 router.get('/offers/:id', authComunMiddleware, offersController.create);
-router.post('/offers/:id', authComunMiddleware, validationsOffer, offersController.createProccess);
+router.post('/offers/:id', authComunMiddleware, validationsOffers, offersController.createProccess);
+
+router.get('/contraOffers/:id', authComunMiddleware, offersController.createContraOffer);
+router.post('/contraOffers/:id', authComunMiddleware, validationsContraOffers, offersController.createContraOfferProccess);
 
 
 router.post('/offerAccept/:id', authComunMiddleware, offersController.acceptOffer);
