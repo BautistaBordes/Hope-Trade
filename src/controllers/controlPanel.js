@@ -1,11 +1,15 @@
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
 const { validationResult } = require("express-validator")
+const passGoogle = require('../../authGoogle')
 const Voluntario = require('../database/models/Voluntario') 
 const Representante = require('../database/models/Representante') 
 const Filial = require('../database/models/Filial')
-const nodemailer = require('nodemailer');
-const { Op } = require('sequelize');
-const passGoogle = require('../../authGoogle')
+const Intercambio = require('../database/models/Intercambio')
+const Oferta = require('../database/models/Oferta')
+const Usuario = require('../database/models/Usuario')
+const Publicacion = require('../database/models/Publicacion')
+
 
 // Configuración del transporte
 const transporter = nodemailer.createTransport({
@@ -151,6 +155,20 @@ const controlador = {
         }   
         
     },
+    exchanges: async (req,res) => {
+        try {
+            const intercambios = await Intercambio.findAll( { 
+                include: [ 
+                    { model: Oferta, include: [Usuario, Filial],  where: {filial_id: req.session.usuario.filial_id} } ,
+                    { model: Publicacion, include: [Usuario] }
+                ], 
+            where: {estado: "pendiente"} } );
+            res.render("controlPanel/exchanges", {intercambios: intercambios});
+        } catch (error) {
+            console.log(error);
+            res.status(500).send("error al ver los intercambios")
+        }
+    }
 
 }
 

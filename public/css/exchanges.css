@@ -1,0 +1,32 @@
+.exchanges-container {
+    width: 72%;
+    margin: 0 auto;
+    height: 100vh;
+}
+
+.exchange-title {
+    font-size: 25px;
+}
+
+.exchanges {
+    height: 85%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+}
+
+.card-exchange {
+    padding: 30px;
+    background: #e8e8e7;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info-container {
+    display: flex;
+    width: 40%;
+    justify-content: space-between;
+}

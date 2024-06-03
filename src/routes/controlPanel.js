@@ -4,6 +4,7 @@ const controlPanelController = require("../controllers/controlPanel");
 
 const authEmployeeMiddleware = require('../middlewares/authEmployeeMiddleware');
 const authRepresentanteMiddleware = require('../middlewares/authRepresentanteMiddleware');
+const authVoluntarioMiddleware = require('../middlewares/authVoluntarioMiddleware');
 
 const validationsRegisterEmployee = require('../middlewares/validations/validationsRegisterEmployee');
 const validationsFilial = require('../middlewares/validations/validationsFilial');
@@ -21,5 +22,8 @@ router.post('/controlPanel/registerRepresentante', authRepresentanteMiddleware, 
 
 router.get('/controlPanel/changeFilial', authRepresentanteMiddleware, controlPanelController.changeFilial);
 router.post('/controlPanel/changeFilial', authRepresentanteMiddleware, validationsFilial, validationsChangeFilial, controlPanelController.changeFilialProcess);
+
+
+router.get('/controlPanel/exchanges', authVoluntarioMiddleware,  controlPanelController.exchanges);
 
 module.exports = router;

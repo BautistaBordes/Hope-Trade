@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <link rel="stylesheet" href="/css/panel.css">
+    <link rel="stylesheet" href="/css/exchanges.css">
+    <title>Intercambios</title>
+</head>
+<body>
+    <%- include('./controlPanel/panel') %>
+    <div class="exchanges-container">
+        <h1 class="exchange-title">Intercambios pendientes</h1>
+        <main class="exchanges" >
+
+            <% if (intercambios.length > 0) { %>
+                <% intercambios.forEach(intercambio => { %>
+                    <div class="card-exchange">
+                        <div class="info-container">
+                            <div class="info-left">
+                                <p class="usuario1"><strong>Usuario 1:</strong> <%=intercambio.Oferta.Usuario.nombre %></p>
+                                <p class="usuario2"><strong>Usuario 2:</strong> <%=intercambio.Publicacion.Usuario.nombre %></p>
+                            </div>
+                            <div class="info-right">
+                                <p class="fecha"><strong>Fecha:</strong> <%=intercambio.Oferta.fecha.split("-").reverse().join("-") %></p>
+                                <p class="hora"><strong>Horario:</strong> <%=intercambio.Oferta.hora.slice(0,-3) %></p>
+                            </div>
+                        </div>
+                        <div class="state-container">
+                            <p>Estado: <%= intercambio.estado %></p>
+                        </div>
+                    </div>
+                <% }) %>
+
+            <% } else { %>
+                <p style="color: grey;"> todavia no tenes intercambios</p>
+            <% } %>
+
+        </main>
+    </div>
+
+
+</body>
+<script src="/js/checkrouteEmployee.js"></script>
+</html>
