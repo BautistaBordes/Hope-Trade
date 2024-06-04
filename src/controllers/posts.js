@@ -51,20 +51,38 @@ const controlador = {
         res.redirect("/profile/myPosts")
     },
     detailPost: async(req, res) =>{
-        const idURL = req.params.id;
+        try {
+            const idURL = req.params.id;
         
-        const publicacion = await Publicacion.findOne({ include: [Usuario, Categoria] , where: {
-            id: idURL,
-            estado: "disponible"
-        }});
+            const publicacion = await Publicacion.findOne({ include: [Usuario, Categoria] , where: {
+                id: idURL,
+                estado: {[Op.or] : ["disponible", "pendiente"]} 
+            }});
+    
+            //si el post no existe o existe pero vos no sos el autor y esta en estado pendiente no la podes mirar
+            const esMia = req.session.usuario.id === publicacion?.usuario_id;
+            if(!publicacion || (publicacion.estado === "pendiente" && !esMia ) ) return res.render("error404");
 
-        if(!publicacion) return res.render("error404");
+            
+            let referer = req.get('Referer');
+            referer = `/${referer.split("/").splice(3).join("/")}`;
+            // si la url donde provengo es desde las ofertas el boton no debe llevarlas a ella, es 
+            if(referer.includes("sentOffers") || referer.includes("receivedOffers") ){
+                if ( esMia ) referer = "/profile/myPosts" ;
+                else referer = "/posts";
+            }
+    
+            res.render("posts/detail", {
+                publicacion: publicacion,
+                referer: referer
+            });
 
-        res.render("posts/detail", {
-            publicacion: publicacion
-        })
+        } catch (error) {
+            console.log(error);
+            res.status(500).send("error al ver detalle de publicacion")
+        }
+
     }
-
 }
 
 module.exports = controlador;

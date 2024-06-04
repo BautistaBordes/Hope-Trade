@@ -79,7 +79,7 @@ const getOffers = async (req, res, title, url) => {
             //lo cambie xq antes veias las ofertas que eran de tu publicacion, pero si hacias una contra oferta al ser de tu publicacion aparecia igual, asi que la logica ahora es devolveme todas las ofertas que no hice yo
             objIncludeWhereOrder = {
                 include: [Publicacion,Usuario,Filial,Categoria],
-                where: { [Op.not]: {usuario_id: req.session.usuario.id}, ...objetoFiltro},  
+                where: { usuario_id: { [Op.ne]: req.session.usuario.id }, ...objetoFiltro},  
                 order: objetoOrden
             };
         } else {
@@ -111,15 +111,22 @@ const getOffers = async (req, res, title, url) => {
 
 const controlador ={
     myPost: async (req, res) => {
-        const publicaciones = await Publicacion.findAll( { include: [Usuario, Categoria], where: {
-            usuario_id: {
-                [Op.eq]: req.session.usuario.id
-            },
-            estado:"disponible"
-        }});
-        res.render("posts/index", {
-            publicaciones: publicaciones, title: "Mis publicaciones"
-        });
+        try {
+            const publicaciones = await Publicacion.findAll( { include: [Usuario, Categoria], 
+                where: {
+                    usuario_id:  req.session.usuario.id,
+                    estado: { [Op.or]: ["disponible", "pendiente"]  }
+                }
+            });
+        
+            res.render("posts/index", {
+                publicaciones: publicaciones, title: "Mis publicaciones"
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).send("error al ver mis publicaciones")
+        }
+
     },
     changePassword: (req,res) => {
         let isEmployee = req.session.usuario.rol == 'comun' ? false : true;            

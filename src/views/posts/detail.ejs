@@ -10,7 +10,7 @@
 
     <div  class="container-detail-comments">
         <div>
-            <a id="volver" style="text-decoration: none; margin-bottom: 20px; margin-top: -35px; color: black; display: block; width: 50px;">volver</a>
+            <a id="volver" href="<%= referer %>" style="text-decoration: none; margin-bottom: 20px; margin-top: -35px; color: black; display: block; width: 50px;">volver</a>
 
         </div>
         <main class="container-detail">
@@ -43,10 +43,4 @@
 
     <%- include("./partials/footer") %>
 </body>
-<script>
-    let  volver = document.getElementById("volver");
-    const urlAnterior = document.referrer;
-    if (urlAnterior == "") volver.href = "/posts"
-    else volver.href = urlAnterior
-</script>
 </html>

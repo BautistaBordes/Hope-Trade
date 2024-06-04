@@ -29,6 +29,7 @@
                                     <div class="top">
                                         <p class="title"><%=publicacion.nombre %></p>
                                     </div>
+                                    <%- title == "Publicaciones" ? null : `<p class="mid-state">Estado: ${publicacion.estado}</p>`  %>
                                     <div class="down">
                                         <p class="categoria"><%= publicacion.Categoria.nombre %></p>
                                     </div>
