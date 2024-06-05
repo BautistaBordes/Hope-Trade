@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator")
 const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize');
+const { createNotification, sendNotificationToMail, changeDateFormat } = require('../globals')
 const Publicacion = require("../database/models/Publicacion");
 const Usuario = require('../database/models/Usuario') 
 const Representante = require('../database/models/Representante') 
@@ -8,16 +9,8 @@ const Voluntario = require('../database/models/Voluntario')
 const Categoria = require("../database/models/Categoria");
 const Oferta = require("../database/models/Oferta");
 const Filial = require("../database/models/Filial");
-const Notificacion = require("../database/models/Notificacion");
 
 
-const changeDateFormat = f => {
-    let fecha = f.toLocaleDateString().split("/");
-    // toLocaleDateString() devuelve fecha con / en vez de - y los meses o dias de un digito no les pone el 0 adelante, hay q acomodarlo manual
-    if(fecha[0].length == 1) fecha[0] = `0${fecha[0]}`
-    if(fecha[1].length == 1) fecha[1] = `0${fecha[1]}`
-    return fecha.reverse().join("-");
-}
 
 
 //offers puede que contenga ofertas solo de tipo pendiente o de todos los estados (pero no solo de rechazadas o de aceptadas)
@@ -32,18 +25,15 @@ const rejectOldOffers = async (offers) => {
     if (ofertas.length != 0){
         //x lo q entendi: filter crea un arreglo nuevo con los elementos que cumplen la condicion, pero esos elementos apuntan al mismo lugar (si no son primitivos)
         const ofertasAActualizar = ofertas.map(async (oferta) => {
-            await Oferta.update( { estado: "rechazada automaticamente" }, { where: { id: oferta.id }  } );
+            await Oferta.update( { estado: "rechazada" }, { where: { id: oferta.id }  } );
     
             //si bien actualizas en la bd el valor, no se hace un findall de nuevo de la oferta, hay que actualizar el valor manualmente en el objeto
-            oferta.estado = "rechazada automaticamente";
+            oferta.estado = "rechazada";
     
-            const notificacion_contenido = `Se rechazó automaticamente tu oferta por la publicacion ${oferta.Publicacion.nombre}`;
-    
-            await Notificacion.create({
-                usuario_id: oferta.usuario_id,
-                contenido: notificacion_contenido,
-                tipo: "sentOffers"
-            });
+            const contenido = `Se rechazó automaticamente tu oferta por la publicacion ${oferta.Publicacion.nombre}`;
+
+            createNotification(oferta.usuario_id, contenido, "sentOffers");
+            //sendNotificationToMail(oferta.Usuario.mail, "Oferta rechazada", oferta.usuario_id, contenido, "sentOffers");
     
             return oferta;
         }); 
@@ -92,7 +82,7 @@ const getOffers = async (req, res, title, url) => {
 
         let ofertas = await Oferta.findAll(objIncludeWhereOrder);
 
-        if(filterParam !== "filterByRechazadas" && filterParam !== "filterByAceptadas")ofertas = await rejectOldOffers(ofertas);
+        if(url === "receivedOffers" && filterParam !== "filterByRechazadas" && filterParam !== "filterByAceptadas") ofertas = await rejectOldOffers(ofertas);
 
         res.render("offers/index", {
             ofertas: ofertas,
@@ -144,7 +134,7 @@ const controlador ={
             });
         }
         let userModel;
-        if ( rol == 'comun' )userModel = Usuario;
+        if ( rol == 'comun' ) userModel = Usuario;
         else if ( rol == 'representante') userModel = Representante;
         else userModel = Voluntario;
         
@@ -152,7 +142,7 @@ const controlador ={
         const encryptedPassword = bcrypt.hashSync(req.body.new_psw, 10);
   
         try {
-            const usuario = await aux.update({
+            const usuario = await userModel.update({
                 password: encryptedPassword
             },
             {

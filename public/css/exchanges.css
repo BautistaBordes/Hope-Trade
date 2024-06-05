@@ -1,21 +1,44 @@
 .exchanges-container {
-    width: 72%;
+    width: 70%;
     margin: 0 auto;
     height: 100vh;
+}
+
+.title-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
 }
 
 .exchange-title {
     font-size: 25px;
 }
 
+.filter {
+    display: flex;
+    align-items: center;
+    width: 350px;
+    justify-content: space-between;
+}
+
+input[type=date] {
+    height: 30px;
+    cursor: pointer;
+}
+
 .exchanges {
-    height: 85%;
+    height: 80%;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
     row-gap: 40px;
 }
 
+.exchanges p {
+    margin: 0;
+    overflow-wrap: break-word;
+}
 .card-exchange {
     padding: 30px;
     background: #e8e8e7;
@@ -25,8 +48,64 @@
     justify-content: space-between;
 }
 
-.info-container {
+.exchange-images {
     display: flex;
     width: 40%;
     justify-content: space-between;
+}
+
+.flecha-intercambio {
+    font-size: 50px;
+    margin-top: 50px;
+}
+
+.images-names {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    justify-content: space-between;
+}
+
+.images {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    row-gap: 25px;
+}
+
+.btn-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.btn-form {
+    color: white;
+    padding: 10px 15px;
+    border-radius: 2px;
+    width: 149.44px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-form:hover {
+    filter: brightness(0.9);
+}
+
+.aceptar {
+    background-color: #abb444;
+}
+
+.rechazar {
+    background-color: #ea5858;
 }

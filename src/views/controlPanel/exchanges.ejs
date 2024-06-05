@@ -9,24 +9,47 @@
 <body>
     <%- include('./controlPanel/panel') %>
     <div class="exchanges-container">
-        <h1 class="exchange-title">Intercambios pendientes</h1>
+        <div class="title-filter">
+            <h1 class="exchange-title">Intercambios pendientes</h1>
+            <div class="filter" >
+                <p>Filtrar por fecha: </p>
+                <input onChange="prueba()" type="date" id="myDate" <%- fecha ? `value="${fecha}"` : null %>>
+            </div>
+        </div>
         <main class="exchanges" >
 
             <% if (intercambios.length > 0) { %>
                 <% intercambios.forEach(intercambio => { %>
                     <div class="card-exchange">
-                        <div class="info-container">
-                            <div class="info-left">
-                                <p class="usuario1"><strong>Usuario 1:</strong> <%=intercambio.Oferta.Usuario.nombre %></p>
-                                <p class="usuario2"><strong>Usuario 2:</strong> <%=intercambio.Publicacion.Usuario.nombre %></p>
+
+                        <div class="exchange-images">
+    
+                            <div class="images-names">
+                                    <img class="images" src="/publicaciones/<%=intercambio.Publicacion.url_foto %>" alt="">
+                                    <p class="name-post">Publicacion</p>
+                                </a>
                             </div>
-                            <div class="info-right">
-                                <p class="fecha"><strong>Fecha:</strong> <%=intercambio.Oferta.fecha.split("-").reverse().join("-") %></p>
-                                <p class="hora"><strong>Horario:</strong> <%=intercambio.Oferta.hora.slice(0,-3) %></p>
+                            
+                            <div class="flecha-intercambio">
+                                <i class="fa-solid fa-arrow-right-arrow-left"></i>
                             </div>
+
+                            <div class="images-names">
+                                <img class="images" src="/ofertas/<%=intercambio.Oferta.url_foto %>" alt="">
+                                <p class="name-post">Oferta</p>
+                            </div>
+
                         </div>
-                        <div class="state-container">
-                            <p>Estado: <%= intercambio.estado %></p>
+
+                        <div class="info-container">
+                            <p class="usuario1"><strong>Usuario 1:</strong> <%=intercambio.Oferta.Usuario.nombre %></p>
+                            <p class="usuario2"><strong>Usuario 2:</strong> <%=intercambio.Publicacion.Usuario.nombre %></p>
+                            <p class="fecha"><strong>Fecha:</strong> <%=intercambio.Oferta.fecha.split("-").reverse().join("-") %></p>
+                            <p class="hora"><strong>Horario:</strong> <%=intercambio.Oferta.hora.slice(0,-3) %></p>
+                        </div>
+                        <div class="btn-container">
+                            <form action="/acceptExchange/<%=intercambio.id %>" method="post"> <button class="btn-form aceptar" type="submit">Aceptar</button></form>
+                            <form action="/rejectExchange/<%=intercambio.id %>" method="post"> <button class="btn-form rechazar" type="submit">Rechazar</button></form>
                         </div>
                     </div>
                 <% }) %>
@@ -38,7 +61,17 @@
         </main>
     </div>
 
-
 </body>
 <script src="/js/checkrouteEmployee.js"></script>
+<script>
+    const prueba = () => { 
+        const inputFecha = document.getElementById("myDate");
+        const fechaSeleccionada = inputFecha.value;
+        const urlArray = window.location.pathname.split("/");
+        let urlTarget = "/controlPanel/exchanges";
+        
+        if (fechaSeleccionada === "") window.location.href = urlTarget;
+        else window.location.href = `${urlTarget}/${fechaSeleccionada}`
+    }
+</script>
 </html>

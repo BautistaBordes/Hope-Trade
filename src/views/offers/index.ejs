@@ -7,17 +7,17 @@
 </head>
 <body>
     <%- include("./partials/nav") %>
-    <% const sontuyas =  title == "Ofertas Enviadas" ? true : false %>
+    <% const sonMias =  title == "Ofertas Enviadas" ? true : false %>
     <div class="container-offers">
         <div class="title-filter-order">
-            <h1 class="title-page">Estas viendo <%= sontuyas ? `tus ${title}` : `las ${title}` %> </h1>
-            <p>tenes <%= ofertas.length %> ofertas</p>
+            <h1 class="title-page">Estas viendo <%= sonMias ? `tus ${title}` : `las ${title}` %> </h1>
+            <p>Hay <strong><%= ofertas.length %></strong> ofertas</p>
 
             <div class="filter-order">
 
                 <select id="select-order" onchange="orden('select-order')" >
-                    <option value="orderByASC" <% (order === "orderByASC") ? "selected" : null %>>Ascendente</option>
-                    <option value="orderByDESC" <%= order === "orderByDESC" ? "selected" : null %>>Descendente</option>
+                    <option value="orderByASC" <% (order === "orderByASC") ? "selected" : null %>>Mas antiguas</option>
+                    <option value="orderByDESC" <%= order === "orderByDESC" ? "selected" : null %>>Mas nuevas</option>
                 </select>
 
                 <select id="select-filter" onchange="filtro('select-filter')">
@@ -44,7 +44,7 @@
                             <div class="images-names">
                                 <a class="container-post" href="/posts/<%= oferta.publicacion_id  %>">
                                     <img class="images" src="/publicaciones/<%=oferta.Publicacion.url_foto %>" alt="">
-                                    <p class="name-post"><%=sontuyas ? "Publicacion Del Usuario" : "Mi Publicacion" %></p>
+                                    <p class="name-post"><%=sonMias ? "Publicacion Del Usuario" : "Mi Publicacion" %></p>
                                 </a>
                             </div>
                             
@@ -54,23 +54,34 @@
 
                             <div class="images-names">
                                 <img class="images" src="/ofertas/<%=oferta.url_foto %>" alt="">
-                                <p class="name-post"><%=sontuyas ? "Mi Oferta" : "Oferta Del Usuario" %></p>
+                                <p class="name-post"><%=sonMias ? "Mi Oferta" : "Oferta Del Usuario" %></p>
                             </div>
 
                         </div>
     
                         <div class="offers-info">
-                            <%- !sontuyas ?  `<p class="ofertante"><strong>Ofertante:</strong> ${oferta.Usuario.nombre}</p>` : null %>
-                            <p class="filial"><strong>Filial:</strong> <%=oferta.Filial.nombre %> (<%=oferta.Filial.direccion %>)</p>
-                            <p class="fecha"><strong>Fecha:</strong> <%=oferta.fecha.split("-").reverse().join("-") %></p>
-                            <p class="hora"><strong>Horario:</strong> <%=oferta.hora.slice(0,-3) %></p>
-                            <button id="<%= `btn-${oferta.id}` %>" style=" width: 149.44px; padding: 10px; background-color: #abb444; border: none; color: white; cursor: pointer;" <%- `onclick="showModal('${oferta.nombre}', '${oferta.Categoria.nombre}', '${oferta.descripcion}' )"` %> >Info Oferta</button>
+                            <% 
+                                const nombreUsuario = oferta.Usuario.nombre;
+                                const nombreOferta =  oferta.nombre;
+                                const filial =  `${oferta.Filial.nombre} (${oferta.Filial.direccion})`;
+                                const fecha =  oferta.fecha.split("-").reverse().join("-");
+                                const hora = oferta.hora.slice(0,-3);
+                                const categoria = oferta.Categoria.nombre;
+                                const descripcion = oferta.descripcion;
+                            %>
+
+                            <% if (sonMias) { %>
+                                <button class="btn-info" <%- `onclick="showModal( '', '${nombreOferta}' , '${filial}', '${fecha}'  ,'${hora}', '${categoria}', '${descripcion}' )"` %> >Info Oferta</button>
+                            <% } else { %>
+                                <button class="btn-info" <%- `onclick="showModal( '${nombreUsuario}',  '${nombreOferta}', '${filial}', '${fecha}'  ,'${hora}', '${categoria}', '${descripcion}' )"` %> >Info Oferta</button>
+                             <% } %>
+                            
                         </div>
 
                         <div class="offers-states">
-                            <% if ( !sontuyas && oferta.estado == "pendiente") { %>
+                            <% if ( !sonMias && oferta.estado == "pendiente") { %>
                                 <div class="buttons">
-                                    <form class="" action="/offerAccept/<%=oferta.id %>" method="post"> <button class="btn-form aceptar" type="submit">Aceptar</button></form>
+                                    <form  action="/offerAccept/<%=oferta.id %>" method="post"> <button class="btn-form aceptar" type="submit">Aceptar</button></form>
                                     <form  action="/offerReject/<%=oferta.id %>" method="post"> <button class="btn-form rechazar" type="submit">Rechazar</button></form>
                                     <a class="btn contraOferta" href="/contraOffers/<%= oferta.id %>">Contraofertar</a>
                                 </div>
@@ -126,12 +137,18 @@ const filtro = id => {
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
-const showModal = (name, category, desc) => {
+const showModal = (userOffer, nameOffer, filial, theDate, hour, category, desc) => {
+    let ofertanteHTML = "";
+    if (userOffer != "") ofertanteHTML = `<p><strong>Ofertante:</strong> ${userOffer}</p>`
     Swal.fire({
-    title: `<p style="font-family:tahoma,verdana; margin-bottom: 5px">Estas viendo la oferta: ${name}</p>`,
+    title: `<p style="font-family:tahoma,verdana; margin-bottom: 5px">Estas viendo la oferta: ${nameOffer}</p>`,
     position: 'center',
     html: `
     <div style="font-family:verdana;">
+        ${ofertanteHTML}
+        <p><strong>Filial:</strong> ${filial}</p>
+        <p><strong>Fecha:</strong> ${theDate}</p>
+        <p><strong>Horario:</strong> ${hour}</p>
         <p><strong>Categoria:</strong> ${category}</p>
         <p><strong>Descripcion:</strong> ${desc}</p>
     </div>

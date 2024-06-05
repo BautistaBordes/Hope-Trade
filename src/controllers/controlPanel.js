@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
 const { validationResult } = require("express-validator")
-const passGoogle = require('../../authGoogle')
+const { sendToMail } = require('../globals')
 const Voluntario = require('../database/models/Voluntario') 
 const Representante = require('../database/models/Representante') 
 const Filial = require('../database/models/Filial')
@@ -11,34 +10,17 @@ const Usuario = require('../database/models/Usuario')
 const Publicacion = require('../database/models/Publicacion')
 
 
-// Configuración del transporte
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, 
-    auth: {
-      user: "hopetrade.lp@gmail.com",
-      pass: passGoogle,
-    },
-  });
-  
-function sendMail(mail, password){
-    // Detalles del correo electrónico
-    let mailOptions = {
-        from: 'hopetrade.lp@gmail.com', // Dirección del remitente
-        to: mail, // Dirección del destinatario
-        subject: 'Bienvenido a Hope Trade',
-        text: `Tu contraseña es ${password}` 
-    };
 
-    // Enviar el correo electrónico
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log('Error al enviar el correo: ' + error);
-        } else {
-            console.log('Correo enviado: ' + info.response);
-        }
-    });
+const generarContrasenaAleatoria = (longitud)=> {
+    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
+    let contrasena = '';
+
+    for (let i = 0; i < longitud; i++) {
+        const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
+        contrasena += caracteres.charAt(indiceAleatorio);
+    }
+  
+    return contrasena;
 }
 
 const controlador = {
@@ -54,7 +36,6 @@ const controlador = {
         const result = validationResult(req);
         const filiales = await Filial.findAll();
         const {nombre, apellido, mail, filial} = req.body;
-        const password = parseInt(Math.random() * (999999 + 100000) + 100000);
 
 
         if(result.errors.length > 0){
@@ -66,9 +47,11 @@ const controlador = {
             });
         }
 
-        const encryptedPassword = bcrypt.hashSync(password.toString(), 10);
+        const password = generarContrasenaAleatoria(6);
+
+        const encryptedPassword = bcrypt.hashSync(password, 10);
         try {
-            const voluntario = await Voluntario.create({
+            await Voluntario.create({
                 nombre: nombre, 
                 apellido: apellido,
                 mail: mail,
@@ -76,7 +59,7 @@ const controlador = {
                 filial_id: filial
             });
             
-            sendMail(mail, password);
+            sendToMail(mail, 'Bienvenido a Hope Trade' ,` ¡Bienvenido ${nombre}! Tu contraseña es ${password}`);
             
             res.render("controlPanel/registerVoluntario", {filiales : filiales, operacion:true})
 
@@ -92,7 +75,6 @@ const controlador = {
         const result = validationResult(req);
 
         const {nombre, apellido, mail} = req.body;
-        const password = parseInt(Math.random() * (999999 + 100000) + 100000);
 
 
         if(result.errors.length > 0){
@@ -103,7 +85,9 @@ const controlador = {
             });
         }
 
-        const encryptedPassword = bcrypt.hashSync(password.toString(), 10);
+        const password = generarContrasenaAleatoria(6);
+
+        const encryptedPassword = bcrypt.hashSync(password, 10);
         try {
             const representante = await Representante.create({
                 nombre: nombre, 
@@ -112,7 +96,7 @@ const controlador = {
                 password: encryptedPassword
             });
 
-            sendMail(mail, password);
+            sendToMail(mail, 'Bienvenido a Hope Trade' ,` ¡Bienvenido ${nombre}! Tu contraseña es ${password}`);
 
             res.render("controlPanel/registerRepresentante", {operacion:true})
 
@@ -155,15 +139,22 @@ const controlador = {
         }   
         
     },
-    exchanges: async (req,res) => {
+    exchangesFilter: async (req,res) => {
         try {
+            const fechaURL = req.params.filterByDate;
+            let whereObject = {filial_id: req.session.usuario.filial_id};
+            if(fechaURL != undefined) whereObject = {...whereObject, fecha: fechaURL};
+            
             const intercambios = await Intercambio.findAll( { 
                 include: [ 
-                    { model: Oferta, include: [Usuario, Filial],  where: {filial_id: req.session.usuario.filial_id} } ,
+                    { model: Oferta, include: [Usuario, Filial],  where: whereObject } ,
                     { model: Publicacion, include: [Usuario] }
                 ], 
-            where: {estado: "pendiente"} } );
-            res.render("controlPanel/exchanges", {intercambios: intercambios});
+                where: {estado: "pendiente"} 
+            } );
+
+            res.render("controlPanel/exchanges", {intercambios: intercambios, fecha:fechaURL});
+
         } catch (error) {
             console.log(error);
             res.status(500).send("error al ver los intercambios")

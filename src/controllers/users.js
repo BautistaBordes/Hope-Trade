@@ -1,17 +1,11 @@
 const { validationResult } = require("express-validator")
 const bcrypt = require('bcryptjs');
-
+const { changeDateFormat } = require('../globals');
 const Usuario = require('../database/models/Usuario')
 const Voluntario = require("../database/models/Voluntario");
 const Representante = require("../database/models/Representante");
 
 
-const changeDateFormat = f => {
-    let fecha = f.toLocaleDateString().split("/");
-    if(fecha[0].length == 1) fecha[0] = `0${fecha[0]}`
-    if(fecha[1].length == 1) fecha[1] = `0${fecha[1]}`
-    return fecha.reverse().join("-");
-}
 
 
 const controlador = {

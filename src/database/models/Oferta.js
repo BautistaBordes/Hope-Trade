@@ -24,7 +24,7 @@ let cols = {
         allowNull: false
     },
     fecha: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY, //guarda la hora tambien y no se puede buscar x fecha despues.
         allowNull: false
     },
     hora: {
