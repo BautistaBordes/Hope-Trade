@@ -148,17 +148,26 @@ const controlador = {
             const intercambios = await Intercambio.findAll( { 
                 include: [ 
                     { model: Oferta, include: [Usuario, Filial],  where: whereObject } ,
-                    {model: Oferta, as: 'oferta_padre', where: { usuario_id: intercambio.Oferta.oferta_padre_id  }, include: [Usuario]  },
                     { model: Publicacion, include: [Usuario] }
                 ], 
                 where: {estado: "pendiente"} 
             } );
 
+            const intercambios2 = await Promise.all(intercambios.map( async intercambio => {
+                if(intercambio.Publicacion.usuario_id == intercambio.Oferta.usuario_id) {
+                    const ofertaPadre = await Oferta.findOne({   
+                        where: { usuario_id: intercambio.Oferta.oferta_padre_id },
+                        include: [ Usuario ]
+                    });
+                    intercambio.Oferta = {...intercambio.Oferta, ofertaPadre};
+                }
+               
+                return intercambio;
+            }));
             
 
 
-
-            res.render("controlPanel/exchanges", {intercambios: intercambios, fecha:fechaURL});
+            res.render("controlPanel/exchanges", {intercambios: intercambios2, fecha:fechaURL});
 
         } catch (error) {
             console.log(error);

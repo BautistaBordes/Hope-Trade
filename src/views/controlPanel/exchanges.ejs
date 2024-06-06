@@ -19,10 +19,8 @@
         <main class="exchanges" >
 
             <% if (intercambios.length > 0) { %>
-                <% console.log("frontend_______________________________________") %>
                
                 <% intercambios.forEach(intercambio => { %>
-                    <% console.log(intercambio.Oferta) %>
                     <div class="card-exchange">
 
                         <div class="exchange-images">
@@ -38,17 +36,17 @@
                             </div>
 
                             <div class="images-names">
-                                <img class="images" src="/ofertas/<%=intercambio.Oferta.url_foto %>" alt="">
+                                <img class="images" src="/ofertas/<%=intercambio.Oferta.dataValues.url_foto %>" alt="">
                                 <p class="name-post">Oferta</p>
                             </div>
 
                         </div>
 
                         <div class="info-container">
-                            <p class="usuario1"><strong>Usuario 1:</strong> <%=  intercambio.Publicacion.usuario_id == intercambio.Oferta.usuario_id ?  intercambio.Oferta.oferta_padre.nombre : intercambio.Oferta.Usuario.nombre %></p>
+                            <p class="usuario1"><strong>Usuario 1:</strong> <%=  intercambio.Publicacion.usuario_id == intercambio.Oferta.dataValues.usuario_id ?  intercambio.Oferta.ofertaPadre.Usuario.nombre : intercambio.Oferta.Usuario.nombre %></p>
                             <p class="usuario2"><strong>Usuario 2:</strong> <%=intercambio.Publicacion.Usuario.nombre %></p>
-                            <p class="fecha"><strong>Fecha:</strong> <%=intercambio.Oferta.fecha.split("-").reverse().join("-") %></p>
-                            <p class="hora"><strong>Horario:</strong> <%=intercambio.Oferta.hora.slice(0,-3) %></p>
+                            <p class="fecha"><strong>Fecha:</strong> <%=intercambio.Oferta.dataValues.fecha.split("-").reverse().join("-") %></p>
+                            <p class="hora"><strong>Horario:</strong> <%=intercambio.Oferta.dataValues.hora.slice(0,-3) %></p>
                         </div>
                         <div class="btn-container">
                             <form action="/acceptExchange/<%=intercambio.id %>" method="post"> <button class="btn-form aceptar" type="submit">Aceptar</button></form>
