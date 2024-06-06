@@ -167,6 +167,7 @@ CREATE TABLE hopetrade.oferta (
 	id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 
 	publicacion_id INT(10) UNSIGNED NOT NULL,
+	oferta_padre_id INT(10) UNSIGNED NULL,
 
 	nombre VARCHAR(50) NOT NULL,
 	descripcion TEXT NOT NULL,
@@ -188,7 +189,8 @@ CREATE TABLE hopetrade.oferta (
 	CONSTRAINT oferta_FK FOREIGN KEY (publicacion_id) REFERENCES hopetrade.publicacion(id),
 	CONSTRAINT oferta_FK_1 FOREIGN KEY (categoria_id) REFERENCES hopetrade.categoria(id),
     CONSTRAINT oferta_FK_2 FOREIGN KEY (usuario_id) REFERENCES hopetrade.usuario(id),
-	CONSTRAINT oferta_FK_3 FOREIGN KEY (filial_id) REFERENCES hopetrade.filial(id)
+	CONSTRAINT oferta_FK_3 FOREIGN KEY (filial_id) REFERENCES hopetrade.filial(id),
+	CONSTRAINT oferta_FK_4 FOREIGN KEY (oferta_padre_id) REFERENCES hopetrade.oferta(id)
 
 )
 ENGINE=InnoDB

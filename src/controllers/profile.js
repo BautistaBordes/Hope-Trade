@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator")
 const bcrypt = require('bcryptjs');
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 const { createNotification, sendNotificationToMail, changeDateFormat } = require('../globals')
 const Publicacion = require("../database/models/Publicacion");
 const Usuario = require('../database/models/Usuario') 
@@ -65,24 +65,62 @@ const getOffers = async (req, res, title, url) => {
         else if (orderParam !== "orderByASC") return res.redirect(`/profile/${url}/orderByASC`);
 
         let objIncludeWhereOrder;
+        let ofertas;
         if (url === "receivedOffers") {
-            //lo cambie xq antes veias las ofertas que eran de tu publicacion, pero si hacias una contra oferta al ser de tu publicacion aparecia igual, asi que la logica ahora es devolveme todas las ofertas que no hice yo
+            /*
+            tenes 3 escenarios al ver las ofertas recibidas, 
+            1_subiste una publicacion y te hacen una oferta, 
+            2_otro usuario hizo una publicacion, hiciste una oferta y el otro usuario te envio una contraferta
+            3_subiste una publicacion, "juan" te hizo una oferta, vos le hiciste una contraoferta a "juan" y "juan" te hizo una contraoferta a esa que hiciste vos
+
+
+            entonces:
+            en nuestro diseño de tabla de oferta, 3 valores importantes
+            id: identificacion de cada oferta
+            publicacion_id: indicas a que publicacion esta ligada la oferta (aca comenzo todo)
+            oferta_padre_id: indica que ES una contraoferta, xq le responde a otra que es su padre, si es una oferta a una publicacion directa, tiene valor null
+
+    
+            entonces pense en 2 filtros
+            1_ primero devolveme todas las ofertas ligadas a mis publicaciones pero puede haber contraofertas q hice yo que esten ligadas a una publicacion mia, asi que ademas esas ofertas NO tienen que ser mias.
+
+            2_por otro lado yo quiero ver las contraofertas relacionadas a publicaciones ajenas que me enviaron respondiendo a una oferta/contraoferta mia.
+            x lo cual quiero las ofertas que esten ligadas a publicaciones que no sean mias, y que tengan como oferta_padre una oferta mia, o sea me estan respondiendo a mi.
+            */
+
             objIncludeWhereOrder = {
-                include: [Publicacion,Usuario,Filial,Categoria],
-                where: { usuario_id: { [Op.ne]: req.session.usuario.id }, ...objetoFiltro},  
+                include: [{model: Publicacion, where: { usuario_id: req.session.usuario.id } },
+                      Usuario, Filial, Categoria],
+                where: { ...objetoFiltro, usuario_id: { [Op.ne]: req.session.usuario.id }},  
                 order: objetoOrden
             };
+
+            ofertas = await Oferta.findAll(objIncludeWhereOrder)
+
+            objIncludeWhereOrder = {
+                include: [ {model: Oferta, as: 'oferta_padre', where: { usuario_id: req.session.usuario.id  } }, 
+                {model: Publicacion, where: { usuario_id: { [Op.ne]: req.session.usuario.id } } },
+                Usuario, Filial, Categoria ],
+                where: {...objetoFiltro},
+                order: objetoOrden
+            }
+
+            let contraOfertas = await Oferta.findAll(objIncludeWhereOrder);
+            
+            ofertas = ofertas.concat(contraOfertas);
+
+            if(ofertas.length > 0 && filterParam !== "filterByRechazadas" && filterParam !== "filterByAceptadas") ofertas = await rejectOldOffers(ofertas);
+ 
         } else {
             objIncludeWhereOrder = {
                 include: [Publicacion, Usuario, Filial,Categoria],
                 where: { usuario_id: req.session.usuario.id, ...objetoFiltro },
                 order: objetoOrden
             };
+
+            ofertas = await Oferta.findAll(objIncludeWhereOrder)
         }
 
-        let ofertas = await Oferta.findAll(objIncludeWhereOrder);
-
-        if(url === "receivedOffers" && filterParam !== "filterByRechazadas" && filterParam !== "filterByAceptadas") ofertas = await rejectOldOffers(ofertas);
 
         res.render("offers/index", {
             ofertas: ofertas,

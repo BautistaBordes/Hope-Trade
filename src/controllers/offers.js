@@ -73,7 +73,7 @@ const controlador = {
             });
         }
         
-        await Oferta.create({
+        const oferta= await Oferta.create({
             nombre: nombre,
             descripcion: descripcion,
             url_foto: req.file.filename,
@@ -100,7 +100,7 @@ const controlador = {
         //van a aparecer los botones solo si tenes ofertas pendientes en publicaciones de tu autoridad (solo haria falta el id)
         const oferta = await Oferta.findOne ({
             include: [ Publicacion], 
-            where: { id: idURL, usuario_id: req.session.usuario.id } 
+            where: { id: idURL } 
         });
 
 
@@ -198,11 +198,11 @@ const controlador = {
             const result = validationResult(req);
             const idURL = req.params.id;
             const {filialNueva, fechaNueva, horaNueva} = req.body;
-            const ofertaVieja = await Oferta.findOne({ include: [Usuario, Filial] , where: {
+            const ofertaVieja = await Oferta.findOne({ include: [Usuario, Filial, Publicacion] , where: {
                 id: idURL,
                 estado: "pendiente"
             }});
-    
+            
             const filiales = await Filial.findAll();
     
             const diaMinimo = getTodayOrTomorrow();
@@ -218,7 +218,7 @@ const controlador = {
             }
 
             //la otra oferta no debe seguir vigente sino le puedo seguir haciendo contraofertas infinitamente
-            await Oferta.update({ estado: "rechazada automaticamente" }, {where: {id: idURL} } );
+            await Oferta.update({ estado: "rechazada automaticamente" }, {where: {id: ofertaVieja.id} } );
 
             //creo la nueva oferta con datos anteriores
             await Oferta.create({
@@ -228,15 +228,16 @@ const controlador = {
                 usuario_id: req.session.usuario.id,
                 categoria_id: ofertaVieja.categoria_id,
                 publicacion_id: ofertaVieja.publicacion_id,
+                oferta_padre_id: ofertaVieja.id,
                 fecha: fechaNueva,
                 hora: horaNueva,
                 filial_id: filialNueva,
                 estado: "pendiente"
             });
 
-            const contenido = `${req.session.usuario.nombre} le interesa tu oferta ${oferta.nombre} por la publicacion ${oferta.Publicacion.nombre} pero propuso otro lugar u otra fecha`;
+            const contenido = `${req.session.usuario.nombre} le interesa tu oferta ${ofertaVieja.nombre} por la publicacion ${ofertaVieja.Publicacion.nombre} pero propuso otro lugar u otra fecha`;
 
-            createNotification(oferta.usuario_id, contenido, "receivedOffers");
+            createNotification(ofertaVieja.usuario_id, contenido, "receivedOffers");
 
             res.redirect("/profile/sentOffers/orderByDESC");
         } catch (error) {

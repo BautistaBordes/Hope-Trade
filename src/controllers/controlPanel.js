@@ -148,10 +148,15 @@ const controlador = {
             const intercambios = await Intercambio.findAll( { 
                 include: [ 
                     { model: Oferta, include: [Usuario, Filial],  where: whereObject } ,
+                    {model: Oferta, as: 'oferta_padre', where: { usuario_id: intercambio.Oferta.oferta_padre_id  }, include: [Usuario]  },
                     { model: Publicacion, include: [Usuario] }
                 ], 
                 where: {estado: "pendiente"} 
             } );
+
+            
+
+
 
             res.render("controlPanel/exchanges", {intercambios: intercambios, fecha:fechaURL});
 
