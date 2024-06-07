@@ -79,7 +79,7 @@
                     
 
                     <div class="btn-container">
-                        <a id="cancel" class="btn cancelar" >Cancelar</a>
+                        <a class="btn cancelar" href="<%= volverCrearContraOferta %>" >Cancelar</a>
                         <button class="btn enviar" type="submit">Aceptar</button>
                     </div>
 
@@ -89,10 +89,4 @@
         </div>
     </main>
 </body>
-<script>
-    const cancelar = document.getElementById("cancel")
-    const urlAnterior = document.referrer;
-    if (urlAnterior == "" ||  urlAnterior.includes("contraOffers")) cancelar.href = "/profile/receivedOffers/orderByASC"
-    else cancelar.href = urlAnterior
-</script>
 </html>

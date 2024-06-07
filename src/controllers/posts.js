@@ -5,7 +5,7 @@ const Usuario = require("../database/models/Usuario");
 const Categoria = require("../database/models/Categoria");
 
 
-
+let volverAgregarPublicacion; //en esta variable guardo la url de donde vine para crear una publicacion inicialmente, si hay errores el link del boton cancelar se mantiene igual
 
 const controlador = {
     index: async (req, res) => {
@@ -20,8 +20,9 @@ const controlador = {
         });
     },
     add: async (req, res) => {
+        volverAgregarPublicacion = req.get('referer') || '/posts';
         const categories = await Categoria.findAll();
-        res.render("posts/add", {categorias: categories});
+        res.render("posts/add", {categorias: categories, volverAgregarPublicacion});
     },
     addProccess: async (req, res) => {
         const result = validationResult(req);
@@ -35,7 +36,8 @@ const controlador = {
             return res.render("posts/add", {
                 errors: result.mapped(),
                 oldData: req.body,
-                categorias: categories
+                categorias: categories,
+                volverAgregarPublicacion
             });
         }
         
@@ -63,14 +65,13 @@ const controlador = {
             const esMia = req.session.usuario.id === publicacion?.usuario_id;
             if(!publicacion || (publicacion.estado === "pendiente" && !esMia ) ) return res.render("error404");
 
-            
-            let referer = req.get('Referer');
-            referer = `/${referer.split("/").splice(3).join("/")}`;
-            // si la url donde provengo es desde las ofertas el boton no debe llevarlas a ella, es 
-            if(referer.includes("sentOffers") || referer.includes("receivedOffers") ){
-                if ( esMia ) referer = "/profile/myPosts" ;
+ 
+
+            let referer =  req.get('referer');
+            if (!referer || referer.includes("sentOffers") || referer.includes("receivedOffers") || referer.includes("offers") ) {
+                if ( esMia ) referer = "/profile/myPosts";
                 else referer = "/posts";
-            }
+            } else  referer = `/${referer.split("/").splice(3).join("/")}`
     
             res.render("posts/detail", {
                 publicacion: publicacion,

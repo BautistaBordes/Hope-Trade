@@ -7,11 +7,11 @@
 </head>
 <body>
     <%- include('./controlPanel/panel') %>
-    <main>
+    <main style="margin-left: 20px; margin-top: 20px;">
         <p class="asdas">Bienvenido <%=locals.usuario.nombre %> <%=locals.usuario.apellido %> al panel de control </p>
         <p class="asdas">Ingresaste como <%=locals.usuario.rol %> </p>
         <% if (locals.usuario.rol == "voluntario"){ %> 
-        <p class="asdas">Tu filial es la <%=locals.usuario.filial_id %> </p> 
+        <p class="asdas">Tu filial es <strong><%= filial.nombre %></strong> ubicada en <strong><%=  filial.direccion %></strong></p> 
         <% } %> 
     </main>
 </body>

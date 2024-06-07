@@ -11,7 +11,7 @@
     <div class="container-offers">
         <div class="title-filter-order">
             <h1 class="title-page">Estas viendo <%= sonMias ? `tus ${title}` : `las ${title}` %> </h1>
-            <p>Hay <strong><%= ofertas.length %></strong> ofertas</p>
+            <p>Hay <strong><%= ofertas.length %></strong> <%= ofertas.length === 1 ? "oferta" : "ofertas" %></p>
 
             <div class="filter-order">
 
@@ -42,7 +42,7 @@
                         <div class="offer-images">
     
                             <div class="images-names">
-                                <a class="container-post"  <%- oferta.Publicacion.estado === "disponible" ? `href="/posts/${oferta.publicacion_id}"` : null %> >
+                                <a class="container-post"  <%- (locals.usuario.id === oferta.Publicacion.usuario_id &&  oferta.Publicacion.estado != "intercambiada") || (locals.usuario.id !== oferta.Publicacion.usuario_id && oferta.Publicacion.estado === "disponible")  ? `href="/posts/${oferta.publicacion_id}" target="_blank" ` : null %> >
                                     <img class="images" src="/publicaciones/<%=oferta.Publicacion.url_foto %>" alt="">
                                     <p class="name-post"><%= oferta.Publicacion.nombre  %></p>
                                 </a>
@@ -54,7 +54,7 @@
 
                             <div class="images-names">
                                 <img class="images" src="/ofertas/<%=oferta.url_foto %>" alt="">
-                                <p class="name-post"><%= oferta.nombre  %></p>
+                                <p class="name-offer"><%= oferta.nombre  %></p>
                             </div>
 
                         </div>

@@ -24,8 +24,10 @@ const generarContrasenaAleatoria = (longitud)=> {
 }
 
 const controlador = {
-    index: (req,res) =>{
-        res.render("controlPanel/index")
+    index: async (req,res) => {
+        let filial;
+        if (req.session.usuario.rol === "voluntario") filial = await Filial.findOne({where: {id : req.session.usuario.filial_id}})
+        res.render("controlPanel/index", {filial})
     },
 
     registerVoluntario: async (req,res)=>{

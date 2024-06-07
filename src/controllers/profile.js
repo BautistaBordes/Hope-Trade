@@ -136,6 +136,7 @@ const getOffers = async (req, res, title, url) => {
 }
 
 
+let volverCambiarContrasenia;  //en esta variable guardo la url de donde vine para cambiar la contraseña inicialmente, si hay errores el link del boton cancelar se mantiene igual
 
 const controlador ={
     myPost: async (req, res) => {
@@ -157,8 +158,9 @@ const controlador ={
 
     },
     changePassword: (req,res) => {
-        let isEmployee = req.session.usuario.rol == 'comun' ? false : true;            
-        res.render('sessions/changePassword', { isEmployee : isEmployee })
+        volverCambiarContrasenia = req.get('referer') ?  `/${req.get('referer').split("/").splice(3).join("/")}` : (req.session.usuario.rol === "comun" ? "/posts" : "/controlPanel" );
+
+        res.render('sessions/changePassword', { volverCambiarContrasenia})
     },
     changePasswordProcess: async (req,res)=> {
         const result = validationResult(req);
@@ -168,7 +170,8 @@ const controlador ={
             return res.render("sessions/changePassword", {
                 errors: result.mapped(),
                 msgError: "Hubo un problema con los datos para cambiar la contraseña",
-                oldData: req.body
+                oldData: req.body,
+                volverCambiarContrasenia
             });
         }
         let userModel;

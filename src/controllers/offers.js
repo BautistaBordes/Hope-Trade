@@ -16,6 +16,7 @@ const getTodayOrTomorrow = () => {
 
 }
 
+let volverCrearContraOferta; //en esta variable guardo la url de donde vine para hacer una contraoferta inicialmente, si hay errores el link del boton cancelar se mantiene igual
 
 const controlador = {
     create: async (req, res) => {
@@ -168,11 +169,14 @@ const controlador = {
     
             //logica para horario local si hoy son las 20hs no podes hacer oferta en ninguna filial, arrancas el otro dia 
             const diaMinimo = getTodayOrTomorrow()
+
+            volverCrearContraOferta = req.get('referer') ?  `/${req.get('referer').split("/").splice(3).join("/")}` : '/profile/receivedOffers/orderByASC';
     
             res.render("offers/addContraOffer", {
                 oferta: oferta,
                 filiales: filiales,
-                hoy: diaMinimo
+                hoy: diaMinimo,
+                volverCrearContraOferta
             });
         } catch (error) {
             console.log(error)
@@ -198,7 +202,8 @@ const controlador = {
                     oldData: req.body,
                     oferta: ofertaVieja,
                     filiales: filiales,
-                    hoy: diaMinimo
+                    hoy: diaMinimo,
+                    volverCrearContraOferta
                 });
             }
 
