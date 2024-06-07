@@ -96,6 +96,7 @@ const controlador = {
     },
     acceptOffer: async (req, res) => {
         const idURL = req.params.id;
+        const referer = req.get('Referer');
         //ahora que no pueden acceder por url (a menos q usen postman o una app asi) sino solo por el boton, me parece que no es necesario tanta logica, 
         //van a aparecer los botones solo si tenes ofertas pendientes en publicaciones de tu autoridad (solo haria falta el id)
         const oferta = await Oferta.findOne ({
@@ -111,35 +112,19 @@ const controlador = {
         });
 
         await Oferta.update( { estado: "aceptada" }, { where: { id: oferta.id } });
+        
+        await Oferta.update( { estado: "pausada" }, { where: {publicacion_id: oferta.publicacion_id, estado: "pendiente" } });
 
         //ahora no deberian ver la publicacion ni hacerle ofertas
         await Publicacion.update( { estado: "pendiente" }, { where: { id: oferta.publicacion_id }});
-
-        
-        const rechazarOferta = async (oferta) => {
-            await Oferta.update( { estado: "rechazada" }, { where: { id: oferta.id } } );
-            
-            const contenido = `La publicacion ${oferta.Publicacion.nombre} no esta disponible por el momento!`;
-
-            createNotification(oferta.usuario_id, contenido, "sentOffers");
-            //sendNotificationToMail(oferta.Usuario.mail, "Oferta no disponible", oferta.usuario_id, contenido, "sentOffers");
-    
-        }
-
-        const ofertasARechazar = await Oferta.findAll ({ include: [Publicacion],  where: {
-            publicacion_id: oferta.publicacion_id,
-            estado: "pendiente"
-        } } )
-
-        ofertasARechazar.forEach(oferta => rechazarOferta(oferta))
-        
 
         const contenido = `${req.session.usuario.nombre} aceptó tu oferta ${oferta.nombre}, por la publicacion ${oferta.Publicacion.nombre}`;
 
         createNotification(oferta.usuario_id, contenido, "sentOffers");
         //sendNotificationToMail(oferta.Usuario.mail, "Oferta rechazada", oferta.usuario_id, contenido, "sentOffers");
 
-        res.redirect("/profile/myExchanges");
+
+        res.redirect(referer);
     },
     rejectOffer: async (req, res) => {
         const idURL = req.params.id;
@@ -150,7 +135,7 @@ const controlador = {
 
         const oferta = await Oferta.findOne ({
             include: [ Publicacion], 
-            where: { id: idURL, usuario_id: req.session.usuario.id } 
+            where: { id: idURL } 
         });
 
 
@@ -218,7 +203,7 @@ const controlador = {
             }
 
             //la otra oferta no debe seguir vigente sino le puedo seguir haciendo contraofertas infinitamente
-            await Oferta.update({ estado: "rechazada automaticamente" }, {where: {id: ofertaVieja.id} } );
+            await Oferta.update({ estado: "contraofertada" }, {where: {id: ofertaVieja.id} } );
 
             //creo la nueva oferta con datos anteriores
             await Oferta.create({

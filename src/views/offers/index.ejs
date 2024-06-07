@@ -33,7 +33,6 @@
 
 
         <% if (ofertas.length > 0) { %>
-            <% console.log(ofertas) %>
 
             <main class="offers">
                 <% ofertas.forEach(oferta => { %>
@@ -43,9 +42,9 @@
                         <div class="offer-images">
     
                             <div class="images-names">
-                                <a class="container-post" href="/posts/<%= oferta.publicacion_id  %>">
+                                <a class="container-post"  <%- oferta.Publicacion.estado === "disponible" ? `href="/posts/${oferta.publicacion_id}"` : null %> >
                                     <img class="images" src="/publicaciones/<%=oferta.Publicacion.url_foto %>" alt="">
-                                    <p class="name-post"><%=sonMias ? "Publicacion Del Usuario" : "Mi Publicacion" %></p>
+                                    <p class="name-post"><%= oferta.Publicacion.nombre  %></p>
                                 </a>
                             </div>
                             
@@ -55,7 +54,7 @@
 
                             <div class="images-names">
                                 <img class="images" src="/ofertas/<%=oferta.url_foto %>" alt="">
-                                <p class="name-post"><%=sonMias ? "Mi Oferta" : "Oferta Del Usuario" %></p>
+                                <p class="name-post"><%= oferta.nombre  %></p>
                             </div>
 
                         </div>
