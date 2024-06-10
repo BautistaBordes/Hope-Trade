@@ -81,9 +81,9 @@ COLLATE=utf8mb4_general_ci;
 
 
 INSERT INTO hopetrade.usuario (dni, nombre, apellido, mail, password, telefono, fecha_nacimiento) VALUES 
-("20134567", "Walter", "Blanco", "walter123@gmail.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2006-05-15"),
-("23423424", "Maximo", "Cosseti", "maximo_co13@hotmail.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2006-05-15"),
-("1111", "Juan", "Garcia", "juanGarc1a@gmail.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2000-01-11");
+("20134567", "Martin", "Vazquez", "martinvazquez1104@gmail.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2006-05-15"),
+("23423424", "Nicolas", "Caporal", "nicolascaporal.unlp@gmail.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2006-05-15"),
+("1111", "Bautista", "Bordes", "bautistabordes5@gmail.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2000-01-11");
 
 
 DROP TABLE IF EXISTS hopetrade.voluntario;
@@ -156,9 +156,9 @@ DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO hopetrade.publicacion (nombre, descripcion, url_foto, estado, categoria_id, usuario_id)  VALUES 
--- publi de maximo
+-- publi de Nicolas
 ("piano", "88 teclas, marca yamaha, modelo p45b, peso 11,5Kg, 2 años de uso", "publicacion_prueba_1.jpg", "disponible", 1, 2),
--- publi de juan
+-- publi de Bautista
 ("lavarropas", "Capacidad 10 Kg. 29 Alternativas de lavado. 800RPM. 7 meses de uso", "publicacion_prueba_2.jpg", "disponible", 3, 3);
 
 
@@ -199,12 +199,12 @@ COLLATE=utf8mb4_general_ci;
 
 
 INSERT INTO hopetrade.oferta (nombre, descripcion, url_foto, estado, publicacion_id, oferta_padre_id, categoria_id, usuario_id, filial_id, fecha, hora)  VALUES 
--- estas son las ofertas para maximo, 1ero envia walter la 2da juan
-("bateria acustica", "Marca Parquer, Modelo 10065BK, Color Negro, 5 años de uso", "oferta_prueba_1.jpg", "pendiente", 2, NULL, 3, 1, 1, "2024-06-14", "12:00"),
-("smart tv", "Marca bgh, Modelo 10065BK, Color Negro, 1 año de uso", "oferta_prueba_3.jpg", "pendiente", 1, NULL, 2, 3, 4, "2024-06-27", "17:00"),
--- ofertas para juan hechas por walter
-("heladera", "3 años de uso, marca whirlpool, modelo WRO85AK, 3 Puertas Inverter, 554 Lts", "oferta_prueba_3.jpg", "pendiente", 1, NULL, 6, 1, 4, "2024-06-19", "14:30"),
-("ventilador", "Marca suzika, Modelo 10065BK, Color Negro, 3 años de uso", "oferta_prueba_4.jpg", "pendiente", 2, NULL, 2, 3, 4, "2024-06-10", "19:00");
+-- estas son las ofertas para NICOLAS, 1ero envia Martin la 2da Bautista
+("bateria acustica", "Marca Parquer, Modelo 10065BK, Color Negro, 5 años de uso", "oferta_prueba_1.jpg", "pendiente", 1, NULL, 3, 1, 1, "2024-06-14", "12:00"),
+("smart tv", "Marca bgh, Modelo 10065BK, Color Negro, 1 año de uso", "oferta_prueba_2.jpg", "pendiente", 1, NULL, 2, 3, 4, "2024-06-27", "17:00"),
+-- ofertas para BAUTISTA hechas por Martin
+("heladera", "3 años de uso, marca whirlpool, modelo WRO85AK, 3 Puertas Inverter, 554 Lts", "oferta_prueba_3.jpg", "pendiente", 2, NULL, 6, 1, 4, "2024-06-19", "14:30"),
+("ventilador", "Marca suzika, Modelo 10065BK, Color Negro, 3 años de uso", "oferta_prueba_4.jpg", "pendiente", 2, NULL, 2, 1, 4, "2024-06-10", "19:00");
 
 
 
@@ -249,3 +249,7 @@ CREATE TABLE hopetrade.notificacion (
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO hopetrade.notificacion (usuario_id, contenido, tipo, estado)  VALUES 
+(2, "Martin te envio la oferta bateria acustica por tu publicacion piano","receivedOffers", "pendiente"),
+(2, "Bautista te envio la oferta smart tv por tu publicacion piano","receivedOffers", "pendiente");
