@@ -41,10 +41,9 @@
                             </div>
 
                         </div>
-
                         <div class="info-container">
-                            <p class="usuario1"><strong>Usuario 1:</strong> <%=  intercambio.Publicacion.usuario_id == intercambio.Oferta.dataValues.usuario_id ?  intercambio.Oferta.ofertaPadre.Usuario.nombre : intercambio.Oferta.Usuario.nombre %></p>
-                            <p class="usuario2"><strong>Usuario 2:</strong> <%=intercambio.Publicacion.Usuario.nombre %></p>
+                            <p class="usuario1"><strong>Usuario 1:</strong> <%=intercambio.Publicacion.Usuario.nombre %></p>
+                            <p class="usuario2"><strong>Usuario 2:</strong> <%=  intercambio.Publicacion.usuario_id == intercambio.Oferta.dataValues.usuario_id ?  intercambio.Oferta.ofertaPadre.Usuario.nombre : intercambio.Oferta.Usuario.nombre %></p>
                             <p class="fecha"><strong>Fecha:</strong> <%=intercambio.Oferta.dataValues.fecha.split("-").reverse().join("-") %></p>
                             <p class="hora"><strong>Horario:</strong> <%=intercambio.Oferta.dataValues.hora.slice(0,-3) %></p>
                         </div>

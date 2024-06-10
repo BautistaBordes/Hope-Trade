@@ -8,7 +8,7 @@ const validationsPassword = [
 
     body("new_psw").trim()
     .notEmpty().withMessage("No puede estar vacio").bail()
-    .isLength({min:6}).withMessage("Deben 6 caracteres como minimo"),
+    .isLength({min:6}).withMessage("Debe tener 6 caracteres como minimo"),
 
     body('confirm_psw').trim()
     .notEmpty().withMessage("No puede estar vacio").bail()

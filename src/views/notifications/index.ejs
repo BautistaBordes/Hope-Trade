@@ -17,7 +17,7 @@
                     <% if (notificaciones.length > 0) { %>
                         <% notificaciones.reverse().forEach(notificacion => { %>
                             <div class="card-notification">
-                                <a class="card-notification-link"  href="/profile/<%=notificacion.tipo%>/orderByASC">
+                                <a class="card-notification-link">
                                     <div class="content">
                                         <div class="details">
                                             <p class="contenido"><%=notificacion.contenido%></p>           
@@ -30,7 +30,7 @@
                             </div>
                         <% }) %>
                     <% } else { %>
-                        <p style="color: grey;">Todavia no tenes notificaciones</p>
+                        <p style="color: grey;">Todavia no tiene notificaciones</p>
                     <% } %>
                 </div>
                 

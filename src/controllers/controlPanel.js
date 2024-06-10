@@ -158,7 +158,7 @@ const controlador = {
             const intercambios2 = await Promise.all(intercambios.map( async intercambio => {
                 if(intercambio.Publicacion.usuario_id == intercambio.Oferta.usuario_id) {
                     const ofertaPadre = await Oferta.findOne({   
-                        where: { usuario_id: intercambio.Oferta.oferta_padre_id },
+                        where: { id: intercambio.Oferta.oferta_padre_id },
                         include: [ Usuario ]
                     });
                     intercambio.Oferta = {...intercambio.Oferta, ofertaPadre};

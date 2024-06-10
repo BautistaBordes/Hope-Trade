@@ -55,9 +55,9 @@ const controlador = {
 
         await Intercambio.update({estado: "cancelado"}, {where: {id: intercambio.id} });
 
-        await Oferta.update({estado: "rechazada"}, {where: {estado: "aceptada"}});
+        await Oferta.update({estado: "rechazada"}, {where: {estado: "aceptada", publicacion_id: intercambio.publicacion_id}});
 
-        await Oferta.update({estado: "pendiente"}, {where: {estado: "pausada"}});
+        await Oferta.update({estado: "pendiente"}, {where: {estado: "pausada", publicacion_id: intercambio.publicacion_id}});
 
         await Publicacion.update({estado: "disponible"}, {where: { id: intercambio.publicacion_id}});
 
