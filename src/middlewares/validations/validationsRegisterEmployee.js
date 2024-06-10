@@ -18,15 +18,14 @@ const validationsRegisterVoluntario = [
     .isEmail().withMessage("Formato invalido")
     .custom( async value => {
         const usuario = await Voluntario.findOne({ where: { mail: value } });
-        if (usuario)  throw new Error("ya existe ese mail")
+        if (usuario)  throw new Error("ya fue utilizado ese mail")
         return true;
     })
     .custom( async value => {
         const usuario = await Representante.findOne({ where: { mail: value } });
-        if (usuario)  throw new Error("ya existe ese mail")
+        if (usuario)  throw new Error("ya fue utilizado ese mail")
         return true;
     })
-    // AGREGAR VALIDACION SI EXISTE EL MAIL
 
     
 ];

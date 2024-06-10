@@ -75,7 +75,7 @@ const controlador = {
         }
         
         const oferta= await Oferta.create({
-            nombre: nombre,
+            nombre: nombre.toLowerCase(),
             descripcion: descripcion,
             url_foto: req.file.filename,
             usuario_id: req.session.usuario.id,
@@ -89,8 +89,8 @@ const controlador = {
 
         const contenido = `${req.session.usuario.nombre} te envio la oferta "${oferta.nombre}" por tu publicacion "${publicacion.nombre}"`;
 
-        createNotification(publicacion.usuario_id, contenido, "receivedOffers");
-        //sendNotificationToMail(publicacion.Usuario.mail, "Oferta Recibida", publicacion.usuario_id, contenido, "receivedOffers");
+        // createNotification(publicacion.usuario_id, contenido, "receivedOffers");
+        sendNotificationToMail(publicacion.Usuario.mail, "Oferta Recibida", publicacion.usuario_id, contenido, "receivedOffers");
 
 
         res.redirect("/profile/sentOffers/orderByASC");
@@ -101,7 +101,7 @@ const controlador = {
         //ahora que no pueden acceder por url (a menos q usen postman o una app asi) sino solo por el boton, me parece que no es necesario tanta logica, 
         //van a aparecer los botones solo si tenes ofertas pendientes en publicaciones de tu autoridad (solo haria falta el id)
         const oferta = await Oferta.findOne ({
-            include: [ Publicacion], 
+            include: [ Publicacion, Usuario ], 
             where: { id: idURL } 
         });
 
@@ -121,8 +121,8 @@ const controlador = {
 
         const contenido = `${req.session.usuario.nombre} aceptó tu oferta ${oferta.nombre}, por la publicacion ${oferta.Publicacion.nombre}`;
 
-        createNotification(oferta.usuario_id, contenido, "sentOffers");
-        //sendNotificationToMail(oferta.Usuario.mail, "Oferta rechazada", oferta.usuario_id, contenido, "sentOffers");
+        // createNotification(oferta.usuario_id, contenido, "sentOffers");
+        sendNotificationToMail(oferta.Usuario.mail, "Oferta rechazada", oferta.usuario_id, contenido, "sentOffers");
 
 
         res.redirect(referer);
@@ -135,7 +135,7 @@ const controlador = {
         const referer = req.get('Referer');
 
         const oferta = await Oferta.findOne ({
-            include: [ Publicacion], 
+            include: [ Publicacion, Usuario ], 
             where: { id: idURL } 
         });
 
@@ -145,8 +145,8 @@ const controlador = {
         //le aviso al que me envio la oferta que lo rechace
         const contenido = `${req.session.usuario.nombre} rechazó tu oferta ${oferta.nombre}, por la publicacion ${oferta.Publicacion.nombre}`;
 
-        createNotification(oferta.usuario_id, contenido, "sentOffers");
-        //sendNotificationToMail(oferta.Usuario.mail, "Oferta rechazada", oferta.usuario_id, contenido, "sentOffers");
+        // createNotification(oferta.usuario_id, contenido, "sentOffers");
+        sendNotificationToMail(oferta.Usuario.mail, "Oferta rechazada", oferta.usuario_id, contenido, "sentOffers");
 
 
         res.redirect(referer);
@@ -225,9 +225,10 @@ const controlador = {
                 estado: "pendiente"
             });
 
-            const contenido = `${req.session.usuario.nombre} le interesa tu oferta ${ofertaVieja.nombre} por la publicacion ${ofertaVieja.Publicacion.nombre} pero propuso otro lugar u otra fecha`;
+            const contenido = `A ${req.session.usuario.nombre} le interesa la oferta ${ofertaVieja.nombre} por la publicacion ${ofertaVieja.Publicacion.nombre} pero propuso otro lugar u otra fecha`;
 
-            createNotification(ofertaVieja.usuario_id, contenido, "receivedOffers");
+            //createNotification(ofertaVieja.usuario_id, contenido, "receivedOffers");
+            sendNotificationToMail(ofertaVieja.Usuario.mail, "Oferta Recibida", ofertaVieja.usuario_id, contenido, "receivedOffers");
 
             res.redirect("/profile/sentOffers/orderByDESC");
         } catch (error) {

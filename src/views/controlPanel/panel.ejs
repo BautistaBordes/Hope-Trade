@@ -1,18 +1,19 @@
 <div class="panel">
     <div class="container-img">
         <a class="inicio" href="/controlPanel">
-            <img src="/images/logo/logo_hopetrade_notext.png" alt="logo">
+            <img src="/images/logo/logo_hopetrade.png" alt="logo">
+            INICIO
         </a>
     </div>
     <div class="container-panel">
         <div class="container-actions">
         <% if (locals.usuario.rol == "representante") {%>
             <div id="seccion1" class="actions">
-                <a href="/controlPanel/registerVoluntario" class="action">Agregar Voluntario</a>
+                <a href="/controlPanel/registerVoluntario" class="action">Registrar Voluntario</a>
             </div>
 
             <div id="seccion2" class="actions">
-                <a href="/controlPanel/registerRepresentante" class="action">Agregar Representante</a>
+                <a href="/controlPanel/registerRepresentante" class="action">Registrar Representante</a>
             </div>
 
 
@@ -21,7 +22,7 @@
             </div>
         <% } else {%>
             <div id="seccion4" class="actions">
-                <a href="/controlPanel/exchanges" class="action">Ver intercambios</a>
+                <a href="/controlPanel/exchanges" class="action">Ver Intercambios Pendientes</a>
             </div>
         <% } %>
 

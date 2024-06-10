@@ -3,16 +3,23 @@
 <head>
     <%- include("./partials/head") %>
     <link rel="stylesheet" href="/css/panel.css">
+    <link rel="stylesheet" href="/css/indexEmployee.css">
     <title>Panel</title>
 </head>
 <body>
     <%- include('./controlPanel/panel') %>
-    <main style="margin-left: 20px; margin-top: 20px;">
-        <p class="asdas">Bienvenido <%=locals.usuario.nombre %> <%=locals.usuario.apellido %> al panel de control </p>
-        <p class="asdas">Ingresaste como <%=locals.usuario.rol %> </p>
-        <% if (locals.usuario.rol == "voluntario"){ %> 
-        <p class="asdas">Tu filial es <strong><%= filial.nombre %></strong> ubicada en <strong><%=  filial.direccion %></strong></p> 
-        <% } %> 
+    <main>
+        <svg id="visual" viewBox="0 0 1685 1080" width="1685" height="1080" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" preserveAspectRatio="xMidYMid slice"><rect x="0" y="0" width="1685" height="1080" fill="#e8e8e7"></rect><path d="M0 832L64 806.2C128 780.3 256 728.7 384 708.2C512 687.7 640 698.3 768 717.8C896 737.3 1024 765.7 1152 763C1280 760.3 1408 726.7 1536 740.7C1664 754.7 1792 816.3 1856 847.2L1920 878L1920 1081L1856 1081C1792 1081 1664 1081 1536 1081C1408 1081 1280 1081 1152 1081C1024 1081 896 1081 768 1081C640 1081 512 1081 384 1081C256 1081 128 1081 64 1081L0 1081Z" fill="#abb444" stroke-linecap="round" stroke-linejoin="miter"></path></svg>
+
+        <div class="data-employee">
+            <img src="/images/logo/logo_hopetrade_xl.png" class="logo-employee">
+            <p class="text-employee">Bienvenido <strong><%=locals.usuario.nombre %> <%=locals.usuario.apellido %></strong> al panel de control</p>
+            <p class="text-employee">Ingresaste como <strong style="text-transform: capitalize;"><%=locals.usuario.rol %></strong></p>
+            <% if (locals.usuario.rol == "voluntario"){ %> 
+            <p class="text-employee">Tu filial es <strong><%= filial.nombre %></strong> (<strong><%= filial.direccion %></strong>) horario de <%= filial.hora_apertura.slice(0,-3) %> a <%= filial.hora_cierre.slice(0,-3) %> </p> 
+            <% } %> 
+        </div>
+ 
     </main>
 </body>
 <script src="/js/checkrouteEmployee.js"></script>

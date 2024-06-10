@@ -25,6 +25,8 @@
                     <option value="filterByPendientes" <%= filter == "filterByPendientes" ? "selected" : null %>>Pendientes</option>
                     <option value="filterByRechazadas" <%= filter == "filterByRechazadas" ? "selected" : null %>>Rechazadas</option>
                     <option value="filterByAceptadas" <%= filter == "filterByAceptadas" ? "selected" : null %>>Aceptadas</option>
+                    <option value="filterByPausadas" <%= filter == "filterByPausadas" ? "selected" : null %>>Pausadas</option>
+                    <option value="filterByContraofertadas" <%= filter == "filterByContraofertadas" ? "selected" : null %>>Contraofertadas</option>
                 </select>
 
             </div>
@@ -88,7 +90,7 @@
     
                             <% } else {%>
                                 <div class="state">
-                                    <p class="estado">Oferta <%=oferta.estado %></p>
+                                    <p class="estado" style="text-align: center;">Estado <%=oferta.estado %></p>
                                 </div>
                             <% } %>
 

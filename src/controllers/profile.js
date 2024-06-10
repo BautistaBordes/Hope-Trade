@@ -56,6 +56,8 @@ const getOffers = async (req, res, title, url) => {
             if (filterParam === "filterByPendientes") objetoFiltro = { estado: "pendiente" };
             else if (filterParam === "filterByRechazadas") objetoFiltro = { estado: { [Op.or]: ["rechazada", "rechazada automaticamente"] } };
             else if (filterParam === "filterByAceptadas") objetoFiltro = { estado: "aceptada" };
+            else if (filterParam === "filterByPausadas") objetoFiltro = { estado: "pausada" };
+            else if (filterParam === "filterByContraofertadas") objetoFiltro = { estado: "contraofertada" };
             //si escribe algo que no sea algun filtro se redirige al caso default
             else return res.redirect(`/profile/${url}/orderByASC`);
         }

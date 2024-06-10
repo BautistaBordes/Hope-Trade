@@ -42,7 +42,7 @@ const controlador = {
         }
         
         await Publicacion.create({
-            nombre: nombre,
+            nombre: nombre.toLowerCase(),
             descripcion: descripcion,
             url_foto: req.file.filename,
             usuario_id: req.session.usuario.id,

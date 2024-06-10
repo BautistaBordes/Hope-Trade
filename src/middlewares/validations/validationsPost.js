@@ -31,7 +31,7 @@ const validationsPost = [
         const mismoNombre = await Publicacion.findOne({ 
             where: {
                 usuario_id: req.session.usuario.id, 
-                nombre: value
+                nombre: value.toLowerCase()
             }
         });
       if (mismoNombre)  throw new Error("ya tenes una publicacion llamada asi")
@@ -55,9 +55,10 @@ const validationsPost = [
 
         if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
             throw new Error("Solo se aceptan imagenes");
-        } else if (req.file.size > (Math.pow(2048,2) ) ) {
-            throw new Error("Archivo muy grande");
-        }
+        } 
+        // else if (req.file.size > (Math.pow(2048,2) ) ) {
+        //     throw new Error("Archivo muy grande");
+        // }
         return true;
     })
 

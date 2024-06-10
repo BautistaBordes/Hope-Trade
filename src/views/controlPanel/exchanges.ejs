@@ -4,7 +4,7 @@
     <%- include("./partials/head") %>
     <link rel="stylesheet" href="/css/panel.css">
     <link rel="stylesheet" href="/css/exchanges.css">
-    <title>Intercambios</title>
+    <title>Intercambios Pendientes</title>
 </head>
 <body>
     <%- include('./controlPanel/panel') %>
@@ -49,8 +49,8 @@
                             <p class="hora"><strong>Horario:</strong> <%=intercambio.Oferta.dataValues.hora.slice(0,-3) %></p>
                         </div>
                         <div class="btn-container">
-                            <form action="/acceptExchange/<%=intercambio.id %>" method="post"> <button class="btn-form aceptar" type="submit">Aceptar</button></form>
-                            <form action="/rejectExchange/<%=intercambio.id %>" method="post"> <button class="btn-form rechazar" type="submit">Rechazar</button></form>
+                            <form action="/acceptExchange/<%=intercambio.id %>" method="post"> <button class="btn-form aceptar" type="submit">Confirmar</button></form>
+                            <form action="/rejectExchange/<%=intercambio.id %>" method="post"> <button class="btn-form rechazar" type="submit">Cancelar</button></form>
                         </div>
                     </div>
                 <% }) %>

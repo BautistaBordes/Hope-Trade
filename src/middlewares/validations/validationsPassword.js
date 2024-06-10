@@ -9,15 +9,18 @@ const validationsPassword = [
     body("new_psw").trim()
     .notEmpty().withMessage("No puede estar vacio").bail()
     .isLength({min:6}).withMessage("Deben 6 caracteres como minimo"),
-    body('confirm_psw').custom((value, { req }) => {
+
+    body('confirm_psw').trim()
+    .notEmpty().withMessage("No puede estar vacio").bail()
+    .custom((value, { req }) => {
         if (value !== req.body.new_psw)
             throw new Error("No coinciden las contraseñas")
         return true;
       
     }),
+
     body("old_psw").trim()
     .notEmpty().withMessage("No puede estar vacio").bail()
-    .isLength({min:6}).withMessage("Deben 6 caracteres como minimo")
     .custom( async (value, { req }) => {
         let rol = req.session.usuario.rol;
         if ( rol == 'comun')

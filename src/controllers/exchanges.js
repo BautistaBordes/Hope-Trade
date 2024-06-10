@@ -1,5 +1,5 @@
 
-const { createNotification, sendNotificationToMail, changeDateFormat } = require('../globals')
+const { createNotification, sendNotificationToMail } = require('../globals')
 const Publicacion = require("../database/models/Publicacion");
 const Usuario = require("../database/models/Usuario");
 const Oferta = require("../database/models/Oferta");
@@ -7,13 +7,7 @@ const Intercambio = require("../database/models/Intercambio");
 const Filial = require("../database/models/Filial");
 
 
-const getTodayOrTomorrow = () => {
-    let fecha = new Date();
-    let horario = fecha.toLocaleTimeString().slice(0,-3); //guardo horario local y le saco los segundos 19:30:23 -> 19:30
-    if(horario >= "20:00") fecha.setDate(fecha.getDate() + 1); //si llega al caso limite le suma un dia, si es el ultimo dia del mes pasa al 1ero del siguiente
-    return changeDateFormat(fecha); //me devuelve la fecha en un string con formato valido
 
-}
 
 
 const controlador = {
@@ -43,7 +37,8 @@ const controlador = {
 
             const contenido = `La publicacion ${intercambio.Publicacion.nombre} para la que ofertaste ${oferta.nombre} no esta disponible`
 
-            createNotification(oferta.usuario_id, contenido, "sentOffers")
+            // createNotification(oferta.usuario_id, contenido, "sentOffers")
+            sendNotificationToMail(oferta.Usuario.mail, "Oferta rechazada", oferta.usuario_id, contenido, "sentOffers");
         })
         
 
@@ -58,7 +53,7 @@ const controlador = {
             where: { id: idURL } 
         });
 
-        await Intercambio.update({estado: "rechazado"}, {where: {id: intercambio.id} });
+        await Intercambio.update({estado: "cancelado"}, {where: {id: intercambio.id} });
 
         await Oferta.update({estado: "rechazada"}, {where: {estado: "aceptada"}});
 
@@ -75,13 +70,13 @@ const controlador = {
                 usuarioOferta =  await Usuario.findOne({ where: { id: ofertaPadre.usuario_id } });
         }
 
-        const contenido = `Se rechazo el intercambio entre la publicacion ${intercambio.Publicacion.nombre}  y la oferta ${intercambio.Oferta.nombre}, programado para el ${intercambio.Oferta.fecha} a las ${intercambio.Oferta.hora.slice(0,-3)} en la filial ${intercambio.Oferta.Filial.nombre} `;
+        const contenido = `Se canceló el intercambio entre la publicacion ${intercambio.Publicacion.nombre}  y la oferta ${intercambio.Oferta.nombre}, programado para el ${intercambio.Oferta.fecha} a las ${intercambio.Oferta.hora.slice(0,-3)} en la filial ${intercambio.Oferta.Filial.nombre} `;
 
-        createNotification(usuarioOferta.id, contenido, "exchanges");
-        //sendNotificationToMail(usuarioOferta.mail, "Intercambio rechazado", usuarioOferta.id, contenido, "exchanges");
+        // createNotification(usuarioOferta.id, contenido, "exchanges");
+        sendNotificationToMail(usuarioOferta.mail, "Intercambio rechazado", usuarioOferta.id, contenido, "exchanges");
 
-        createNotification(usuarioPublicacion.id, contenido, "exchanges");
-        //sendNotificationToMail(usuarioPublicacion.mail, "Intercambio rechazado", usuarioPublicacion.id, contenido, "exchanges");
+        // createNotification(usuarioPublicacion.id, contenido, "exchanges");
+        sendNotificationToMail(usuarioPublicacion.mail, "Intercambio rechazado", usuarioPublicacion.id, contenido, "exchanges");
 
         res.redirect(referer);
     }

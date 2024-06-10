@@ -66,7 +66,7 @@
                                 </option>
                                 <% filiales.forEach(filial => { %>
                                     <option <%= locals.oldData && oldData.filial == filial.id ? "selected" : ""; %> value="<%=filial.id%>">
-                                        <%=filial.nombre%> (<%=filial.direccion%>)
+                                        <%=filial.nombre%> (<%=filial.direccion%>) de <%= filial.hora_apertura.slice(0,-3) %> a <%= filial.hora_cierre.slice(0,-3) %>
                                     </option>
                                 <% }) %>  
                             </select>   

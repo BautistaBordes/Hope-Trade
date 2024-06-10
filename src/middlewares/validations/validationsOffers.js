@@ -42,7 +42,7 @@ const validationsOffer = [
     .custom(value => {
         const dia = new Date(value).getDay();
         if ((dia === 6) || (dia  === 5)){
-            throw new Error("Solo dias de semana")
+            throw new Error("No se aceptan dias de fin de semana")
         } 
         return true; 
     }),
@@ -74,9 +74,10 @@ const validationsOffer = [
 
         if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
             throw new Error("Solo se aceptan imagenes");
-        } else if (req.file.size > (Math.pow(2048,2) ) ) {
-            throw new Error("Archivo muy grande");
-        }
+        } 
+        // else if (req.file.size > (Math.pow(2048,2) ) ) {
+        //     throw new Error("Archivo muy grande");
+        // }
         return true;
     })
 

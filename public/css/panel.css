@@ -17,18 +17,20 @@ a {
 }
 .panel .inicio {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    width: 65%;
 }
 
 .container-img {
-    width: 100%;
+    width: 84%;
     display: flex;
-    justify-content: center;
-    padding-top: 20px;
+    padding: 20px 8%;
+    background: #282828;
 }
 
 .container-img img {
-    width: 90%;
+    width: 20%;
 }
 
 .container-panel {
@@ -48,6 +50,7 @@ a {
 
 .actions {
     padding: 10px 20px;
+    line-height: 25px;
 }
 
 .actions:hover {

@@ -3,7 +3,7 @@
 <head>
     <%- include("./partials/head") %>
     <link rel="stylesheet" href="/css/forms.css">
-    <title>Hacer contraOferta</title>
+    <title>Realizar contraOferta</title>
 </head>
 <body>
     <main>
@@ -11,8 +11,8 @@
 
             <div class="container-form">
                 <div class="title-offer">
-                    <p>Vas a realizar una oferta a <strong><%=oferta.Usuario.nombre%></strong></p>
-                    <p>por la publicacion <strong><%=oferta.nombre%></strong></p>
+                    <p>Vas a realizar una contraoferta a <strong><%=oferta.Usuario.nombre%></strong></p>
+                    <p>por la oferta <strong><%=oferta.nombre%></strong></p>
                 </div>               
 
                 
@@ -48,7 +48,7 @@
                                 </option>
                                 <% filiales.forEach(filial => { %>
                                     <option <%= locals.oldData && oldData.filialNueva == filial.id ? "selected" : ""; %> value="<%=filial.id%>">
-                                        <%=filial.nombre%> (<%=filial.direccion%>)
+                                        <%=filial.nombre%> (<%=filial.direccion%>) de <%= filial.hora_apertura.slice(0,-3) %> a <%= filial.hora_cierre.slice(0,-3) %>
                                     </option>
                                 <% }) %>  
                             </select>   
@@ -69,7 +69,7 @@
                         </div>
 
                         <div class="campo">
-                            <label for="horaNueva">hora Nueva</label>
+                            <label for="horaNueva">Hora Nueva</label>
                             <input type="time" id="horaNueva" name="horaNueva" value="<%= locals.oldData ? oldData.horaNueva : null %>">
                             <% if (locals.errors && errors.horaNueva ) { %>
                                 <p class="error-text"><%= errors.horaNueva.msg %></p>

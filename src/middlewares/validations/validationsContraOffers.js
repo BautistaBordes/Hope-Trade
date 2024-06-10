@@ -11,7 +11,7 @@ const validationContraOffers = [
     .custom(value => {
         const dia = new Date(value).getDay();
         if ((dia === 6) || (dia  === 5)){
-            throw new Error("Solo dias de semana")
+            throw new Error("No se aceptan dias de fin de semana")
         } 
         return true; 
     }),
@@ -31,7 +31,7 @@ const validationContraOffers = [
             }
     
             if (oldFilial.id == req.body.filialNueva && req.body.fechaPropuesta == req.body.fechaNueva && req.body.horaPropuesta == value ){
-                throw new Error(`Si es la misma fecha y filial elegí otro horario`);
+                throw new Error(`No pueden ser los mismos datos que la oferta original`);
             }
         }
     }),
