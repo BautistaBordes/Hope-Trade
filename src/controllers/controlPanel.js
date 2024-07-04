@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const { validationResult } = require("express-validator")
 const { sendToMail } = require('../globals')
+const { Op } = require('sequelize');
 const Voluntario = require('../database/models/Voluntario') 
 const Representante = require('../database/models/Representante') 
 const Filial = require('../database/models/Filial')
@@ -170,6 +171,45 @@ const controlador = {
 
 
             res.render("controlPanel/exchanges", {intercambios: intercambios2, fecha:fechaURL});
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).send("error al ver los intercambios")
+        }
+    },
+    historyExchanges: async (req, res) => {
+        try {
+            const filial = req.query.filial;
+            let whereObject;
+            if (filial) {
+                whereObject = { filial_id : filial}
+            }
+            if (filial == 0){whereObject = {}}
+            
+            const intercambios = await Intercambio.findAll( { 
+                include: [ 
+                    { model: Oferta, include: [Usuario, Filial],  where: whereObject } ,
+                    { model: Publicacion, include: [Usuario] }
+                ], 
+                where: {estado: {[Op.ne]: "pendiente"}} 
+            } );
+
+            const intercambios2 = await Promise.all(intercambios.map( async intercambio => {
+                if(intercambio.Publicacion.usuario_id == intercambio.Oferta.usuario_id) {
+                    const ofertaPadre = await Oferta.findOne({   
+                        where: { id: intercambio.Oferta.oferta_padre_id },
+                        include: [ Usuario ]
+                    });
+                    intercambio.Oferta = {...intercambio.Oferta, ofertaPadre};
+                }
+               
+                return intercambio;
+            }));
+            
+            const filiales = await Filial.findAll();
+
+
+            res.render("controlPanel/historyExchanges", {intercambios: intercambios2, filiales: filiales, selectedFilial: filial});
 
         } catch (error) {
             console.log(error);

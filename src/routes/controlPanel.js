@@ -26,4 +26,5 @@ router.post('/controlPanel/changeFilial', authRepresentanteMiddleware, validatio
 
 router.get('/controlPanel/exchanges/:filterByDate?', authVoluntarioMiddleware,  controlPanelController.exchangesFilter);
 
+router.get('/controlPanel/historyExchanges', authRepresentanteMiddleware,  controlPanelController.historyExchanges);
 module.exports = router;

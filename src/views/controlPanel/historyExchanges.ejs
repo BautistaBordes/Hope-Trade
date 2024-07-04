@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <link rel="stylesheet" href="/css/panel.css">
+    <link rel="stylesheet" href="/css/exchanges.css">
+    <title>Historial de Intercambios</title>
+</head>
+<body>
+    <%- include('./controlPanel/panel') %>
+    <div class="exchanges-container">
+        <div class="title-filter">
+            <h1 class="exchange-title">Historial de Intercambios</h1>
+            <div class="filter" >
+                <p>Filtrar por filial: </p>
+                <select onChange="filtrar()" id="filial">
+                    <option value="" <%= selectedFilial === '' ? 'selected' : '' %>>Todas las filiales</option>
+                    <% filiales.forEach(filial => { %>
+                        <option value="<%= filial.id %>" <%= selectedFilial == filial.id ? 'selected' : '' %>><%= filial.nombre %></option>
+                    <% }) %>
+                </select>
+
+            </div>
+        </div>
+        <main class="exchanges" >
+
+            <% if (intercambios.length > 0) { %>
+               
+                <% intercambios.forEach(intercambio => { %>
+                    <div class="card-exchange">
+
+                        <div class="exchange-images">
+    
+                            <div class="images-names">
+                                    <img class="images" src="/publicaciones/<%=intercambio.Publicacion.url_foto %>" alt="">
+                                    <p class="name-post">Publicacion</p>
+                                </a>
+                            </div>
+                            
+                            <div class="flecha-intercambio">
+                                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                            </div>
+
+                            <div class="images-names">
+                                <img class="images" src="/ofertas/<%=intercambio.Oferta.dataValues.url_foto %>" alt="">
+                                <p class="name-post">Oferta</p>
+                            </div>
+
+                        </div>
+                        <div class="info-container">
+                            <p class="usuario1"><strong>Usuario 1:</strong> <%=intercambio.Publicacion.Usuario.nombre %></p>
+                            <p class="usuario2"><strong>Usuario 2:</strong> <%=  intercambio.Publicacion.usuario_id == intercambio.Oferta.dataValues.usuario_id ?  intercambio.Oferta.ofertaPadre.Usuario.nombre : intercambio.Oferta.Usuario.nombre %></p>
+                            <p class="fecha"><strong>Fecha:</strong> <%=intercambio.Oferta.dataValues.fecha.split("-").reverse().join("-") %></p>
+                            <p class="hora"><strong>Horario:</strong> <%=intercambio.Oferta.dataValues.hora.slice(0,-3) %></p>
+                            <p class="hora">El intercambio fue <strong><%=intercambio.estado %></strong></p>
+                        </div>
+                    </div>
+                <% }) %>
+
+            <% } else { %>
+                <p style="color: grey;">Todavia no hay intercambios</p>
+            <% } %>
+
+        </main>
+    </div>
+
+</body>
+<script src="/js/checkrouteEmployee.js"></script>
+<script>
+    const filtrar = () => { 
+        const selectFilial = document.getElementById("filial");
+        const filialSeleccionada = selectFilial.value;
+        let urlTarget = "/controlPanel/historyExchanges";
+        
+        if (filialSeleccionada != 0) {
+            urlTarget += `?filial=${filialSeleccionada}`;
+        }
+
+        window.location.href = urlTarget;
+    }
+</script>
+</html>
