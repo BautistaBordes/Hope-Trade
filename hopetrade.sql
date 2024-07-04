@@ -200,11 +200,11 @@ COLLATE=utf8mb4_general_ci;
 
 INSERT INTO hopetrade.oferta (nombre, descripcion, url_foto, estado, publicacion_id, oferta_padre_id, categoria_id, usuario_id, filial_id, fecha, hora)  VALUES 
 -- estas son las ofertas para NICOLAS, 1ero envia Martin la 2da Bautista
-("bateria acustica", "Marca Parquer, Modelo 10065BK, Color Negro, 5 años de uso", "oferta_prueba_1.jpg", "pendiente", 1, NULL, 3, 1, 4, "2024-06-14", "12:00"),
-("smart tv", "Marca bgh, Modelo 10065BK, Color Negro, 1 año de uso", "oferta_prueba_2.jpg", "pendiente", 1, NULL, 2, 3, 2, "2024-06-27", "17:00"),
+("bateria acustica", "Marca Parquer, Modelo 10065BK, Color Negro, 5 años de uso", "oferta_prueba_1.jpg", "pendiente", 1, NULL, 3, 1, 4, "2024-07-14", "12:00"),
+("smart tv", "Marca bgh, Modelo 10065BK, Color Negro, 1 año de uso", "oferta_prueba_2.jpg", "pendiente", 1, NULL, 2, 3, 2, "2024-07-27", "17:00"),
 -- ofertas para BAUTISTA hechas por Martin
-("heladera", "3 años de uso, marca whirlpool, modelo WRO85AK, 3 Puertas Inverter, 554 Lts", "oferta_prueba_3.jpg", "pendiente", 2, NULL, 6, 1, 2, "2024-06-19", "14:30"),
-("ventilador", "Marca suzika, Modelo 10065BK, Color Negro, 3 años de uso", "oferta_prueba_4.jpg", "pendiente", 2, NULL, 2, 1, 4, "2024-06-10", "19:00");
+("heladera", "3 años de uso, marca whirlpool, modelo WRO85AK, 3 Puertas Inverter, 554 Lts", "oferta_prueba_3.jpg", "pendiente", 2, NULL, 6, 1, 2, "2024-07-19", "14:30"),
+("ventilador", "Marca suzika, Modelo 10065BK, Color Negro, 3 años de uso", "oferta_prueba_4.jpg", "pendiente", 2, NULL, 2, 1, 4, "2024-07-10", "19:00");
 
 
 

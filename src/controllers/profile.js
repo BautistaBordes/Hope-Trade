@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator")
 const bcrypt = require('bcryptjs');
-const { Op, where } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const { createNotification, sendNotificationToMail, changeDateFormat } = require('../globals')
 const Publicacion = require("../database/models/Publicacion");
 const Usuario = require('../database/models/Usuario') 
@@ -9,6 +9,7 @@ const Voluntario = require('../database/models/Voluntario')
 const Categoria = require("../database/models/Categoria");
 const Oferta = require("../database/models/Oferta");
 const Filial = require("../database/models/Filial");
+const Intercambio = require("../database/models/Intercambio");
 
 
 
@@ -209,7 +210,27 @@ const controlador ={
     },
     sentOffers: async (req, res) => {
         getOffers(req, res, "Ofertas Enviadas", "sentOffers");
+    },
+    myExchanges: async (req, res) => {
+        const id = req.session.usuario.id;
+
+        const intercambios = await Intercambio.findAll({
+            include: [
+                { model: Oferta, include: [Usuario, Filial]} ,
+                { model: Publicacion, include: [Usuario] }
+            ],
+            where: {
+                [Op.or]: [
+                    { '$Publicacion.usuario_id$': id },
+                    { '$Oferta.usuario_id$': id }
+                ]
+              }
+          })
+
+          res.render("exchanges/myExchanges", {intercambios: intercambios});
     }
+
+
 }
 
 module.exports = controlador;
