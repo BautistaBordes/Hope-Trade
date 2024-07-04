@@ -253,3 +253,24 @@ COLLATE=utf8mb4_general_ci;
 INSERT INTO hopetrade.notificacion (usuario_id, contenido, tipo, estado)  VALUES 
 (2, "Martin te envio la oferta bateria acustica por tu publicacion piano","receivedOffers", "pendiente"),
 (2, "Bautista te envio la oferta smart tv por tu publicacion piano","receivedOffers", "pendiente");
+
+
+DROP TABLE IF EXISTS hopetrade.tarjeta;
+
+CREATE TABLE hopetrade.tarjeta (
+	numero BIGINT NOT NULL,
+	nombre TEXT NOT NULL,
+	cdo_seguridad INT NOT NULL,
+	vencimiento DATE NOT NULL,
+	credito INT NOT NULL,
+
+	CONSTRAINT tarjeta_PK PRIMARY KEY (numero)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
+INSERT INTO hopetrade.tarjeta (numero, nombre, cdo_seguridad, vencimiento, credito)
+VALUES 
+    (1234567890123456, 'Bautista Bordes', 123, '2025-12-31', 5000),
+    (9876543210987654, 'Nicolas Caporal', 456, '2024-11-30', 8000);
