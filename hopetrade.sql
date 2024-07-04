@@ -258,7 +258,7 @@ INSERT INTO hopetrade.notificacion (usuario_id, contenido, tipo, estado)  VALUES
 DROP TABLE IF EXISTS hopetrade.tarjeta;
 
 CREATE TABLE hopetrade.tarjeta (
-	numero BIGINT NOT NULL,
+	numero BIGINT NOT NULL UNIQUE,
 	nombre TEXT NOT NULL,
 	cdo_seguridad INT NOT NULL,
 	vencimiento DATE NOT NULL,
@@ -274,3 +274,29 @@ INSERT INTO hopetrade.tarjeta (numero, nombre, cdo_seguridad, vencimiento, credi
 VALUES 
     (1234567890123456, 'Bautista Bordes', 123, '2025-12-31', 5000),
     (9876543210987654, 'Nicolas Caporal', 456, '2024-11-30', 8000);
+
+
+
+DROP TABLE IF EXISTS hopetrade.donacion;
+
+CREATE TABLE hopetrade.donacion (
+	id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+
+	nombre TEXT NOT NULL,
+	apellido TEXT NOT NULL,
+	telefono VARCHAR(15) NOT NULL,
+	dni VARCHAR(10) NOT NULL,
+	
+	tipo TEXT NOT NULL,
+
+	descripcion TEXT NOT NULL,
+
+
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+	CONSTRAINT donacion_PK PRIMARY KEY (id)
+	
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;

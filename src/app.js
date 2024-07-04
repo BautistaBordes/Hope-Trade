@@ -62,6 +62,7 @@ const rutaControlPanel = require("./routes/controlPanel")
 const rutaOffers = require("./routes/offers")
 const rutaExchanges = require("./routes/exchanges")
 const rutaNotifications = require("./routes/notifications")
+const rutaDonations = require("./routes/donations")
 
 
 
@@ -74,6 +75,7 @@ app.use(rutaControlPanel);
 app.use(rutaOffers);
 app.use(rutaExchanges);
 app.use(rutaNotifications);
+app.use(rutaDonations);
 
 
 //ruta no existente

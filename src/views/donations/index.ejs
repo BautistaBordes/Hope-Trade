@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <title>Donar</title>
+</head>
+<body>
+    <%- include("./partials/nav") %>
+    <main>
+        <div class="container">
+
+            <div class="container-form">
+
+                <form action="/donate"  method="POST" enctype="multipart/form-data">
+                    
+                    <div class="campo">
+                        <label for="numero">Numero de tarjeta</label>
+                        <input type="number" id="numero" name="numero" value="<%= locals.oldData ? oldData.numero : null %>" >
+                        <% if (locals.errors && errors.numero) { %>
+                            <p class="error-text"><%= errors.numero.msg %></p>
+                        <% } %>
+
+                    </div>
+
+                    <div class="campo">
+                        <label for="nombre">Nombre </label>
+                        <input type="text" id="nombre" name="nombre" value="<%= locals.oldData ? oldData.nombre : null %>" >
+                        <% if (locals.errors && errors.nombre) { %>
+                            <p class="error-text"><%= errors.nombre.msg %></p>
+                        <% } %>
+
+                    </div>
+                    
+                    <div class="container-campo">
+                        <div class="campo">
+                            <label for="codigo">Codigo de Seguridad</label>
+                            <input type="number" id="codigo" name="codigo" value="<%= locals.oldData ? oldData.codigo : null %>" >
+                            <% if (locals.errors && errors.codigo) { %>
+                                <p class="error-text"><%= errors.codigo.msg %></p>
+                            <% } %>
+    
+                        </div>
+
+                        <div class="campo">
+                            <label for="fecha">Vencimiento</label>
+                            <input type="text" value="<%= locals.oldData ? oldData.fecha : null %>">
+                            <% if (locals.errors && errors.fecha ) { %>
+                                <p class="error-text"><%= errors.fecha.msg %></p>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <div class="campo">
+                        <label for="monto">Monto a donar</label>
+                        <input type="number" id="monto" name="monto" value="<%= locals.oldData ? oldData.monto : null %>" >
+                        <% if (locals.errors && errors.monto) { %>
+                            <p class="error-text"><%= errors.monto.msg %></p>
+                        <% } %>
+
+                    </div>
+                   
+
+                    <div class="btn-container">
+                        <a class="btn cancelar" href="/">Cancelar</a>
+                        <button class="btn enviar" type="submit">Realizar Donacion</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </main>
+</body>
+<script src="/js/checkroute.js"></script>
+</html>

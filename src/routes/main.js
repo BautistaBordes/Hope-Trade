@@ -9,6 +9,5 @@ const authComunMiddleware = require('../middlewares/authComunMiddleware');
 router.get('/', guestOrComunMiddleware,  mainController.index);
 
 
-router.get("/donate", authComunMiddleware, (req, res)=>{res.redirect("/posts")});
 
 module.exports = router;
