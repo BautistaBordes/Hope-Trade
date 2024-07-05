@@ -9,6 +9,6 @@ const validationsDonation = require("../middlewares/validations/validationsDonat
 
 router.get("/donate", redirectLogin, authComunMiddleware, donationsController.donate);
 
-//router.post("/donate", authComunMiddleware, validationsDonation, donationsController.donateProccess);
+router.post("/donate", authComunMiddleware, validationsDonation, donationsController.donateProccess);
 
 module.exports = router;

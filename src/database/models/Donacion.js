@@ -34,11 +34,6 @@ let cols = {
         type: DataTypes.TEXT,
         allowNull: false
     },
-    created_at: {
-        type: DataTypes.TIMESTAMP,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
-    }
 };
 
 let config = {

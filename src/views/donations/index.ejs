@@ -12,13 +12,13 @@
 
             <div class="container-form">
 
-                <form action="/donate"  method="POST" enctype="multipart/form-data">
+                <form action="/donate"  method="POST">
                     
                     <div class="campo">
-                        <label for="numero">Numero de tarjeta</label>
-                        <input type="number" id="numero" name="numero" value="<%= locals.oldData ? oldData.numero : null %>" >
-                        <% if (locals.errors && errors.numero) { %>
-                            <p class="error-text"><%= errors.numero.msg %></p>
+                        <label for="nro_tarjeta">Numero de tarjeta</label>
+                        <input type="text" id="nro_tarjeta" name="nro_tarjeta" value="<%= locals.oldData ? oldData.nro_tarjeta : null %>" >
+                        <% if (locals.errors && errors.nro_tarjeta) { %>
+                            <p class="error-text"><%= errors.nro_tarjeta.msg %></p>
                         <% } %>
 
                     </div>
@@ -44,7 +44,7 @@
 
                         <div class="campo">
                             <label for="fecha">Vencimiento</label>
-                            <input type="text" value="<%= locals.oldData ? oldData.fecha : null %>">
+                            <input type="text" id="fecha" name="fecha" value="<%= locals.oldData ? oldData.fecha : null %>">
                             <% if (locals.errors && errors.fecha ) { %>
                                 <p class="error-text"><%= errors.fecha.msg %></p>
                             <% } %>

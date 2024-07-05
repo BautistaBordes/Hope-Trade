@@ -261,7 +261,7 @@ CREATE TABLE hopetrade.tarjeta (
 	numero BIGINT NOT NULL UNIQUE,
 	nombre TEXT NOT NULL,
 	cdo_seguridad INT NOT NULL,
-	vencimiento DATE NOT NULL,
+	vencimiento TEXT NOT NULL,
 	credito INT NOT NULL,
 
 	CONSTRAINT tarjeta_PK PRIMARY KEY (numero)
@@ -272,8 +272,8 @@ COLLATE=utf8mb4_general_ci;
 
 INSERT INTO hopetrade.tarjeta (numero, nombre, cdo_seguridad, vencimiento, credito)
 VALUES 
-    (1234567890123456, 'Bautista Bordes', 123, '2025-12-31', 5000),
-    (9876543210987654, 'Nicolas Caporal', 456, '2024-11-30', 8000);
+    (1234567890123456, 'Bautista Bordes', 123, '12/25', 5000),
+    (9876543210987654, 'Nicolas Caporal', 456, '10/24', 8000);
 
 
 

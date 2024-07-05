@@ -1,13 +1,7 @@
-const { changeDateFormat } = require('../globals')
-
-
-const getTodayOrTomorrow = () => {
-    let fecha = new Date();
-    let horario = fecha.toLocaleTimeString().slice(0,-3); //guardo horario local y le saco los segundos 19:30:23 -> 19:30
-    if(horario >= "20:00") fecha.setDate(fecha.getDate() + 1); //si llega al caso limite le suma un dia, si es el ultimo dia del mes pasa al 1ero del siguiente
-    return changeDateFormat(fecha); //me devuelve la fecha en un string con formato valido
-
-}
+const { validationResult } = require("express-validator");
+const Tarjeta = require("../database/models/Tarjeta");
+const Donacion = require("../database/models/Donacion");
+const { sendNotificationToMail } = require("../globals");
 
 const controlador = {
     donate:(req, res) =>{
@@ -15,22 +9,32 @@ const controlador = {
     },
     donateProccess: async (req, res) =>{
         const result = validationResult(req);
-    
-
         if(result.errors.length > 0){
             //en caso de que haya errores por los campos de texto la imagen se crea igual, asi q la elimino (si es q envian una)
-            if(req.file) fs.unlinkSync(req.file.path);
             return res.render("donations/index", {
                 errors: result.mapped(),
                 oldData: req.body,
             });
         }
-        
+        const tarjeta = await Tarjeta.findOne(
+            {where: {numero: req.body.nro_tarjeta} }
+        );
+        await Tarjeta.update(
+            {credito: tarjeta.credito - req.body.monto},
+            {where: {numero: req.body.nro_tarjeta} }
+        );
         await Donacion.create({
-            
-        })
+            nombre: req.session.usuario.nombre,
+            apellido: req.session.usuario.apellido,
+            telefono: req.session.usuario.telefono,
+            dni: req.session.usuario.dni,
+            tipo: "tarjeta",
+            descripcion: req.body.monto,
+        });
 
-        res.redirect("/")
+        sendNotificationToMail(req.session.usuario.mail, "Donacion realiza con exito", req.session.usuario.id, "Muchas gracias por la donacion. \nLe agradecemos desde el equipo de Caritas", "donation");
+
+        res.redirect("/");
     }
 
 }

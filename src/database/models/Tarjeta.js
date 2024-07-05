@@ -22,7 +22,7 @@ let cols = {
     },
 
     vencimiento: {
-        type: DataTypes.DATE,
+        type: DataTypes.TEXT,
         allowNull: false
     },
 
@@ -33,6 +33,7 @@ let cols = {
 };
 
 let config = {
+    timestamps: false,
     tableName: "tarjeta"
 }
 
