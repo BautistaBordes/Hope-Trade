@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+    <link rel="stylesheet" href="/css/panel.css">
+    <link rel="stylesheet" href="/css/donations.css">
+    <title>Historial de Intercambios</title>
+</head>
+<body>
+    <%- include('./controlPanel/panel') %>
+    <div class="donations-container">
+        <div class="title-filter">
+            <h1 class="exchange-title">Historial de Donaciones</h1>
+        </div>
+        <main class="donations" >
+            
+            <% if (donaciones.length > 0) { %>
+                <table class="donations-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>DNI</th>
+                            <th>Telefono</th>
+                            <th>Tipo</th>
+                            <th>Descripcion / Monto</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% donaciones.forEach(donacion => { %>
+                            <tr>
+                                <td><%= donacion.nombre %></td>
+                                <td><%= donacion.apellido %></td>
+                                <td><%= donacion.dni %></td>
+                                <td><%= donacion.telefono %></td>
+                                <td><%= donacion.tipo %></td>
+                                <td><%= donacion.descripcion %></td>
+                                <td><%= donacion.created_at.toLocaleDateString() %></td>
+
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+                
+            <% } else { %>
+                <p style="color: grey;">Todavia no hay donaciones</p>
+            <% } %>
+
+        </main>
+    </div>
+
+</body>
+<script src="/js/checkrouteEmployee.js"></script>
+</html>

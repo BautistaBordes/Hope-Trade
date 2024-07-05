@@ -1,0 +1,64 @@
+.donations-container {
+    width: 70%;
+    margin: 0 auto;
+    height: 100vh;
+}
+
+.donations {
+    width: 100%;
+    /* max-width: 1200px; */
+    overflow-y: scroll;
+    height: 81vh;
+}
+
+.donations-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+.donations-table thead tr {
+    background-color: #f2f2f2;
+    color: #333;
+    text-align: left;
+    font-weight: bold;
+}
+
+.donations-table th, .donations-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+.donations-table tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.donations-table tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+
+.donations-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+    text-align: start;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.title-filter {
+    display: flex;
+    justify-content: flex-start;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.exchange-title {
+    font-size: 25px;
+}

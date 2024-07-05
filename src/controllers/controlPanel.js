@@ -9,7 +9,7 @@ const Intercambio = require('../database/models/Intercambio')
 const Oferta = require('../database/models/Oferta')
 const Usuario = require('../database/models/Usuario')
 const Publicacion = require('../database/models/Publicacion')
-
+const Donacion = require('../database/models/Donacion')
 
 
 const generarContrasenaAleatoria = (longitud)=> {
@@ -215,6 +215,10 @@ const controlador = {
             console.log(error);
             res.status(500).send("error al ver los intercambios")
         }
+    },
+    historyDonations: async (req, res) => {
+        const donaciones = await Donacion.findAll();
+        res.render("controlPanel/historyDonations", {donaciones: donaciones});
     }
 
 }
