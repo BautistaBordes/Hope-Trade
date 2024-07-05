@@ -60,8 +60,18 @@
                             </div>
 
                         </div>
-    
+                        
                         <div class="offers-info">
+                            <%if (oferta.oferta_padre_id){%>
+                                <div>
+                                    
+                                    <p style="text-align: center;
+                                    outline: 1px solid #61b0b2;
+                                    background: white;
+                                    padding: 10px;">CONTRAOFERTA</p>
+
+                                </div>
+                            <%}%>
                             <% 
                                 const nombreUsuario = oferta.Usuario.nombre;
                                 const nombreOferta =  oferta.nombre;
