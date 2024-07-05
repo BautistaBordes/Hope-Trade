@@ -161,7 +161,7 @@ const controlador = {
             }});
     
             //si la oferta no existe o si yo soy el autor de la oferta no me dejes ofertar
-            if (!oferta || req.session.usuario.id == oferta.usuario_id){
+            if (!oferta || req.session.usuario.id == oferta.usuario_id || oferta.oferta_padre_id){
                 return res.render("error404");
             }
     

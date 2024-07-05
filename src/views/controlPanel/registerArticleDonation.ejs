@@ -13,7 +13,7 @@
         <div class="container">
 
             <div class="container-form">
-                <h1>Ingrese los datos de la Donacion</h1>
+                <h1>Ingrese los datos de la Donacion del Articulo</h1>
                 
                 <% if (locals.operacion) { %>
                     <p class="correct-text" style="text-align: center; margin-bottom: 25px;">Donacion Registrada</p>
@@ -62,10 +62,10 @@
                         </div>
                     </div>
                     <div class="campo">
-                        <label for="descripcion">Descripcion del Articulo</label>
-                        <input type="text" id="descripcion" name="descripcion" value="<%= locals.oldData ? oldData.descripcion : null %>" >
-                        <% if (locals.errors && errors.descripcion ) { %>
-                            <p class="error-text"><%= errors.descripcion.msg %></p>
+                        <label for="titulo">Titulo del Articulo</label>
+                        <input type="text" id="titulo" name="titulo" value="<%= locals.oldData ? oldData.titulo : null %>" >
+                        <% if (locals.errors && errors.titulo ) { %>
+                            <p class="error-text"><%= errors.titulo.msg %></p>
                         <% } %>    
                     </div>                           
     

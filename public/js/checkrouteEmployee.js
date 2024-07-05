@@ -16,6 +16,6 @@ else if (urlActual[2] == "changeFilial") change = changeFilial;
 else if (urlActual[2] == "historyExchanges") change = intercambiosRepresentante;
 else if (urlActual[2] == "exchanges") change = intercambiosVoluntario;
 else if (urlActual[2] == "historyDonations") change = historyDonations;
-else if (urlActual[2] == "cashDonations") change = cashDonations;
-else if (urlActual[2] == "articleDonations") change = articleDonations;
+else if (urlActual[2] == "registerCashDonation") change = cashDonations;
+else if (urlActual[2] == "registerArticleDonation") change = articleDonations;
 change.classList.add("action-seleccionado");

@@ -254,7 +254,7 @@ const controlador = {
         const result = validationResult(req);
 
         if(result.errors.length > 0){
-            return res.render("controlPanel/registerCashDonation", {
+            return res.render("controlPanel/registerArticleDonation", {
                 errors: result.mapped(),
                 msgError: "Hubo un error al registrar la donacion",
                 oldData: req.body
@@ -267,7 +267,7 @@ const controlador = {
             telefono: req.body.telefono,
             dni: req.body.dni,
             tipo: "articulo",
-            descripcion: req.body.descripcion,
+            descripcion: req.body.titulo,
         });
 
         res.render("controlPanel/registerArticleDonation", {
