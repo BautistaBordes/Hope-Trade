@@ -219,6 +219,60 @@ const controlador = {
     historyDonations: async (req, res) => {
         const donaciones = await Donacion.findAll();
         res.render("controlPanel/historyDonations", {donaciones: donaciones});
+    },
+    registerCashDonations: (req, res) => {
+        res.render("controlPanel/registerCashDonation");
+    },
+    registerCashDonationsProcess: async (req, res) => {
+        const result = validationResult(req);
+
+        if(result.errors.length > 0){
+            return res.render("controlPanel/registerCashDonation", {
+                errors: result.mapped(),
+                msgError: "Hubo un error al registrar la donacion",
+                oldData: req.body
+            });
+        }
+
+        await Donacion.create({
+            nombre: req.body.nombre,
+            apellido: req.body.apellido,
+            telefono: req.body.telefono,
+            dni: req.body.dni,
+            tipo: "efectivo",
+            descripcion: req.body.monto,
+        });
+
+        res.render("controlPanel/registerCashDonation", {
+            operacion: "Donacion registrada con exito"
+        });
+    },
+    registerArticleDonations: (req, res) => {
+        res.render("controlPanel/registerArticleDonation");
+    },
+    registerArticleDonationsProcess: async (req, res) => {
+        const result = validationResult(req);
+
+        if(result.errors.length > 0){
+            return res.render("controlPanel/registerCashDonation", {
+                errors: result.mapped(),
+                msgError: "Hubo un error al registrar la donacion",
+                oldData: req.body
+            });
+        }
+
+        await Donacion.create({
+            nombre: req.body.nombre,
+            apellido: req.body.apellido,
+            telefono: req.body.telefono,
+            dni: req.body.dni,
+            tipo: "articulo",
+            descripcion: req.body.descripcion,
+        });
+
+        res.render("controlPanel/registerArticleDonation", {
+            operacion: "Donacion registrada con exito"
+        });
     }
 
 }

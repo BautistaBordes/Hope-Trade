@@ -4,7 +4,7 @@ const donationsController = require("../controllers/donations");
 
 const authComunMiddleware = require("../middlewares/authComunMiddleware");
 const redirectLogin = require("../middlewares/redirectLogin");
-const validationsDonation = require("../middlewares/validations/validationsDonation");
+const validationsDonation = require("../middlewares/validations/validationsDonationOnline");
 
 
 router.get("/donate", redirectLogin, authComunMiddleware, donationsController.donate);

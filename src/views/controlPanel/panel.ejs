@@ -7,35 +7,41 @@
     </div>
     <div class="container-panel">
         <div class="container-actions">
-        <% if (locals.usuario.rol == "representante") {%>
+            <% if (locals.usuario.rol == "representante") {%>
             
-            <div id="seccion4" class="actions">
-                <a href="/controlPanel/historyExchanges" class="action">Historial de Intercambios</a>
-            </div>
+                <div id="seccion4" class="actions">
+                    <a href="/controlPanel/historyExchanges" class="action">Historial de Intercambios</a>
+                </div>
 
-            <div id="seccion6" class="actions">
-                <a href="/controlPanel/historyDonations" class="action">Historial de Donaciones</a>
-            </div>
+                <div id="seccion6" class="actions">
+                    <a href="/controlPanel/historyDonations" class="action">Historial de Donaciones</a>
+                </div>
 
-            <div id="seccion1" class="actions">
-                <a href="/controlPanel/registerVoluntario" class="action">Registrar Voluntario</a>
-            </div>
+                <div id="seccion1" class="actions">
+                    <a href="/controlPanel/registerVoluntario" class="action">Registrar Voluntario</a>
+                </div>
 
-            <div id="seccion2" class="actions">
-                <a href="/controlPanel/registerRepresentante" class="action">Registrar Representante</a>
-            </div>
+                <div id="seccion2" class="actions">
+                    <a href="/controlPanel/registerRepresentante" class="action">Registrar Representante</a>
+                </div>
 
-            <div id="seccion3" class="actions">
-                <a href="/controlPanel/changeFilial" class="action">Cambiar Filial</a>
-            </div>
+                <div id="seccion3" class="actions">
+                    <a href="/controlPanel/changeFilial" class="action">Cambiar Filial</a>
+                </div>
 
             
 
-        <% } else {%>
-            <div id="seccion5" class="actions">
-                <a href="/controlPanel/exchanges" class="action">Ver Intercambios Pendientes</a>
-            </div>
-        <% } %>
+            <% } else {%>
+                <div id="seccion5" class="actions">
+                    <a href="/controlPanel/exchanges" class="action">Ver Intercambios Pendientes</a>
+                </div>
+                <div id="seccion7" class="actions">
+                    <a href="/controlPanel/registerCashDonation" class="action">Registrar Donacion de Efectivo</a>
+                </div>
+                <div id="seccion8" class="actions">
+                    <a href="/controlPanel/registerArticleDonation" class="action">Registrar Donacion de Articulo</a>
+                </div>
+            <% } %>
 
         </div>
 

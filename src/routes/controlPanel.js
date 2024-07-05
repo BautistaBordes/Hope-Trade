@@ -10,6 +10,9 @@ const validationsRegisterEmployee = require('../middlewares/validations/validati
 const validationsFilial = require('../middlewares/validations/validationsFilial');
 const validationsChangeFilial = require('../middlewares/validations/validationsChangeFilial');
 
+const validationsDonationCash = require('../middlewares/validations/validationsDonationCash');
+const validationsDonationArticle = require('../middlewares/validations/validationsDonationArticle');
+
 
 router.get('/controlPanel', authEmployeeMiddleware, controlPanelController.index);
 
@@ -29,4 +32,14 @@ router.get('/controlPanel/exchanges/:filterByDate?', authVoluntarioMiddleware,  
 router.get('/controlPanel/historyExchanges', authRepresentanteMiddleware,  controlPanelController.historyExchanges);
 
 router.get('/controlPanel/historyDonations', authRepresentanteMiddleware,  controlPanelController.historyDonations);
+
+
+router.get('/controlPanel/registerCashDonation', authVoluntarioMiddleware,  controlPanelController.registerCashDonations);
+router.post('/controlPanel/registerCashDonation', authVoluntarioMiddleware, validationsDonationCash,  controlPanelController.registerCashDonationsProcess);
+
+
+router.get('/controlPanel/registerArticleDonation', authVoluntarioMiddleware,  controlPanelController.registerArticleDonations);
+router.post('/controlPanel/registerArticleDonation', authVoluntarioMiddleware, validationsDonationArticle,  controlPanelController.registerArticleDonationsProcess);
+
+
 module.exports = router;
