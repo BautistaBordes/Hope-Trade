@@ -14,9 +14,19 @@
 
                 <form action="/cardDonate"  method="POST">
                     
+                    <h1>Formulario para donar con tarjeta</h1>
+                
+                    <% if (locals.msgOk) { %>
+                        <p class="correct-text" style="text-align: center; margin-bottom: 25px;"><%= msgOk %></p>
+                    <% } %>
+    
+                    <% if (locals.msgError) { %>
+                        <p class="error-text" style="text-align: center; margin-bottom: 25px;"><%= msgError %></p>
+                    <% } %>
+
                     <div class="campo">
                         <label for="nro_tarjeta">Numero de tarjeta</label>
-                        <input type="text" id="nro_tarjeta" name="nro_tarjeta" placeholder="42123890123456" value="<%= locals.oldData ? oldData.nro_tarjeta : null %>" >
+                        <input type="number" id="nro_tarjeta" name="nro_tarjeta" onKeyPress="if(this.value.length==16) return false;" placeholder="42123890123456" value="<%= locals.oldData ? oldData.nro_tarjeta : null %>" >
                         <% if (locals.errors && errors.nro_tarjeta) { %>
                             <p class="error-text"><%= errors.nro_tarjeta.msg %></p>
                         <% } %>
@@ -35,7 +45,7 @@
                     <div class="container-campo">
                         <div class="campo">
                             <label for="codigo">Codigo de Seguridad</label>
-                            <input type="number" id="codigo" name="codigo" placeholder="985" value="<%= locals.oldData ? oldData.codigo : null %>" >
+                            <input type="number" id="codigo" name="codigo" onKeyPress="if(this.value.length==3) return false;" placeholder="985" value="<%= locals.oldData ? oldData.codigo : null %>" >
                             <% if (locals.errors && errors.codigo) { %>
                                 <p class="error-text"><%= errors.codigo.msg %></p>
                             <% } %>
@@ -44,7 +54,7 @@
 
                         <div class="campo">
                             <label for="fecha">Vencimiento</label>
-                            <input type="text" id="fecha" name="fecha" placeholder="03/28" value="<%= locals.oldData ? oldData.fecha : null %>">
+                            <input type="text" id="fecha" name="fecha" maxlength="5" placeholder="03/28" value="<%= locals.oldData ? oldData.fecha : null %>">
                             <% if (locals.errors && errors.fecha ) { %>
                                 <p class="error-text"><%= errors.fecha.msg %></p>
                             <% } %>

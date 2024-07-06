@@ -16,19 +16,29 @@ const controlador = {
     },
     donateCardProccess: async (req, res) =>{
         const result = validationResult(req);
+        const {nro_tarjeta, nombre, codigo, fecha, monto} = req.body;
+
         if(result.errors.length > 0){
-            //en caso de que haya errores por los campos de texto la imagen se crea igual, asi q la elimino (si es q envian una)
             return res.render("donations/cardDonate", {
                 errors: result.mapped(),
-                oldData: req.body,
+                oldData: req.body
             });
         }
+
         const tarjeta = await Tarjeta.findOne(
-            {where: {numero: req.body.nro_tarjeta} }
+            {where: {numero: nro_tarjeta, nombre: nombre, cdo_seguridad: codigo, vencimiento: fecha} }
         );
+
+        if (!tarjeta || tarjeta.credito < monto) {
+            return res.render("donations/cardDonate", {
+                msgError: "Hubo un problema con los datos, intentelo de nuevo",
+                oldData: req.body
+            });
+        }
+
         await Tarjeta.update(
-            {credito: tarjeta.credito - req.body.monto},
-            {where: {numero: req.body.nro_tarjeta} }
+            {credito: tarjeta.credito - monto},
+            {where: {numero: nro_tarjeta} }
         );
         await Donacion.create({
             nombre: req.session.usuario.nombre,
@@ -36,12 +46,14 @@ const controlador = {
             telefono: req.session.usuario.telefono,
             dni: req.session.usuario.dni,
             tipo: "tarjeta",
-            descripcion: req.body.monto,
+            descripcion: monto,
         });
 
         sendNotificationToMail(req.session.usuario.mail, "Donacion realiza con exito", req.session.usuario.id, "Muchas gracias por la donacion. \nLe agradecemos desde el equipo de Caritas", "donation");
 
-        res.redirect("/");
+        res.render("donations/cardDonate", {
+            msgOk: "Gracias por tu donación, el equipo de Cáritas te lo agradece",
+        });
     }
 }
 
