@@ -1,5 +1,5 @@
 function guestOrComunMiddleware (req, res, next) {
-    if (req.session.usuario === undefined || req.session.usuario.rol == "comun") {
+    if (!req.session.usuario || req.session.usuario.rol == "comun") {
         next()
     } else {
         res.redirect("/controlPanel")

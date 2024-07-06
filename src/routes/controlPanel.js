@@ -13,10 +13,10 @@ const validationsChangeFilial = require('../middlewares/validations/validationsC
 const validationsDonationCash = require('../middlewares/validations/validationsDonationCash');
 const validationsDonationArticle = require('../middlewares/validations/validationsDonationArticle');
 
-
+//index general
 router.get('/controlPanel', authEmployeeMiddleware, controlPanelController.index);
 
-
+//representante
 router.get('/controlPanel/registerVoluntario', authRepresentanteMiddleware, controlPanelController.registerVoluntario);
 router.post('/controlPanel/registerVoluntario', authRepresentanteMiddleware, validationsRegisterEmployee, validationsFilial, controlPanelController.registerVoluntarioProcess);
 
@@ -26,17 +26,16 @@ router.post('/controlPanel/registerRepresentante', authRepresentanteMiddleware, 
 router.get('/controlPanel/changeFilial', authRepresentanteMiddleware, controlPanelController.changeFilial);
 router.post('/controlPanel/changeFilial', authRepresentanteMiddleware, validationsFilial, validationsChangeFilial, controlPanelController.changeFilialProcess);
 
-
-router.get('/controlPanel/exchanges/:filterByDate?', authVoluntarioMiddleware,  controlPanelController.exchangesFilter);
-
 router.get('/controlPanel/historyExchanges', authRepresentanteMiddleware,  controlPanelController.historyExchanges);
 
 router.get('/controlPanel/historyDonations', authRepresentanteMiddleware,  controlPanelController.historyDonations);
 
 
+//voluntario
+router.get('/controlPanel/exchanges/:filterByDate?', authVoluntarioMiddleware,  controlPanelController.exchangesFilter);
+
 router.get('/controlPanel/registerCashDonation', authVoluntarioMiddleware,  controlPanelController.registerCashDonations);
 router.post('/controlPanel/registerCashDonation', authVoluntarioMiddleware, validationsDonationCash,  controlPanelController.registerCashDonationsProcess);
-
 
 router.get('/controlPanel/registerArticleDonation', authVoluntarioMiddleware,  controlPanelController.registerArticleDonations);
 router.post('/controlPanel/registerArticleDonation', authVoluntarioMiddleware, validationsDonationArticle,  controlPanelController.registerArticleDonationsProcess);

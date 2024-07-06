@@ -5,4 +5,28 @@ body {
 main {
     width: 1200px;
     margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.container-info {
+    display: flex;
+    flex-direction: column;
+    row-gap: 38px;
+}
+
+h1 {
+    margin:  0;
+}
+.container-info p {
+    margin:  0;
+}
+
+@media (width <= 1200px) {
+    main {
+        flex-direction: column;
+    }
+    img {
+        width: 50vw;
+    }
 }

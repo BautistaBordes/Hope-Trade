@@ -1,5 +1,5 @@
 function authVoluntarioMiddleware (req, res, next) {
-    if (req.session.usuario !== undefined && req.session.usuario.rol == "voluntario") {
+    if (req.session.usuario && req.session.usuario.rol == "voluntario") {
         next()
     } else {
         let redirect = req.session.usuario ? ( req.session.usuario == "comun" ? "/posts" : "/controlPanel") : "/" ;

@@ -1,5 +1,5 @@
 function authRepresentanteMiddleware (req, res, next) {
-    if (req.session.usuario !== undefined && req.session.usuario.rol == "representante") {
+    if (req.session.usuario && req.session.usuario.rol == "representante") {
         next()
     } else {
         let redirect = req.session.usuario ? ( req.session.usuario == "comun" ? "/posts" : "/controlPanel") : "/" ;

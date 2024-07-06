@@ -1,5 +1,5 @@
 function guestMiddleware (req, res, next) {
-    if (req.session.usuario === undefined) {
+    if (!req.session.usuario) {
         next()
     } else {
         let redirect = req.session.usuario.rol == "comun" ? "/posts" : "/controlPanel";

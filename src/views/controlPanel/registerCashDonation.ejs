@@ -63,7 +63,7 @@
                     </div>
                     <div class="campo">
                         <label for="monto">Monto de la donacion</label>
-                        <input type="text" id="monto" name="monto" value="<%= locals.oldData ? oldData.monto : null %>" >
+                        <input type="text" id="monto" name="monto" placeholder="8230" value="<%= locals.oldData ? oldData.monto : null %>" >
                         <% if (locals.errors && errors.monto ) { %>
                             <p class="error-text"><%= errors.monto.msg %></p>
                         <% } %>    

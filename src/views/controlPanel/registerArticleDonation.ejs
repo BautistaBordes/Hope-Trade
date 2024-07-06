@@ -63,7 +63,7 @@
                     </div>
                     <div class="campo">
                         <label for="titulo">Titulo del Articulo</label>
-                        <input type="text" id="titulo" name="titulo" value="<%= locals.oldData ? oldData.titulo : null %>" >
+                        <input type="text" id="titulo" name="titulo" placeholder="17 chapas" value="<%= locals.oldData ? oldData.titulo : null %>" >
                         <% if (locals.errors && errors.titulo ) { %>
                             <p class="error-text"><%= errors.titulo.msg %></p>
                         <% } %>    
