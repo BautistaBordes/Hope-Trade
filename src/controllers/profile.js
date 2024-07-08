@@ -211,23 +211,37 @@ const controlador ={
     sentOffers: async (req, res) => {
         getOffers(req, res, "Ofertas Enviadas", "sentOffers");
     },
+
     myExchanges: async (req, res) => {
         const id = req.session.usuario.id;
 
         const intercambios = await Intercambio.findAll({
             include: [
-                { model: Oferta, include: [Usuario, Filial]} ,
+                { model: Oferta, include: [Usuario, Filial] },
                 { model: Publicacion, include: [Usuario] }
             ],
             where: {
                 [Op.or]: [
-                    { '$Publicacion.usuario_id$': id },
-                    { '$Oferta.usuario_id$': id }
+                    {'$Oferta.usuario_id$': req.session.usuario.id},
+                    {'$Publicacion.usuario_id$': req.session.usuario.id}
                 ]
-              }
-          })
+            }
+        });
 
-          res.render("exchanges/myExchanges", {intercambios: intercambios});
+
+        const intercambios2 = await Promise.all(intercambios.map( async intercambio => {
+            if(intercambio.Publicacion.usuario_id == intercambio.Oferta.usuario_id) {
+                const ofertaPadre = await Oferta.findOne({   
+                    where: { id: intercambio.Oferta.oferta_padre_id },
+                    include: [ Usuario ]
+                });
+                intercambio.Oferta = {...intercambio.Oferta, ofertaPadre};
+            }
+           
+            return intercambio;
+        }));
+
+          res.render("exchanges/myExchanges", {intercambios: intercambios2});
     }
 
 
