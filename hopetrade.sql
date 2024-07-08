@@ -81,9 +81,9 @@ COLLATE=utf8mb4_general_ci;
 
 
 INSERT INTO hopetrade.usuario (dni, nombre, apellido, mail, password, telefono, fecha_nacimiento) VALUES 
-("20134567", "Martin", "Vazquez", "martinvazquez1104@gmail.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2006-05-15"),
-("23423424", "Nicolas", "Caporal", "nicolascaporal.unlp@gmail.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2006-05-15"),
-("1111", "Bautista", "Bordes", "bautistabordes5@gmail.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2000-01-11");
+("1111", "Martin", "Vazquez", "martinvazquez1104@gmail.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2006-05-15"),
+("2222", "Nicolas", "Caporal", "nicolascaporal.unlp@gmail.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2006-05-15"),
+("3333", "Bautista", "Bordes", "bautistabordes5@gmail.com", "$2a$10$kHftH0B3y.riYT28g66ZP.vdrN9/EA1eT6KVuohI9JuAxHj1mE1RK", "12345", "2000-01-11");
 
 
 DROP TABLE IF EXISTS hopetrade.voluntario;
@@ -156,35 +156,10 @@ DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO hopetrade.publicacion (nombre, descripcion, url_foto, estado, categoria_id, usuario_id)  VALUES 
--- publi de Nicolas
-("piano", "88 teclas, marca yamaha, modelo p45b, peso 11,5Kg, 2 años de uso", "publicacion_prueba_1.jpg", "disponible", 1, 2),
--- publi de Bautista
-("lavarropas", "Capacidad 10 Kg. 29 Alternativas de lavado. 800RPM. 7 meses de uso", "publicacion_prueba_2.jpg", "disponible", 3, 3);
-
-
-DROP TABLE IF EXISTS hopetrade.comentario;
-
-CREATE TABLE hopetrade.comentario (
-	id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-
-	comentario_padre_id INT(10) UNSIGNED NULL, -- si tiene algo es porque soy una respuesta, sino es xq soy un comentario
-	usuario_id INT(10) UNSIGNED NOT NULL,
-	publicacion_id INT(10) UNSIGNED NOT NULL,
-	contenido TEXT NOT NULL,
-	estado VARCHAR(10) NOT NULL, -- 2 estados: visible, borrado
-
-	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at TIMESTAMP NULL DEFAULT NULL,
-
-	CONSTRAINT comentario_PK PRIMARY KEY (id),
-	CONSTRAINT comentario_FK_1 FOREIGN KEY (usuario_id) REFERENCES hopetrade.usuario(id),
-	CONSTRAINT comentario_FK_2 FOREIGN KEY (publicacion_id) REFERENCES hopetrade.publicacion(id),
-	CONSTRAINT comentario_FK_3 FOREIGN KEY (comentario_padre_id) REFERENCES hopetrade.comentario(id)
-)
-ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_general_ci;
-
+("Piano", "88 teclas, marca yamaha, modelo p45b, peso 11,5Kg, 2 años de uso", "publicacion_prueba_1.jpg", "disponible", 1, 3),
+("Libro ingles", "Para 1er año", "publicacion_prueba_4.png", "disponible", 7, 3),  
+("Teclado genius", "Como nuevo", "publicacion_prueba_2.png", "disponible", 3, 3),
+("Mantel", "1 año de uso, sin manchas", "publicacion_prueba_3.png", "disponible", 4, 3);
 
 
 
@@ -223,14 +198,6 @@ DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
 
 
-INSERT INTO hopetrade.oferta (nombre, descripcion, url_foto, estado, publicacion_id, oferta_padre_id, categoria_id, usuario_id, filial_id, fecha, hora)  VALUES 
--- estas son las ofertas para NICOLAS, 1ero envia Martin la 2da Bautista
-("bateria acustica", "Marca Parquer, Modelo 10065BK, Color Negro, 5 años de uso", "oferta_prueba_1.jpg", "pendiente", 1, NULL, 3, 1, 4, "2024-07-14", "12:00"),
-("smart tv", "Marca bgh, Modelo 10065BK, Color Negro, 1 año de uso", "oferta_prueba_2.jpg", "pendiente", 1, NULL, 2, 3, 2, "2024-07-27", "17:00"),
--- ofertas para BAUTISTA hechas por Martin
-("heladera", "3 años de uso, marca whirlpool, modelo WRO85AK, 3 Puertas Inverter, 554 Lts", "oferta_prueba_3.jpg", "pendiente", 2, NULL, 6, 1, 2, "2024-07-19", "14:30"),
-("ventilador", "Marca suzika, Modelo 10065BK, Color Negro, 3 años de uso", "oferta_prueba_4.jpg", "pendiente", 2, NULL, 2, 1, 4, "2024-07-10", "19:00");
-
 
 
 DROP TABLE IF EXISTS hopetrade.intercambio;
@@ -255,7 +222,6 @@ DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
 
 
-
 DROP TABLE IF EXISTS hopetrade.notificacion;
 
 CREATE TABLE hopetrade.notificacion (
@@ -268,16 +234,12 @@ CREATE TABLE hopetrade.notificacion (
 
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-	CONSTRAINT notificacion_PK PRIMARY KEY (id),
-	CONSTRAINT notificacion_FK_1 FOREIGN KEY (usuario_id) REFERENCES hopetrade.usuario(id)
+	CONSTRAINT notificaciones_PK PRIMARY KEY (id),
+	CONSTRAINT notificaciones_FK_1 FOREIGN KEY (usuario_id) REFERENCES hopetrade.usuario(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO hopetrade.notificacion (usuario_id, contenido, tipo, estado)  VALUES 
-(2, "Martin te envio la oferta bateria acustica por tu publicacion piano","receivedOffers", "pendiente"),
-(2, "Bautista te envio la oferta smart tv por tu publicacion piano","receivedOffers", "pendiente");
 
 
 DROP TABLE IF EXISTS hopetrade.tarjeta;
@@ -321,6 +283,29 @@ CREATE TABLE hopetrade.donacion (
 
 	CONSTRAINT donacion_PK PRIMARY KEY (id)
 	
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
+DROP TABLE IF EXISTS hopetrade.comentario;
+
+CREATE TABLE hopetrade.comentario (
+    id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    comentario_padre_id INT(10) UNSIGNED NULL, -- si tiene algo es porque soy una respuesta, sino es xq soy un comentario
+    usuario_id INT(10) UNSIGNED NOT NULL,
+    publicacion_id INT(10) UNSIGNED NOT NULL,
+    contenido TEXT NOT NULL,
+    estado VARCHAR(10) NOT NULL, -- 2 estados: visible, borrado
+
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT NULL,
+
+    CONSTRAINT comentario_PK PRIMARY KEY (id),
+    CONSTRAINT comentario_FK_1 FOREIGN KEY (usuario_id) REFERENCES hopetrade.usuario(id),
+    CONSTRAINT comentario_FK_2 FOREIGN KEY (publicacion_id) REFERENCES hopetrade.publicacion(id),
+    CONSTRAINT comentario_FK_3 FOREIGN KEY (comentario_padre_id) REFERENCES hopetrade.comentario(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
