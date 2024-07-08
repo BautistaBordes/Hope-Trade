@@ -83,3 +83,101 @@
     text-align: justify;
     margin: 40px 0 0 0;
 }
+
+.container-comments {
+    width: 100%;
+    height: 400px;
+    background-color: #e8e8e7;
+    display: flex;
+    flex-direction: column;
+}
+
+.comments-replies{
+    height: 80%;
+    overflow-y: scroll;
+    width: 90%;
+    padding: 0 5%;
+}
+
+.owner-msg {
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    justify-content: space-between;
+
+}
+
+.owner-msg p {
+    margin-bottom: 0px;
+} 
+
+.owner {
+    color: blue;
+    width: 15%;
+}
+
+.msg {
+    color: black;
+    width: 85%;
+}
+
+.respuesta {
+    margin-left: 70px;
+}
+
+.escondido {
+    display: none;
+}
+
+.formulario-escondido {
+    width: 95%;
+    margin-left: 5%;
+    margin-bottom: 25px;
+}
+
+.input-escondido {
+    width: 700px;
+    height: 50px;
+}
+
+
+.btn-reply-delete {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.send-comments {
+    height: 20%;
+}
+.comment-form {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.comment {
+    width: 80%;
+    height: 35px;
+}
+
+.comment:focus, .comment:hover {
+    outline: none;
+    border: grey 1px solid;
+}
+
+.btn-send {
+    height: 40px;
+    width: 10%;
+    cursor: pointer;
+    background-color: #61b0b2;
+    border: none;
+    color: white;
+    font-weight: 700;
+}
+
+.btn-send:hover{
+    filter: opacity(0.9);
+}

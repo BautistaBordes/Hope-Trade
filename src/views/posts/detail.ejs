@@ -37,10 +37,148 @@
 
         <h2 class="descripcion">Descripcion: <%=publicacion.descripcion %></h2>
 
-        <!-- <section>
-        </section> -->
+        <div id="section-comments">
+            <h3 style="margin-top: 100px;" >Seccion de comentarios</h3>
+            <section class="container-comments">
+                <div class="comments-replies">
+                    <% if (comentarios.length > 0) { %>
+                        <% comentarios.forEach(comentario => { %>
+
+                            <% if (!comentario.comentario_padre_id) {%>
+                                <% let reply = comentarios.find(co => co.comentario_padre_id == comentario.id); %>
+
+                                <div class="comment-sended" >
+
+                                    <div class="owner-msg">
+                                        <p class="owner"><%= `${comentario.Usuario.nombre} ${comentario.Usuario.apellido}` %>:</p>
+                                        <p class="msg"><%= comentario.contenido %></p>
+                                    </div>
+
+                                    <% if (esMia && publicacion.estado === "disponible") { %>
+
+                                        <% if (!reply) { %>
+
+                                            <div class="btns-date-input">
+
+                                                <div class="btn-reply-delete">
+
+                                                    <p style="color: rgb(88, 88, 88);">enviado: <%= comentario.created_at.toLocaleString() %></p>
+    
+                                                    <div class="btns" style="display: flex; flex-direction: row; align-items: center; width: 18%; justify-content: space-between;">
+                                                        
+                                                        <button id="responder-<%= comentario.id %>" style="cursor: pointer;"
+                                                            <%- `onclick="aparecer( 'responder-${comentario.id}' , 'formRespuesta-${comentario.id}' )"` %>
+                                                            type="button">Responder</button>
+
+                                                        <form action="/comments/delete/<%= comentario.id  %>" method="post">
+                                                            <input type="text" style="display: none;" name="publicacionID" value="<%= publicacion.id %>">
+                                                            <button type="submit" style="cursor: pointer; color: white; background-color: #f63939; border: none; padding: 5px;">Eliminar</button>
+                                                        </form>
+
+                                                    </div>
+    
+                                                </div>
+    
+                                                <div class="escondido formulario-escondido" id="formRespuesta-<%= comentario.id %>">
+                                                    <form action="/comments/<%= comentario.id  %>" method="post">
+                                                        <input class="input-escondido" name="respuesta" type="text">
+                                                        <input type="text" style="display: none;" name="publicacionID" value="<%= publicacion.id %>">
+                                                        <button style="cursor: pointer;" type="submit">Aceptar</button>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+
+
+                                        <% } else { %> 
+
+                                            <div class="btns-date-input">
+
+                                                <div class="btn-reply-delete">
+                                                    <p style="color: rgb(88, 88, 88);">enviado: <%= comentario.created_at.toLocaleString() %></p>
+    
+                                                    <div class="btns">
+                                                        <form action="/comments/delete/<%= comentario.id  %>" method="post">
+                                                            <input type="text" style="display: none;" name="publicacionID" value="<%= publicacion.id %>">
+                                                            <button type="submit"  style="cursor: pointer; color: white; background-color: #f63939; border: none; padding: 5px;">Eliminar</button>
+                                                        </form>
+                                                    </div>
+    
+                                                </div>
+    
+                                            </div>
+                                        <% } %> 
+
+        
+                                    <% } else { %>
+                                        <p style="color: rgb(88, 88, 88);">enviado: <%= comentario.created_at.toLocaleString() %></p>
+                                    <% } %>
+                                </div>
+                            
+                                <% if (reply) { %>
+                                    <div class="comment-sended respuesta" >
+                                        <div class="owner-msg">
+                                            <p class="owner" <%- !esMia ? 'style="margin-top: 0; margin-bottom:20px ;"' : null %>  >Respuesta: </p>
+                                            <p class="msg" <%- !esMia ? 'style="margin-top: 0; margin-bottom:20px ;"' : null %> ><%= reply.contenido %></p>
+                                        </div>
+
+                                        <% if (esMia && publicacion.estado == "disponible") { %>
+                                            <div class="btns-date-input">
+                                                <div class="btn-reply-delete">
+                                                    <p style="color: rgb(88, 88, 88);">enviado: <%= reply.created_at.toLocaleString() %></p>
+    
+                                                    <div class="btns">
+                                                        <form action="/comments/delete/<%= reply.id  %>" method="post">
+                                                            <input type="text" style="display: none;" name="publicacionID" value="<%= publicacion.id %>">
+                                                            <button type="submit"  style="cursor: pointer; color: white; background-color: #f63939; border: none; padding: 5px;">Eliminar</button>
+                                                        </form>
+                                                    </div>
+    
+                                                </div>
+    
+                                            </div>
+
+                                        <% } else { %>
+                                            <p style="color: rgb(88, 88, 88); margin-top: 0;">enviado: <%= reply.created_at.toLocaleString() %></p>
+                                        <% } %>
+                                    </div>
+                                <% } %>
+                                <hr>
+                            <% } %>
+
+                            
+                        <% }) %>
+                    <% } else { %>
+                        <p style="color: rgb(58, 58, 58);" > Todavia no hay comentarios</p>
+                    <% } %>
+          
+                </div>
+                <% if (!esMia) {%>
+                    <div class="send-comments">
+                        <form class="comment-form" action="/posts/<%=publicacion.id %>" method="post">
+                            <input class="comment" name="comentario" type="text" placeholder="comentario generado para despejar dudas">
+                            <button class="btn-send" type="submit">Enviar</button>
+                        </form>
+                    </div>
+                <% } %>
+    
+            </section>
+        </div>
+
     </div>
 
     <%- include("./partials/footer") %>
 </body>
+<script>
+    function aparecer(btn, form) {
+        const formularioAparecer = document.getElementById(form);
+        const btnResponder = document.getElementById(btn);
+        formularioAparecer.classList.toggle("escondido");
+    
+    }
+
+
+
+
+</script>
 </html>
