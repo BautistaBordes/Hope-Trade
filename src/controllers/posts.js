@@ -1,8 +1,10 @@
 const { validationResult } = require("express-validator");
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 const Publicacion = require("../database/models/Publicacion");
 const Usuario = require("../database/models/Usuario");
 const Categoria = require("../database/models/Categoria");
+const Comentario = require("../database/models/Comentario");
+const {sendNotificationToMail} = require('../globals');
 
 
 let volverAgregarPublicacion; //en esta variable guardo la url de donde vine para crear una publicacion inicialmente, si hay errores el link del boton cancelar se mantiene igual
@@ -68,21 +70,109 @@ const controlador = {
  
 
             let referer =  req.get('referer');
-            if (!referer || referer.includes("sentOffers") || referer.includes("receivedOffers") || referer.includes("offers") ) {
+            if (!referer || referer.includes("sentOffers") || referer.includes("receivedOffers") || referer.includes("offers") || referer.includes("posts/") ) {
                 if ( esMia ) referer = "/profile/myPosts";
                 else referer = "/posts";
             } else  referer = `/${referer.split("/").splice(3).join("/")}`
     
-            res.render("posts/detail", {
-                publicacion: publicacion,
-                referer: referer
-            });
+            const comentarios = await Comentario.findAll({include: Usuario, where: {publicacion_id: idURL, estado: "visible"}, order: [['id', 'DESC']] } )
+
+            res.render("posts/detail", { publicacion, referer, esMia, comentarios });
 
         } catch (error) {
             console.log(error);
             res.status(500).send("error al ver detalle de publicacion")
         }
 
+    },
+    uploadComment: async (req, res) => {
+        const {comentario} = req.body;
+        const idURL = req.params.id;
+
+        if (comentario.length < 1) return res.redirect(`/posts/${idURL}`);
+
+        try {
+            await Comentario.create({
+                usuario_id: req.session.usuario.id,
+                publicacion_id: idURL,
+                contenido: comentario,
+                estado: "visible"
+            });
+
+            const publicacion = await Publicacion.findOne({where: {id: idURL}})
+
+            const ownerPost = await Usuario.findOne( { where: {id: publicacion.usuario_id} } )
+
+            sendNotificationToMail(ownerPost.mail, "Recibiste un comentario", ownerPost.id, `${req.session.usuario.nombre} comentó en ${publicacion.nombre}`, "comment");
+
+            res.redirect(`/posts/${idURL}#section-comments`);
+        } catch (error) {
+            console.log(error);
+            res.status(500).send("error al cargar comentario")
+        }
+
+    },
+    uploadReply: async (req,res) => {
+        const {respuesta, publicacionID} = req.body;
+        const comentarioID = req.params.id;
+
+        try {
+            await Comentario.create({
+                usuario_id: req.session.usuario.id,
+                comentario_padre_id: comentarioID,
+                publicacion_id: publicacionID,
+                contenido: respuesta,
+                estado: "visible"
+            });
+
+
+            const publicacion = await Publicacion.findOne({where: {id: publicacionID}})
+
+            const comentario = await Comentario.findOne({where: {id: comentarioID}})
+
+            const autorComment = await Usuario.findOne( { where: {id: comentario.usuario_id} } )
+
+            sendNotificationToMail(autorComment.mail, "Recibiste una respuesta", autorComment.id, `${req.session.usuario.nombre} te respodió en la publicacion ${publicacion.nombre}`, "comment");
+
+            res.redirect(`/posts/${publicacionID}#section-comments`);
+        } catch (error) {
+            console.log(error);
+            res.status(500).send("error al responder comentario")
+        }
+    },
+    deleteComment: async (req,res) => {
+        const comentarioID = req.params.id;
+        const {publicacionID} = req.body;
+
+        try {
+            await Comentario.update( { estado: "borrado" },
+            {
+                where: { id: comentarioID }
+            });
+
+            const respuesta = await Comentario.findOne({where: {comentario_padre_id: comentarioID}})
+
+            if(respuesta) {
+                await Comentario.update( { estado: "borrado" },
+                    {
+                        where: { id: respuesta.id }
+                });
+            }
+
+            const publicacion = await Publicacion.findOne({where: {id: publicacionID}})
+
+            const comentario = await Comentario.findOne({where: {id: comentarioID}})
+
+            const autorComment = await Usuario.findOne( { where: {id: comentario.usuario_id} } )
+
+            sendNotificationToMail(autorComment.mail, "Recibiste una respuesta", autorComment.id, `${req.session.usuario.nombre} elimino tu comentario en la publicacion ${publicacion.nombre}`, "comment");
+
+
+            res.redirect(`/posts/${publicacionID}#section-comments`);
+        } catch (error) {
+            console.log(error);
+            res.status(500).send("error al eliminar comentario")
+        }
     }
 }
 

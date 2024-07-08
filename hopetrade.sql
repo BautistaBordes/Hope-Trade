@@ -162,6 +162,31 @@ INSERT INTO hopetrade.publicacion (nombre, descripcion, url_foto, estado, catego
 ("lavarropas", "Capacidad 10 Kg. 29 Alternativas de lavado. 800RPM. 7 meses de uso", "publicacion_prueba_2.jpg", "disponible", 3, 3);
 
 
+DROP TABLE IF EXISTS hopetrade.comentario;
+
+CREATE TABLE hopetrade.comentario (
+	id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+
+	comentario_padre_id INT(10) UNSIGNED NULL, -- si tiene algo es porque soy una respuesta, sino es xq soy un comentario
+	usuario_id INT(10) UNSIGNED NOT NULL,
+	publicacion_id INT(10) UNSIGNED NOT NULL,
+	contenido TEXT NOT NULL,
+	estado VARCHAR(10) NOT NULL, -- 2 estados: visible, borrado
+
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP NULL DEFAULT NULL,
+
+	CONSTRAINT comentario_PK PRIMARY KEY (id),
+	CONSTRAINT comentario_FK_1 FOREIGN KEY (usuario_id) REFERENCES hopetrade.usuario(id),
+	CONSTRAINT comentario_FK_2 FOREIGN KEY (publicacion_id) REFERENCES hopetrade.publicacion(id),
+	CONSTRAINT comentario_FK_3 FOREIGN KEY (comentario_padre_id) REFERENCES hopetrade.comentario(id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
+
+
 
 
 DROP TABLE IF EXISTS hopetrade.oferta;
@@ -243,8 +268,8 @@ CREATE TABLE hopetrade.notificacion (
 
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-	CONSTRAINT notificaciones_PK PRIMARY KEY (id),
-	CONSTRAINT notificaciones_FK_1 FOREIGN KEY (usuario_id) REFERENCES hopetrade.usuario(id)
+	CONSTRAINT notificacion_PK PRIMARY KEY (id),
+	CONSTRAINT notificacion_FK_1 FOREIGN KEY (usuario_id) REFERENCES hopetrade.usuario(id)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4

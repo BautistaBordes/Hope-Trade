@@ -6,6 +6,7 @@ const Categoria = require('./models/Categoria')
 const Oferta = require('./models/Oferta')
 const Intercambio = require('./models/Intercambio')
 const Notificacion = require('./models/Notificacion')
+const Comentario = require('./models/Comentario')
 
 //A.belongsTo(B) el a tiene la FK
 //A.hasOne(B) el b tiene la FK
@@ -35,3 +36,7 @@ Filial.hasMany(Oferta, { foreignKey: 'filial_id' });
 
 Usuario.hasMany(Publicacion, { foreignKey: 'usuario_id' });
 Usuario.hasMany(Oferta, { foreignKey: 'usuario_id' });
+
+Comentario.belongsTo(Publicacion, {foreignKey: "publicacion_id"});
+Comentario.belongsTo(Usuario, {foreignKey: "usuario_id"});
+Comentario.belongsTo(Comentario, {as:'comentario_padre', foreignKey: "comentario_padre_id"});
