@@ -26,6 +26,10 @@ Oferta.belongsTo(Usuario, {foreignKey: "usuario_id"});
 Oferta.belongsTo(Filial, {foreignKey: "filial_id"});
 Oferta.belongsTo(Oferta, { as: 'oferta_padre', foreignKey: 'oferta_padre_id' });
 
+Oferta.hasMany(Oferta, { as: 'ofertas_hijas', foreignKey: 'oferta_padre_id' });
+
+
+
 Intercambio.belongsTo(Publicacion, {foreignKey: "publicacion_id"});
 Intercambio.belongsTo(Oferta, {foreignKey: "oferta_id"});
 

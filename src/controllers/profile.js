@@ -217,13 +217,21 @@ const controlador ={
 
         const intercambios = await Intercambio.findAll({
             include: [
-                { model: Oferta, include: [Usuario, Filial] },
+                {
+                    model: Oferta,
+                    include: [
+                        { model: Usuario },
+                        { model: Filial },
+                        { model: Oferta, as: 'oferta_padre', include: [Usuario] }
+                    ]
+                },
                 { model: Publicacion, include: [Usuario] }
             ],
             where: {
                 [Op.or]: [
-                    {'$Oferta.usuario_id$': req.session.usuario.id},
-                    {'$Publicacion.usuario_id$': req.session.usuario.id}
+                    { '$Oferta.usuario_id$': id },
+                    { '$Publicacion.usuario_id$': id },
+                    { '$Oferta.oferta_padre.usuario_id$': id }
                 ]
             }
         });
